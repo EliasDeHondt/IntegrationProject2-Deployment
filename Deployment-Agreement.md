@@ -42,3 +42,35 @@
 - Database PostgreSQL
     - Name: `database-postgresql`
     - Port: `5432`
+
+## Deadlines
+- Sprint 1:
+    - Dev -> DevOps:
+        - Dummy images (19/11/2024)
+        - Connectiviteit tussen containers Frontend, Backend, Database (22/11/2024)
+    - DevOps -> Dev:
+        - Deployment files, zowel lokaal als cloud (26/11/2024)
+- Sprint 2: 
+    - Dev -> DevOps:
+        - Toevoegen AI/ELK stack en Keycloak (06/12/2024)
+    - DevOps -> Dev:
+        - Updated deployment files (10/12/2024)
+- Sprint 3:
+    - Dev -> DevOps:
+        - Finale images (01/01/2025)
+    - DevOps -> DevOps:
+        - Finale deployment files (03/01/2025)
+
+## Contactpersonen
+- Team 5:
+    - ISB: `Wolf Van Den Zegel`
+    - Dev:
+- Team 6:
+    - ISB: `Raven Lots`
+    - Dev:
+- Team 9:
+    - ISB: `Elias De Hondt`
+    - Dev:
+- Team 20:
+    - ISB: `Dante Vuijst`
+    - Dev:
