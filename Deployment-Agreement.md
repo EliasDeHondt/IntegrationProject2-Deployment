@@ -4,12 +4,10 @@
 ## 📘Table of Contents
 
 1. [📘Table of Contents](#📘table-of-contents)
-2. [🖖Images](#images)
-3. [Deadlines](#Deadlines)
-4. [Contactpersonen](#Contactpersonen)
-5. [Communicatie](#Communicatie)
-
-
+2. [🖖Images](#🖖images)
+3. [✅Deadlines](#✅deadlines)
+4. [👌Contactpersonen](#👌contactpersonen)
+5. [✉️Communicatie](#✉️communicatie)
 
 ---
 
@@ -37,10 +35,6 @@
         - Python AI (Images 3):
             - Name: `python-ai`
             - Port: `5000`
-    - Pod 5:
-        - ELK stack:
-            - Name: `elk-stack`
-            - Port: `5601`
     - Pod 6:
         - Monitoring Grafana:
             - Name: `grafana`
@@ -53,7 +47,7 @@
 - Registry
     - `Gitlab Container Registry`
 
-## Deadlines
+## ✅Deadlines
 - Sprint 1:
     - Dev -> DevOps:
         - Dummy images (19/11/2024)
@@ -71,7 +65,7 @@
     - DevOps -> DevOps:
         - Finale deployment files (03/01/2025)
 
-## Contactpersonen
+## 👌Contactpersonen
 - Team 5:
     - ISB: `Wolf Van Den Zegel`
     - Dev:
@@ -85,7 +79,7 @@
     - ISB: `Dante Vuijst`
     - Dev:
 
-## Communicatie
+## ✉️Communicatie
 - Discord:
     - Verschillende private kanalen per dev team
     - DevOps kan alle kanalen zien
