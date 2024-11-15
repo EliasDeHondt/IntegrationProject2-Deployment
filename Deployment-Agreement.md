@@ -5,6 +5,9 @@
 
 1. [📘Table of Contents](#📘table-of-contents)
 2. [🖖Images](#images)
+3. [Deadlines] (#Deadlines)
+4. [Contactpersonen] (#Contactpersonen)
+5. [Communicatie] (#Communicatie)
 
 
 
@@ -43,6 +46,9 @@
     - Name: `database-postgresql`
     - Port: `5432`
 
+- Registry
+    - `Gitlab Container Registry`
+
 ## Deadlines
 - Sprint 1:
     - Dev -> DevOps:
@@ -74,3 +80,8 @@
 - Team 20:
     - ISB: `Dante Vuijst`
     - Dev:
+
+## Communicatie
+- Discord:
+    - Verschillende private kanalen per dev team
+    - DevOps kan alle kanalen zien
