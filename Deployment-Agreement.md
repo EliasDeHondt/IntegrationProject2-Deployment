@@ -89,3 +89,7 @@
 - Discord:
     - Verschillende private kanalen per dev team
     - DevOps kan alle kanalen zien
+
+---
+
+![Network Schema](/Network%20Schema.png)
