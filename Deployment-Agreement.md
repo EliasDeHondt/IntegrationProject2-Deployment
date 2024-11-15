@@ -35,6 +35,10 @@
         - Python AI (Images 3):
             - Name: `python-ai`
             - Port: `5000`
+    - Pod 5:
+        - ELK Stack:
+            - Name: `elk-stack`
+            - Port: `5601`
     - Pod 6:
         - Monitoring Grafana:
             - Name: `grafana`
