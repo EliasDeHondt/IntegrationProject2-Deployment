@@ -41,6 +41,10 @@
         - ELK stack:
             - Name: `elk-stack`
             - Port: `5601`
+    - Pod 6:
+        - Monitoring Grafana:
+            - Name: `grafana`
+            - Port: `3000`
 
 - Database PostgreSQL
     - Name: `database-postgresql`
