@@ -5,9 +5,9 @@
 
 1. [📘Table of Contents](#📘table-of-contents)
 2. [🖖Images](#images)
-3. [Deadlines] (#Deadlines)
-4. [Contactpersonen] (#Contactpersonen)
-5. [Communicatie] (#Communicatie)
+3. [Deadlines](#Deadlines)
+4. [Contactpersonen](#Contactpersonen)
+5. [Communicatie](#Communicatie)
 
 
 
