@@ -1,1 +1,7 @@
-# Description: 
+###########################
+# @author Elias De Hondt  #
+# @since 18/11/2024       #
+###########################
+# Description: This pod is used to run Keycloak IAM and SQL proxy.
+# Usage: kubectl apply -f pod2.yaml
+---

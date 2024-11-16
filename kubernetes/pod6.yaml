@@ -1,1 +1,7 @@
-# Description: 
+###########################
+# @author Elias De Hondt  #
+# @since 18/11/2024       #
+###########################
+# Description: This pod is used for monitoring the health of the kubernetes cluster with the help of the grafana.
+# Usage: kubectl apply -f pod6.yaml
+---
