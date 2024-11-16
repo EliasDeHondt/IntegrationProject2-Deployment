@@ -1,3 +1,7 @@
+###########################
+# @author Elias De Hondt  #
+# @since 18/11/2024       #
+###########################
 # Description: This file contains the provider configuration for the Google Cloud Platform.
 terraform {
     required_providers {
