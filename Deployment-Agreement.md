@@ -207,4 +207,4 @@ gcloud projects add-iam-policy-binding <project-id> \
 
 ---
 
-![Network Schema](/Network%20Schema.png)
+![Network Schema](/Images/Network-Schema.png)
