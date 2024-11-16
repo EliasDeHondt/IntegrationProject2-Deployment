@@ -104,6 +104,7 @@
     ```bash
     gcloud secrets versions access latest --secret=<secret-name>
     ```
+    - It is the developer's responsibility to make this available inside their container.
 
 ## 📅Deadlines
 
