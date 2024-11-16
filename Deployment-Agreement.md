@@ -4,207 +4,194 @@
 ## 📘Table of Contents
 
 1. [📘Table of Contents](#📘table-of-contents)
-2. [🖖Images](#🖖images)
-3. [🛸AI](#🛸ai)
+2. [📝Uniformity Across Developer Teams](#📝uniformity-across-developer-teams)
+3. [🛸Artificial Intelligence (AI)](#🛸artificial-intelligence-ai)
 4. [🌐Google Cloud Buckets & Secrets Manager](#🌐google-cloud-buckets--secrets-manager)
-    1. [🌐Google Cloud Buckets](#🌐google-cloud-buckets)
-    2. [🌐Google Cloud Service Accounts & Credentials](#🌐google-cloud-service-accounts--credentials)
-    3. [🌐Google Cloud Secrets Manager](#🌐google-cloud-secrets-manager)
-    4. [🌐Unified Access via Service Account](#🌐unified-access-via-service-account)
-    5. [🌐Conclusie](#🌐conclusie)
+    - [🌐Google Cloud Buckets](#🌐google-cloud-buckets)
+    - [🌐Google Cloud Secrets Manager](#🌐google-cloud-secrets-manager)
 5. [📅Deadlines](#📅deadlines)
-6. [👌Contactpersonen](#👌contactpersonen)
-7. [✉️Communicatie](#✉️communicatie)
+6. [👌Points of Contact](#👌points-of-contact)
+7. [✉️Communication](#✉️communication)
+8. [📊Network Architecture](#📊network-architecture)
 
 ---
 
-## 🖖Images
-- Kubernetes Cluster:
-    - Pod 1:
-        - React Frontend: (Images 1)
-            - Name: `react-frontend`
-            - Port: `3000`
-    - Pod 2:
-        - Keycloak IAM:
-            - Name: `keycloak-iam`
-            - Port: `8080`
-        - Cloud SQL Proxy Sidecar:
-            - Name: `cloud-sql-proxy`
-            - Port: `3306`
-    - Pod 3:
-        - Spring Backend (Images 2):
-            - Name: `spring-backend`
-            - Port: `8081`
-        - Cloud SQL Proxy Sidecar:
-            - Name: `cloud-sql-proxy`
-            - Port: `3306`
-    - Pod 4:
-        - Python AI (Images 3):
-            - Name: `python-ai`
-            - Port: `5000`
-    - Pod 5:
-        - ELK Stack:
-            - Name: `elk-stack`
-            - Port: `5601`
-    - Pod 6:
-        - Monitoring Grafana:
-            - Name: `grafana`
-            - Port: `3000`
+## 📝Uniformity Across Developer Teams
 
-- Database PostgreSQL
-    - Name: `database-postgresql`
-    - Port: `5432`
+- **Importance of Standardized Implementation:**
+    - The project involves ``four distinct developer teams``, each contributing to a shared infrastructure. It is critical that all teams strictly adhere to the provided guidelines and best practices to ensure a consistent and uniform implementation. Failure to do so may result in compatibility issues where certain functionalities fail to work correctly in some applications, undermining the overall project success.
 
-- Registry
-    - `Gitlab Container Registry`
+- **Unified Infrastructure:**
+    - The infrastructure is designed to support a single, standardized configuration that serves the needs of all teams without requiring custom modifications for specific use cases. Individual changes or deviations to accommodate unique requirements are not permitted. Such modifications can compromise the uniformity and reliability of the system, creating unnecessary complexity and potential failures.
 
-## 🛸AI
+- **Collaboration and Communication:**
+    - To maintain alignment:
+        - `Open Dialogue`: Developer teams are encouraged to collaborate and discuss their requirements with one another and with DevOps.
+        - `Consensus-Based Changes`: Any modifications to the infrastructure must be presented, reviewed, and agreed upon by all developer teams. This ensures no team is adversely impacted by unilateral decisions.
+        - `Guidance and Support`: The DevOps team is available to provide advice and ensure all implementations conform to the established standards.
 
-- Aanvullende informatie voor AI-studenten:
-    - Er zal een Docker-image worden geleverd waarin een Python-runtime draait, inclusief eventueel een zelfgetrainde AI.
+- **Why Uniformity Matters:**
+    - `Scalability`: A consistent infrastructure allows seamless scaling and future enhancements.
+    - `Maintainability`: Uniform standards simplify troubleshooting, updates, and documentation.
+    - `Cross-Team Compatibility`: Ensures that all applications, regardless of the developing team, function seamlessly within the shared ecosystem.
 
-    - Jullie kunnen deze AI lokaal trainen op eigen machines of, indien meer rekenkracht nodig is, in de cloud met credits uit jullie eigen project.
+> By working together and adhering to these principles, we can build a robust, efficient, and scalable infrastructure that meets the needs of all teams without compromising on quality or reliability.
 
-    - De getrainde AI dient te worden opgenomen in de `Docker-image`. Let op dat de naamgeving en poorten correct zijn, zodat uniforme implementatie mogelijk blijft voor alle vier de teams.
+## 🛸Artificial Intelligence (AI)
 
-    - Hoewel een Python-runtime standaard wordt meegeleverd, is dit niet verplicht. Zorg er echter voor dat de functionaliteit en configuratie in lijn blijven met de opgegeven restricties en standaarden, omdat dit van ons wordt verwacht.
+- **Supplementary Information for AI Teams:**
+    - A pre-configured Docker image containing a Python runtime environment will be supplied, optionally augmented with a custom-trained AI model.
+
+    - Teams can train their AI locally or, if higher computational resources are necessary, utilize cloud-based resources with allocated project credits.
+
+    - The finalized AI model must be embedded within the designated Docker image. Adherence to naming conventions and port configurations is critical to ensure seamless integration across all teams.
+
+    - While the inclusion of a Python runtime is recommended, it is not mandatory. However, strict alignment with established functionality, configuration protocols, and project specifications is mandatory.
 
 ## 🌐Google Cloud Buckets & Secrets Manager
 
 ### 🌐Google Cloud Buckets
 
-- Wat zijn Google Cloud Buckets?
-    - Google Cloud Storage Buckets zijn opslagruimtes waarin je objecten zoals foto's, video's of andere bestanden kunt bewaren. Deze buckets zijn ideaal om mediabestanden te hosten die kunnen worden gebruikt in je frontend en andere services, zowel lokaal als in productieomgevingen.
+- **Purpose of Buckets**
+    - Google Cloud Storage Buckets are scalable and highly available storage solutions designed to store various types of objects such as images, videos, and other assets. These buckets are ideal for hosting media files that can be directly accessed and used by frontend applications, both in local development and production environments.
 
-- Voorbeeld: Bucket aanmaken en configureren
-    - Gebruik het volgende commando in Bash of PowerShell om een bucket te maken in Google Cloud:
+- **Developer Workflow**
+    - Developers are required to upload their media files, or other relevant assets directly to their designated Google Cloud Buckets.
+    - All uploaded content should be configured with public access, allowing direct use of public URLs in frontend applications.
+
+- **Creating and Configuring a Bucket**
+    - To set up a bucket, use the following commands in a terminal (Bash or PowerShell):
     ```bash
-    # Pas de nodige variabelen aan.
-    gsutil mb -l europe-west1 -b on gs://<bucket-naam>/
+    # Adjust the variables as needed.
+    gsutil mb -l europe-west1 -b on gs://<bucket-name>/
     gsutil mb -l europe-west1 -b on gs://team9-media-bucket/
-    gsutil cp /pad/naar/foto.jpg gs://team9-media-bucket/
-    gsutil iam ch allUsers:objectViewer gs://team9-media-bucket
+    gsutil cp /path/to/image.jpg gs://team9-media-bucket/
+    gsutil iam ch allUsers:objectViewer gs://team9-media-bucket/
     ```
 
-- Integratie met de frontend
-    - Je kunt bestanden vanuit de bucket direct in je frontend gebruiken door hun publieke URL's te integreren in je applicatie. Bijvoorbeeld:
+- **Using Public URLs in the Frontend**
+    - Once the assets are uploaded and permissions (public access) are set, their public URLs can be integrated into the frontend directly. For example:
     ```html
-    <img src="https://storage.googleapis.com/team9-media-bucket/foto.jpg" alt="Foto" />
+    <img src="https://storage.googleapis.com/<bucket-name>/image.jpg" alt="Example Image" />  
     ```
+    - This ensures seamless and efficient asset delivery, minimizing backend dependency while leveraging Google's global content delivery network (CDN).
 
-### 🌐Google Cloud Service Accounts & Credentials
-
-- Voor test- en productieomgevingen is het noodzakelijk dat een service account wordt gemaakt met de juiste rechten om toegang te krijgen tot de bucket.
-
-- Service Account aanmaken en exporteren:
-    1. Maak een service account aan:
-    ```bash
-    gcloud iam service-accounts create team9-bucket-access \
-    --description="Access account voor bucket en secrets" \
-    --display-name="Team 9 Bucket Access"
-    ```
-    2. Ken rechten toe aan het service account:
-    ```bash
-    gcloud projects add-iam-policy-binding <project-id> \
-    --member="serviceAccount:team9-bucket-access@<project-id>.iam.gserviceaccount.com" \
-    --role="roles/storage.admin"
-    ```
-    3. Genereer en download een JSON-sleutel:
-    ```bash
-    gcloud iam service-accounts keys create ./team9-bucket-credentials.json \
-    --iam-account=team9-bucket-access@<project-id>.iam.gserviceaccount.com
-    ```
-    4. Gebruik de JSON-sleutel in je applicatie:
-    ```bash
-    kubectl create secret generic gcs-credentials \
-    --from-file=key.json=./team9-bucket-credentials.json
-    ```
+- **Key Notes**
+    - Public Access: Make sure to review and confirm public access permissions for each bucket to avoid unauthorized modifications.
+    - Asset Management: Developers are responsible for maintaining the integrity and organization of the bucket's content. 
 
 ### 🌐Google Cloud Secrets Manager
 
-- Wat is Google Cloud Secrets Manager?
-    - Dit is een beveiligde manier om gevoelige gegevens, zoals API-sleutels, wachtwoorden en tokens, te beheren. Met de Secrets Manager kun je eenvoudig toegang geven aan services en gebruikers terwijl gevoelige gegevens veilig blijven.
+- **Overview of Google Cloud Secrets Manager:**
+    - A secure mechanism for managing sensitive information such as API keys, passwords, and tokens, ensuring confidentiality while enabling seamless access for authorized services.
 
-- Secrets aanmaken en beheren
-    1. Secret aanmaken:
+- **Managing Secrets:**
+    1. Create a secret:
     ```bash
-    gcloud secrets create team9-database-password \
-    --replication-policy="automatic"
+    gcloud secrets create <secret-name> --replication-policy="automatic"
     ```
-    2. Gegevens aan het secret toevoegen:
+    2. Add data to the secret:
     ```bash
-    echo "SterkWachtwoord123!" | gcloud secrets versions add team9-database-password --data-file=-
+    echo "SecurePassword123!" | gcloud secrets versions add <secret-name> --data-file=-
     ```
-    3. Toegang verlenen aan het service account:
+    3. Grant access to a service account:
     ```bash
-    gcloud secrets add-iam-policy-binding team9-database-password \
-    --member="serviceAccount:team9-bucket-access@<project-id>.iam.gserviceaccount.com" \
+    gcloud secrets add-iam-policy-binding <secret-name> \
+    --member="serviceAccount:<service-account-email>" \
     --role="roles/secretmanager.secretAccessor"
     ```
-    4. Secret ophalen in je applicatie:
+    4. Retrieve the secret in your application:
     ```bash
-    gcloud secrets versions access latest --secret="team9-database-password"
+    gcloud secrets versions access latest --secret=<secret-name>
     ```
 
-### 🌐Unified Access via Service Account
-- Een enkel service account kan zowel toegang krijgen tot een Google Cloud Bucket als tot Secrets Manager. Je hoeft enkel de benodigde rollen toe te wijzen:
+## 📅Deadlines
 
-- **Voor de Bucket:** `roles/storage.admin`
-- **Voor Secrets Manager:** `roles/secretmanager.secretAccessor`
+- **Sprint 1:**
+    - **Dev → DevOps:**
+        - Placeholder images: **19/11/2024**
+        - Container connectivity: **22/11/2024**
+    - **DevOps → Dev:**
+        - Deployment files: **26/11/2024**
+- **Sprint 2:**
+    - **Dev → DevOps:**
+        - AI/ELK/Keycloak integration: **06/12/2024**
+    - **DevOps → Dev:**
+        - Updated deployment files: **10/12/2024**
+- **Sprint 3:**
+    - **Dev → DevOps:**  
+        - Final images: **01/01/2025**
+    - **DevOps → DevOps:**
+        - Final deployment files: **03/01/2025**
 
-- Rollen toewijzen:
-```bash
-gcloud projects add-iam-policy-binding <project-id> \
-    --member="serviceAccount:team9-bucket-access@<project-id>.iam.gserviceaccount.com" \
-    --role="roles/storage.admin"
+## 👌Points of Contact
 
-gcloud projects add-iam-policy-binding <project-id> \
-    --member="serviceAccount:team9-bucket-access@<project-id>.iam.gserviceaccount.com" \
-    --role="roles/secretmanager.secretAccessor"
-```
+- **Team 5:**
+    - **ISB:** `Wolf Van Den Zegel`
+    - **DEV:** ``
+- **Team 6:**
+    - **ISB:** `Raven Lots`
+    - **DEV:** ``
+- **Team 9:**
+    - **ISB:** `Elias De Hondt`
+    - **DEV:** ``
+- **Team 20:**
+    - **ISB:** `Dante Vuijst`
+    - **DEV:** ``
 
-### 🌐Conclusie
-- **Buckets:** `Gebruik voor opslag van media zoals video's en foto's.`
-- **Secrets Manager:** `Beveilig gevoelige gegevens zoals API-sleutels.`
-- **Service Account:** `Eén enkel account kan beide toegangspunten beheren. Zorg ervoor dat credentials gedeeld worden met DevOps voor testing en deployment.`
+## ✉️Communication
 
-## ✅Deadlines
-- Sprint 1:
-    - Dev -> DevOps:
-        - Dummy images **(19/11/2024)**
-        - Connectiviteit tussen containers Frontend, Backend, Database **(22/11/2024)**
-    - DevOps -> Dev:
-        - Deployment files, zowel lokaal als cloud **(26/11/2024)**
-- Sprint 2:
-    - Dev -> DevOps:
-        - Toevoegen AI/ELK stack en Keycloak **(06/12/2024)**
-    - DevOps -> Dev:
-        - Updated deployment files **(10/12/2024)**
-- Sprint 3:
-    - Dev -> DevOps:
-        - Finale images **(01/01/2025)**
-    - DevOps -> DevOps:
-        - Finale deployment files **(03/01/2025)**
+- **Discord:**
+    - Private channels for each development team are available for direct communication.
+    - DevOps retains overarching visibility across all channels to ensure consistent information flow and support.
+    - Join with the following link: [Discord Server](https://discord.gg/N2MuvGzGZe)
 
-## 👌Contactpersonen
-- Team 5:
-    - ISB: `Wolf Van Den Zegel`
-    - Dev:
-- Team 6:
-    - ISB: `Raven Lots`
-    - Dev:
-- Team 9:
-    - ISB: `Elias De Hondt`
-    - Dev:
-- Team 20:
-    - ISB: `Dante Vuijst`
-    - Dev:
+## 📊Network Architecture
 
-## ✉️Communicatie
-- Discord:
-    - Verschillende private kanalen per dev team
-    - DevOps kan alle kanalen zien
+- **Example Domain Names:**
+    - Below are the domain names used throughout our documentation to represent various services in the infrastructure:
+        - `status.kdg-IP2.eliasdh.com` Points to the **Grafana** monitoring service.
+        - `stack.kdg-IP2.eliasdh.com` Points to the **ELK Stack** service.
+        - `keycloak.kdg-IP2.eliasdh.com` Points to the **Keycloak IAM** service.
+        - `www.kdg-IP2.eliasdh.com` Points to the **React Frontend** service.
 
----
+- **Kubernetes Cluster:**
+    - **Pod 1:**
+        - **React Frontend:** *(Image 1)*
+            - **Name:** `react-frontend`
+            - **Port:** `3000`
+    - **Pod 2:**
+        - **Keycloak Identity and Access Management (IAM):**
+            - **Name:** `keycloak-iam`
+            - **Port:** `8080`
+        - **Cloud SQL Proxy Sidecar:**
+            - **Name:** `cloud-sql-proxy`
+            - **Port:** `3306`
+    - **Pod 3:**
+        - **Spring Backend:** *(Image 2)*
+            - **Name:** `spring-backend`
+            - **Port:** `8081`
+        - **Cloud SQL Proxy Sidecar:**
+            - **Name:** `cloud-sql-proxy`
+            - **Port:** `3306`
+    - **Pod 4:**
+        - **Python AI Module:** *(Image 3)*
+            - **Name:** `python-ai`
+            - **Port:** `5000`
+    - **Pod 5:**
+        - **ELK Stack (Elasticsearch, Logstash, Kibana):**
+            - **Name:** `elk-stack`
+            - **Port:** `5601`
+    - **Pod 6:**
+        - **Grafana Monitoring Tool:**
+            - **Name:** `grafana`
+            - **Port:** `3000`
 
-![Network Schema](/Images/Network-Schema.png)
+- **PostgreSQL Database:**
+    - **Name:** `database-postgresql`
+    - **Port:** `5432`
+
+- **Container Registry:**
+    - `GitLab Container Registry`
+
+![Network Architecture](/Images/network-architecture.png)
