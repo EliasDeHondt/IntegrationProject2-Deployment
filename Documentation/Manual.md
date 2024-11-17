@@ -17,7 +17,7 @@ cd IntegrationProject2-Deployment/Terraform
 ```bash
 gcloud init
 
-PROJECT_ID="integrationproject2-project2"
+PROJECT_ID="integrationproject2-project3"
 
 gcloud iam service-accounts create service-account-tf \
     --display-name="Service Account" \
