@@ -1,7 +1,0 @@
-###########################
-# @author Elias De Hondt  #
-# @since 18/11/2024       #
-###########################
-# Description: This pod is used for ELK stack monitoring.
-# Usage: kubectl apply -f pod5.yaml
----
