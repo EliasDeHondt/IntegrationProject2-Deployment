@@ -26,7 +26,6 @@ variable "database" {
     type = object({
         version = string
         password = string
-        name = string
         tier = string
     })
 }
