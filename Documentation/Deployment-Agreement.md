@@ -189,7 +189,8 @@
             - **Port:** `3000`
 
 - **PostgreSQL Database:**
-    - **Name:** `database-postgresql`
+    - **Name of instance:** `cloud-sql-instance`
+    - **Name of database:** `database-postgresql`
     - **Port:** `5432`
 
 - **Container Registry:**

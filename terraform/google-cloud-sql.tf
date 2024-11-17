@@ -3,13 +3,8 @@
 # @since 18/11/2024       #
 ###########################
 # Description: This file contains the configuration for the Google Cloud SQL instance.
-resource "google_project_service" "cloud_sql" {
-    project = var.projectid
-    service = "sqladmin.googleapis.com"
-}
-
-resource "google_sql_database_instance" "database-postgresql" {
-    name = "database-postgresql"
+resource "google_sql_database_instance" "cloud-sql-instance" {
+    name = "cloud-sql-instance"
     region = var.datacenter.region
     database_version = var.database.version
     settings {
@@ -17,8 +12,13 @@ resource "google_sql_database_instance" "database-postgresql" {
     }
 }
 
+resource "google_sql_database" "database-postgresql" {
+    name = "database-postgresql"
+    instance = google_sql_database_instance.cloud-sql-instance.name
+}
+
 resource "google_sql_user" "database-user" {
     name = "database-user"
-    instance = var.database.name
+    instance = google_sql_database_instance.cloud-sql-instance.name
     password = var.database.password
 }
