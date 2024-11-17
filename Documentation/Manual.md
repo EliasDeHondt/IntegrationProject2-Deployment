@@ -8,6 +8,11 @@
 
 ---
 
+```bash
+git clone https://github.com/EliasDeHondt/IntegrationProject2-Deployment.git
+cd IntegrationProject2-Deployment/Terraform
+```
+
 - Create a new service account and download the credentials file
 ```bash
 gcloud init
@@ -52,4 +57,11 @@ gcloud container clusters get-credentials cluster-1 --region=us-central1-c
 kubectl run test-pod --image=busybox --restart=Never -- sh -c "wget -qO- https://eliasdh.com"
 kubectl logs test-pod
 kubectl delete pod test-pod
+```
+
+```bash
+cd ../Kubernetes
+kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.11.0/cert-manager.yaml
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
+kubectl apply -f . # Apply all the Kubernetes files in the current directory
 ```
