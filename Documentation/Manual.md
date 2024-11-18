@@ -8,6 +8,7 @@
 
 ---
 
+
 ```bash
 git clone https://github.com/EliasDeHondt/IntegrationProject2-Deployment.git
 cd IntegrationProject2-Deployment/Terraform
