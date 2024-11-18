@@ -129,16 +129,16 @@
 
 - **Team 5:**
     - **ISB:** `Wolf Van Den Zegel`
-    - **DEV:** ``
+    - **DEV:** `Stefaan Vos`
 - **Team 6:**
     - **ISB:** `Raven Lots`
     - **DEV:** ``
 - **Team 9:**
     - **ISB:** `Elias De Hondt`
-    - **DEV:** ``
+    - **DEV:** `Hussein Ali`
 - **Team 20:**
     - **ISB:** `Dante Vuijst`
-    - **DEV:** ``
+    - **DEV:** `Nicolas Verachtert`
 
 ## ✉️Communication
 
