@@ -29,4 +29,4 @@ docker push registry.example.com/group/project/image
 ```
 
 To get the registry link, navigate to your projects' Container Registry (Deploy > Container Registry) and copy the command with included link listed there. 
-For example: 1registry.gitlab.com/kdg-ti/integratieproject-infinity/2100-2101/devopsinfinity/integrationprojectinfinity-deployment`
+For example: `registry.gitlab.com/kdg-ti/integratieproject-infinity/2100-2101/devopsinfinity/integrationprojectinfinity-deployment`
