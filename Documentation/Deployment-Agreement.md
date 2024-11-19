@@ -152,7 +152,7 @@
 - **Example Domain Names:**
     - Below are the domain names used throughout our documentation to represent various services in the infrastructure:
         - `status.kdg-IP2.eliasdh.com` Points to the **Grafana** monitoring service.
-        - `stack.kdg-IP2.eliasdh.com` Points to the **ELK Stack** service.
+        - `elk.kdg-IP2.eliasdh.com` Points to the **ELK Stack** service.
         - `keycloak.kdg-IP2.eliasdh.com` Points to the **Keycloak IAM** service.
         - `www.kdg-IP2.eliasdh.com` Points to the **React Frontend** service.
 

@@ -40,7 +40,7 @@ spec:
     - status.kdg-ip2.eliasdh.com
     secretName: grafana-tls
   - hosts:
-    - stack.kdg-ip2.eliasdh.com
+    - elk.kdg-ip2.eliasdh.com
     secretName: elk-stack-tls
   # - hosts:
   #   - keycloak.kdg-ip2.eliasdh.com
@@ -59,16 +59,30 @@ spec:
             name: grafana-service
             port:
               number: 80
-  - host: stack.kdg-ip2.eliasdh.com
+  - host: elk.kdg-ip2.eliasdh.com
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: elk-stack-service
+            name: kibana
             port:
               number: 5601
+      - path: /kibana
+        pathType: Prefix
+        backend:
+          service:
+            name: kibana-service
+            port:
+              number: 5601
+      - path: /logstash
+        pathType: Prefix
+        backend:
+          service:
+            name: logstash-service
+            port:
+              number: 9600
 #   - host: keycloak.kdg-ip2.eliasdh.com
 #     http:
 #       paths:
