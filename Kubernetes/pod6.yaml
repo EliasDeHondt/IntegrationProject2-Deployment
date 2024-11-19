@@ -5,21 +5,43 @@
 # Description: This pod is used for monitoring the health of the kubernetes cluster with the help of the grafana.
 # Usage: kubectl apply -f pod6.yaml
 ---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-datasources
+  namespace: monitoring
+data:
+  prometheus.yaml: |-
+    {
+        "apiVersion": 1,
+        "datasources": [
+            {
+               "access":"proxy",
+                "editable": true,
+                "name": "prometheus",
+                "orgId": 1,
+                "type": "prometheus",
+                "url": "http://prometheus:9090",
+                "version": 1
+            }
+        ]
+    }
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: grafana
+  name: monitoring 
   labels:
-    app: grafana
+    app: monitoring
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: grafana
+      app: monitoring
   template:
     metadata:
       labels:
-        app: grafana
+        app: monitoring
     spec:
       containers:
       - name: grafana
@@ -31,6 +53,23 @@ spec:
           value: "admin"
         - name: GF_SECURITY_ADMIN_PASSWORD
           value: "admin"
+      - name: prometheus
+        image: prom/prometheus:latest
+        ports:
+        - containerPort: 9090
+        volumeMounts:
+          - mountPath: /var/lib/grafana
+            name: grafana-storage
+          - mountPath: /etc/grafana/provisioning/datasources
+            name: grafana-datasources
+            readOnly: false
+        volumes:
+          - name: grafana-storage
+            emptyDir: {}
+          - name: grafana-datasources
+            configMap:
+              defaultMode: 420
+              name: grafana-datasources
 ---
 apiVersion: v1
 kind: Service
