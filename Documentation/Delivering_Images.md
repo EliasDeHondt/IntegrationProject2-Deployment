@@ -1,12 +1,6 @@
 # 💙🤍Image Delivery using Gitlab Container Registry🤍💙
 
-## 📘Table of Contents
-
-1. [📘Table of Contents](#📘table-of-contents)
-
-
 ---
-
 
 Many are used to public or limited repositories like the Dockerhub for keeping safe their container images, but when dealing with a project like this, one needs more space and/or privacy then those platforms allow.
 So we have decided to use the Gitlab Container Registry, an image repository build directly into your Gitlab project. Written below are a few very simple steps one should follow when delivering us those images.
