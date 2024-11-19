@@ -132,7 +132,7 @@
     - **DEV:** `Stefaan Vos`
 - **Team 6:**
     - **ISB:** `Raven Lots`
-    - **DEV:** ``
+    - **DEV:** `Noah Van pollaert`
 - **Team 9:**
     - **ISB:** `Elias De Hondt`
     - **DEV:** `Hussein Ali`
