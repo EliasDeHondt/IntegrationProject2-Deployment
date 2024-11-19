@@ -5,7 +5,8 @@
 
 1. [📘Table of Contents](#📘table-of-contents)
 2. [📡Setup infrastructure](#📡setup-infrastructure)
-
+    1. [🔨Terraform](#🔨terraform)
+    2. [🌌Kubernetes Cluster](#🌌kubernetes-cluster)
 
 ---
 
