@@ -1,6 +1,6 @@
-terraform/credentials.json
-terraform/terraform.tfstate
-terraform/terraform.tfstate.backup
-terraform/.terraform.tfstate.lock.info
-terraform/.terraform.lock.hcl
-terraform/.terraform
+Terraform/credentials.json
+Terraform/terraform.tfstate
+Terraform/terraform.tfstate.backup
+Terraform/.terraform.tfstate.lock.info
+Terraform/.terraform.lock.hcl
+Terraform/.terraform
