@@ -31,7 +31,7 @@ gcloud init
 
 - Create a new service account and download the credentials file
 ```bash
-PROJECT_ID="integrationproject2-project5" # Change this to your project ID
+PROJECT_ID="integrationproject2-project6" # Change this to your project ID
 
 gcloud iam service-accounts create service-account-tf \
     --display-name="Service Account" \
