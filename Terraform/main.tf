@@ -26,5 +26,5 @@ provider "google" {
 
 resource "time_sleep" "wait_for_apis" {
     depends_on = [google_project_service.enable_apis]
-    create_duration = "30s"
+    create_duration = "120s"
 }

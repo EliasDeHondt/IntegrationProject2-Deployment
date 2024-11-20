@@ -3,7 +3,7 @@
 # @since 18/11/2024       #
 ###########################
 # Description: This file contains the variables for all the Terraform configurations.
-projectid = "integrationproject2-project4"
+projectid = "integrationproject2-project5"
 credentials_file = "credentials.json"
 
 datacenter = {
@@ -19,7 +19,7 @@ database = {
 
 kubernetes = {
     cluster_name = "cluster-1"
-    node_count = 3
+    node_count = 5
     node_config = {
         machine_type = "n1-standard-1" # vCPU=1, RAM=3.75GB
         disk_size_gb = 20 # SSD=20GB
