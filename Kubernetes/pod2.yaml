@@ -1,7 +1,56 @@
-###########################
-# @author Elias De Hondt  #
-# @since 18/11/2024       #
-###########################
+###############################
+# @author Wolf Van den Zegel  #
+# @since 21/11/2024           #
+###############################
 # Description: This pod is used to run Keycloak IAM and SQL proxy.
 # Usage: kubectl apply -f pod2.yaml
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keycloak-iam
+  labels:
+    app: keycloak-iam
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: keycloak-iam
+  template:
+    metadata:
+      labels:
+        app: keycloak-iam
+    spec:
+      containers:
+      - name: keycloak-iam
+        image: https://hub.docker.com/r/keycloak/keycloak
+        args: ["start-dev"]
+          env:
+            - name: KEYCLOAK_ADMIN
+              value: "admin"
+            - name: KEYCLOAK_ADMIN_PASSWORD
+              value: "admin"
+            - name: KC_PROXY
+              value: "edge"
+          ports:
+            - name: http
+              containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /realms/master
+              port: 8080
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: keycloak-iam-service
+spec:
+  selector:
+    app: keycloak-iam-service
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8080
+  type: ClusterIP
 ---

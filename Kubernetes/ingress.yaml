@@ -47,12 +47,12 @@ spec:
   - hosts:
     - elk.kdg-ip2.eliasdh.com
     secretName: elk-stack-tls
-  # - hosts:
-  #   - keycloak.kdg-ip2.eliasdh.com
-  #   secretName: keycloak-iam-tls
-  # - hosts:
-  #   - www.kdg-ip2.eliasdh.com
-  #   secretName: react-frontend-tls
+  - hosts:
+    - keycloak.kdg-ip2.eliasdh.com
+    secretName: keycloak-iam-tls
+  - hosts:
+    - www.kdg-ip2.eliasdh.com
+    secretName: react-frontend-tls
   rules:
   - host: "*"
     http:
@@ -84,24 +84,24 @@ spec:
             name: kibana-service
             port:
               number: 5601
-#   - host: keycloak.kdg-ip2.eliasdh.com
-#     http:
-#       paths:
-#       - path: /
-#         pathType: Prefix
-#         backend:
-#           service:
-#             name: keycloak-iam
-#             port:
-#               number: 80
-#   - host: www.kdg-ip2.eliasdh.com
-#     http:
-#       paths:s
-#       - path: /
-#         pathType: Prefix
-#         backend:
-#           service:
-#             name: react-frontend-service
-#             port:
-#               number: 80
-# ---
+  - host: keycloak.kdg-ip2.eliasdh.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: keycloak-iam
+            port:
+              number: 80
+  - host: www.kdg-ip2.eliasdh.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: react-frontend-service
+            port:
+              number: 80
+---
