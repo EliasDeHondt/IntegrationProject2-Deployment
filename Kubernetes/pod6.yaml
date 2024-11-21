@@ -69,16 +69,16 @@ spec:
           value: "admin"
         - name: GF_SECURITY_ADMIN_PASSWORD
           value: "admin"
-      - name: prometheus
-        image: prom/prometheus:latest
-        ports:
-        - containerPort: 9090
         volumeMounts:
           - mountPath: /var/lib/grafana
             name: grafana-storage
           - mountPath: /etc/grafana/provisioning/datasources
             name: grafana-datasources
             readOnly: false
+      - name: prometheus
+        image: prom/prometheus:latest
+        ports:
+        - containerPort: 9090
       volumes:
          - name: grafana-storage
            emptyDir: {}
