@@ -79,6 +79,9 @@ spec:
         image: prom/prometheus:latest
         ports:
         - containerPort: 9090
+        volumeMounts:
+          - name: prometheus-server-conf
+            mountPath: /etc/prometheus
       volumes:
          - name: grafana-storage
            emptyDir: {}
@@ -86,6 +89,10 @@ spec:
            configMap:
              defaultMode: 420
              name: grafana-datasources
+         - name: prometheus-server-conf
+           configMap:
+             defaultMode: 420
+             name: prometheus-server-conf
 ---
 apiVersion: v1
 kind: Service

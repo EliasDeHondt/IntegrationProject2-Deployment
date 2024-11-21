@@ -24,6 +24,13 @@ spec:
         ingress:
           class: nginx
 ---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-configuration
+data:
+  enable-snippets: "true"
+---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -54,7 +61,7 @@ spec:
     - www.kdg-ip2.eliasdh.com
     secretName: react-frontend-tls
   rules:
-  - host: "*"
+  - host: "*.eliasdh.com"
     http:
       paths:
         - path: /
