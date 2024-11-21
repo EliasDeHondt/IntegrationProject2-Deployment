@@ -5,3 +5,39 @@
 # Description: This pod is used to run Spring Backend and SQL proxy.
 # Usage: kubectl apply -f pod3.yaml
 ---
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-backend
+  labels:
+    app: spring-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spring-backend
+  template:
+    metadata:
+      labels:
+        app: spring-backend
+    spec:
+      containers:
+      - name: spring-backend
+        image: #image
+        ports:
+        - containerPort: 3000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spring-backend-service
+spec:
+  selector:
+    app: spring-backend
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 3000
+  type: ClusterIP
