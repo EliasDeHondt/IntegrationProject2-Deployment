@@ -22,23 +22,26 @@ spec:
         app: keycloak-iam
     spec:
       containers:
-      - name: keycloak-iam
-        image: https://hub.docker.com/r/keycloak/keycloak
-        args: ["start-dev"]
-        env:
-          - name: KEYCLOAK_ADMIN
-            value: "admin"
-          - name: KEYCLOAK_ADMIN_PASSWORD
-            value: "admin"
-          - name: KC_PROXY
-            value: "edge"
-        ports:
-          - name: http
-            containerPort: 8080
-        readinessProbe:
-          httpGet:
-            path: /realms/master
-            port: 8080
+        - name: keycloak-iam
+          image: quay.io/keycloak/keycloak:26.0.5
+          args: ["start-dev"]
+          env:
+            - name: KEYCLOAK_ADMIN
+              value: "admin"
+            - name: KEYCLOAK_ADMIN_PASSWORD
+              value: "admin"
+            - name: KC_PROXY
+              value: "edge"
+          ports:
+            - name: http
+              containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /realms/master
+              port: 8080
+            initialDelaySeconds: 60
+            periodSeconds: 10
+
 ---
 apiVersion: v1
 kind: Service
@@ -48,8 +51,8 @@ spec:
   selector:
     app: keycloak-iam
   ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 8080
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
   type: ClusterIP
 ---
