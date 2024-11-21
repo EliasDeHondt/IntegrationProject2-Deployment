@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
       - name: keycloak-iam
-        image: 
+        image: https://hub.docker.com/r/keycloak/keycloak
         ports:
         - containerPort: 8080
 ---
