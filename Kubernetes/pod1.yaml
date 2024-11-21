@@ -5,7 +5,7 @@
 # Description: This pod is used to run React Frontend.
 # Usage: kubectl apply -f pod1.yaml
 ---
-apiVersion: v1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: react-frontend
