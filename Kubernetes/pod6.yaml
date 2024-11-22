@@ -36,7 +36,7 @@ data:
                 "name": "prometheus",
                 "orgId": 1,
                 "type": "prometheus",
-                "url": "http://prometheus:9090",
+                "url": "localhost:9090",
                 "version": 1
             }
         ]
@@ -66,9 +66,15 @@ spec:
         - containerPort: 3000
         env:
         - name: GF_SECURITY_ADMIN_USER
-          value: "admin"
+          valueFrom:
+            secretKeyRef:
+              name: credentials
+              key: username
         - name: GF_SECURITY_ADMIN_PASSWORD
-          value: "admin"
+          valueFrom:
+            secretKeyRef:
+              name: credentials
+              key: password
         volumeMounts:
           - mountPath: /var/lib/grafana
             name: grafana-storage
@@ -108,4 +114,5 @@ spec:
     - protocol: TCP
       port: 80 # Port used by the Ingress
       targetPort: 3000 # Grafana runs internally on port 3000
+      name: grafana
 ---

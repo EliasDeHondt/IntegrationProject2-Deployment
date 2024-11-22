@@ -14,4 +14,5 @@ resource "google_project_service" "enable_apis" {
     ])
     project = var.projectid
     service = each.key
+    disable_dependent_services=true
 }
