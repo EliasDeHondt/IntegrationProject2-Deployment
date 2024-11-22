@@ -93,7 +93,7 @@ find . -type f -exec sed -i 's/teamX/team0/g' {} +
 
 > **Note:** This should only be done once per user, if the expiration date is set correctly.
 
-- Create Kubernetes Secret to pull gitlab registry images
+- Create Kubernetes Secret to pull gitlab registry images, fill in everything between <> 
 ```bash
 kubectl create secret docker-registry gitlab-registry --docker-server=registry.gitlab.com --docker-username=<your-gitlab-username> --docker-password=<your-personal-access-token> --docker-email=<your-kdg-email>
 ```
