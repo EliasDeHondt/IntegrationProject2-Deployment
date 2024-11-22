@@ -78,9 +78,27 @@ kubectl delete pod test-pod
 
 ### 🌌Kubernetes Cluster
 
-- Apply the different services.
+- Change the deafult team number to the correct number (change 0 to your team number!)
 ```bash
 cd ../Kubernetes
+find . -type f -exec sed -i 's/teamX/team0/g' {} +
+```
+
+- Get your GitLab `read_registry` personal access token
+  - Go to [GitLab](https://gitlab.com/-/user_settings/personal_access_tokens?name=Read+Registry+token&scopes=read_registry)
+  - Change the expiration date to `2025-01-26`
+  - Create personal access token
+  - Save and copy the token (this personal access token will only be shown once)
+
+> **Note:** This should only be done once per user, if the expiration date is set correctly.
+
+- Create Kubernetes Secret to pull GitLab registry images (change everything between <> !) 
+```bash
+kubectl create secret docker-registry gitlab-registry --docker-server=registry.gitlab.com --docker-username=<your-gitlab-username> --docker-password=<your-personal-access-token> --docker-email=<your-kdg-email>
+```
+
+- Apply the different services.
+```bash
 kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.11.0/cert-manager.yaml
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
 kubectl apply -f . # Apply all the Kubernetes files in the current directory

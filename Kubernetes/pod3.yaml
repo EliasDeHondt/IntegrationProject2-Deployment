@@ -23,9 +23,11 @@ spec:
     spec:
       containers:
       - name: spring-backend
-        image: # Image
+        image: registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/teamX/spring-backend:latest
         ports:
         - containerPort: 8081
+      imagePullSecrets:
+      - name: gitlab-registry
 ---
 apiVersion: v1
 kind: Service

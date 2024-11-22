@@ -24,10 +24,12 @@ spec:
         app: python-runtime
     spec:
       containers:
-        - name: python-container
-          image: # Image
-          ports:
-            - containerPort: 5000
+      - name: python-container
+        image: registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/teamX/python-ai:latest
+        ports:
+          - containerPort: 5000
+      imagePullSecrets:
+      - name: gitlab-registry
 ---
 # Python Service
 apiVersion: v1
