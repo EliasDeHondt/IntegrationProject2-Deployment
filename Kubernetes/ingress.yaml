@@ -59,7 +59,7 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: grafana-service
+            name: monitoring-service
             port:
               number: 80
   - host: elk.kdg-ip2.eliasdh.com
