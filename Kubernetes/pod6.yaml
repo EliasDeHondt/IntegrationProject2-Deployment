@@ -6,6 +6,11 @@
 # Usage: kubectl apply -f pod6.yaml
 ---
 apiVersion: v1
+kind: Namespace
+metadata:
+  name: monitoring
+---
+apiVersion: v1
 kind: ConfigMap
 metadata:
   name: prometheus-server-conf
@@ -31,7 +36,7 @@ data:
         "apiVersion": 1,
         "datasources": [
             {
-               "access":"proxy",
+                "access":"proxy",
                 "editable": true,
                 "name": "prometheus",
                 "orgId": 1,
@@ -68,12 +73,12 @@ spec:
         - name: GF_SECURITY_ADMIN_USER
           valueFrom:
             secretKeyRef:
-              name: credentials
+              name: monitoring-credentials
               key: username
         - name: GF_SECURITY_ADMIN_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: credentials
+              name: monitoring-credentials
               key: password
         volumeMounts:
           - mountPath: /var/lib/grafana
@@ -89,16 +94,16 @@ spec:
           - name: prometheus-server-conf
             mountPath: /etc/prometheus
       volumes:
-         - name: grafana-storage
-           emptyDir: {}
-         - name: grafana-datasources
-           configMap:
-             defaultMode: 420
-             name: grafana-datasources
-         - name: prometheus-server-conf
-           configMap:
-             defaultMode: 420
-             name: prometheus-server-conf
+        - name: grafana-storage
+          emptyDir: {}
+        - name: grafana-datasources
+          configMap:
+            defaultMode: 420
+            name: grafana-datasources
+        - name: prometheus-server-conf
+          configMap:
+            defaultMode: 420
+            name: prometheus-server-conf
 ---
 apiVersion: v1
 kind: Service
@@ -111,8 +116,8 @@ spec:
   selector:
     app: monitoring
   ports:
-    - protocol: TCP
+    - name: grafana
+      protocol: TCP
       port: 80 # Port used by the Ingress
       targetPort: 3000 # Grafana runs internally on port 3000
-      name: grafana
 ---
