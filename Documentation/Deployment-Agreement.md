@@ -155,6 +155,7 @@
         - `elk.kdg-IP2.eliasdh.com` Points to the **ELK Stack** service.
         - `keycloak.kdg-IP2.eliasdh.com` Points to the **Keycloak IAM** service.
         - `www.kdg-IP2.eliasdh.com` Points to the **React Frontend** service.
+        - `api.kdg-IP2.eliasdh.com` Points to the **Spring Backend** service.
 
 - **Kubernetes Cluster:**
     - **Pod 1:**
