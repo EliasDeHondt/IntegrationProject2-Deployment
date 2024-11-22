@@ -78,6 +78,13 @@ kubectl delete pod test-pod
 
 ### 🌌Kubernetes Cluster
 
+- Change the deafult team number to the correct number (change 0 to your team number)
+```bash
+cd ../Kubernetes
+find . -type f -exec sed -i 's/teamX/team0/g' {} +
+```
+       
+
 - Get your Gitlab read_registry personal access token
   - Go to https://gitlab.com/-/user_settings/personal_access_tokens?name=Read+Registry+token&scopes=read_registry
   - Change the expiration date to 2025-01-26
@@ -86,10 +93,8 @@ kubectl delete pod test-pod
 
 > **Note:** This should only be done once per user, if the expiration date is set correctly.
 
-
 - Create Kubernetes Secret to pull gitlab registry images
 ```bash
-cd ../Kubernetes
 kubectl create secret docker-registry gitlab-registry --docker-server=registry.gitlab.com --docker-username=<your-gitlab-username> --docker-password=<your-personal-access-token> --docker-email=<your-kdg-email>
 ```
 
