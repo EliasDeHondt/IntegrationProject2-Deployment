@@ -3,7 +3,7 @@
 # @since 18/11/2024       #
 ###########################
 # Description: This file contains the variables for all the Terraform configurations.
-projectid = "integrationproject2-project7"
+projectid = "integrationproject2-project"
 credentials_file = "credentials.json"
 
 datacenter = {

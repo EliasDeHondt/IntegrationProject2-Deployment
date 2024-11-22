@@ -31,7 +31,7 @@ gcloud init
 
 - Create a new service account and download the credentials file
 ```bash
-PROJECT_ID="integrationproject2-project7" # Change this to your project ID
+PROJECT_ID="integrationproject2-project" # Change this to your project ID
 
 gcloud iam service-accounts create service-account-tf \
     --display-name="Service Account" \
@@ -54,12 +54,11 @@ sudo apt-get update -y && sudo apt-get upgrade -y && sudo apt-get install terraf
 terraform init
 ```
 
-- You can now `validate` the configuration. Then `plan` the configuration and then `apply` it. (When you're finished, you can `destroy` it).
+- You can now `validate` the configuration. Then `plan` the configuration and then `apply` it.
 ```bash
 terraform validate # Validate the configuration
 terraform plan # Create an execution plan
 terraform apply # Apply the changes
-terraform destroy # Destroy the resources
 ```
 
 > **Note:** At times, Terraform may not fully recognize that various APIs in a configuration are enabled, and it may proceed without allowing sufficient time for an API to be completely activated before accessing Google Cloud resources. If the initial attempt fails, a simple retry often resolves the issue.
