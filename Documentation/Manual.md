@@ -78,7 +78,7 @@ kubectl delete pod test-pod
 
 ### 🌌Kubernetes Cluster
 
-- Change the deafult team number to the correct number (change 0 to your team number)
+- Change the deafult team number to the correct number (change 0 to your team number!)
 ```bash
 cd ../Kubernetes
 find . -type f -exec sed -i 's/teamX/team0/g' {} +
@@ -93,7 +93,7 @@ find . -type f -exec sed -i 's/teamX/team0/g' {} +
 
 > **Note:** This should only be done once per user, if the expiration date is set correctly.
 
-- Create Kubernetes Secret to pull gitlab registry images, fill in everything between <> 
+- Create Kubernetes Secret to pull gitlab registry images (change everything between <> !) 
 ```bash
 kubectl create secret docker-registry gitlab-registry --docker-server=registry.gitlab.com --docker-username=<your-gitlab-username> --docker-password=<your-personal-access-token> --docker-email=<your-kdg-email>
 ```
