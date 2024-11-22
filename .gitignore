@@ -4,3 +4,4 @@ Terraform/terraform.tfstate.backup
 Terraform/.terraform.tfstate.lock.info
 Terraform/.terraform.lock.hcl
 Terraform/.terraform
+.vs
