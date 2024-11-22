@@ -48,6 +48,9 @@ spec:
   - hosts:
     - www.kdg-ip2.eliasdh.com
     secretName: react-frontend-tls
+  - hosts:
+    - api.kdg-ip2.eliasdh.com
+    secretName: spring-backend-tls
   rules:
   - host: status.kdg-ip2.eliasdh.com
     http:
@@ -56,7 +59,7 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: grafana-service
+            name: monitoring-service
             port:
               number: 80
   - host: elk.kdg-ip2.eliasdh.com
@@ -87,6 +90,16 @@ spec:
         backend:
           service:
             name: react-frontend-service
+            port:
+              number: 80
+  - host: api.kdg-ip2.eliasdh.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: spring-backend-service
             port:
               number: 80
 ---

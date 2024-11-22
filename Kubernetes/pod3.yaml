@@ -12,7 +12,7 @@ metadata:
   labels:
     app: spring-backend
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: spring-backend
@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
       - name: spring-backend
-        image: #image
+        image: # Image
         ports:
         - containerPort: 8081
 ---
