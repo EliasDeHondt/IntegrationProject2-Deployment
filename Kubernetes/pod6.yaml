@@ -6,11 +6,6 @@
 # Usage: kubectl apply -f pod6.yaml
 ---
 apiVersion: v1
-kind: Namespace
-metadata:
-  name: monitoring
----
-apiVersion: v1
 kind: ConfigMap
 metadata:
   name: prometheus-server-conf
