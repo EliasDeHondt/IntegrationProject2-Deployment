@@ -12,7 +12,7 @@ metadata:
   labels:
     app: react-frontend
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: react-frontend
@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
       - name: react-frontend
-        image: #image
+        image: # Image
         ports:
         - containerPort: 3000
 ---
