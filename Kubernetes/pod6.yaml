@@ -9,7 +9,6 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: prometheus-server-conf
-  namespace: monitoring
 data:
   prometheus.yml: |
     global:
@@ -24,7 +23,6 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: grafana-datasources
-  namespace: monitoring
 data:
   prometheus.yaml: |-
     {
@@ -48,7 +46,6 @@ metadata:
   name: monitoring 
   labels:
     app: monitoring
-  namespace: monitoring
 spec:
   replicas: 1
   selector:
@@ -106,7 +103,6 @@ metadata:
   name: monitoring-service
   labels:
     app: monitoring
-  namespace: monitoring
 spec:
   selector:
     app: monitoring
