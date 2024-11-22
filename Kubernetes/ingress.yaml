@@ -24,13 +24,6 @@ spec:
         ingress:
           class: nginx
 ---
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: nginx-configuration
-data:
-  enable-snippets: "true"
----
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -40,11 +33,6 @@ metadata:
     nginx.ingress.kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
     nginx.ingress.kubernetes.io/ssl-redirect: "true" # Redirect HTTP to HTTPS
-    nginx.ingress.kubernetes.io/server-snippet: |
-      error_page 404 = @custom-404;
-      location @custom-404 {
-        return 302 https://eliasdh.com/assets/pages/404.html;
-      }
 spec:
   ingressClassName: nginx
   tls:
@@ -61,16 +49,6 @@ spec:
     - www.kdg-ip2.eliasdh.com
     secretName: react-frontend-tls
   rules:
-  - host: "*.eliasdh.com"
-    http:
-      paths:
-        - path: /
-          pathType: Prefix
-          backend:
-            service:
-              name: not-a-real-service # :)
-              port:
-                number: 80
   - host: status.kdg-ip2.eliasdh.com
     http:
       paths:
