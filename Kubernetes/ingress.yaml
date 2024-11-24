@@ -39,9 +39,9 @@ spec:
   - hosts:
     - status.kdg-ip2.eliasdh.com
     secretName: grafana-tls
-  - hosts:
-    - elk.kdg-ip2.eliasdh.com
-    secretName: elk-stack-tls
+  # - hosts: # This configuration is moved to an external repository: https://github.com/EliasDeHondt/elk-filebeat
+  #   - elk.kdg-ip2.eliasdh.com
+  #   secretName: elk-stack-tls
   - hosts:
     - keycloak.kdg-ip2.eliasdh.com
     secretName: keycloak-iam-tls
@@ -62,16 +62,16 @@ spec:
             name: monitoring-service
             port:
               number: 80
-  - host: elk.kdg-ip2.eliasdh.com
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: kibana-service
-            port:
-              number: 5601
+  # - host: elk.kdg-ip2.eliasdh.com # This configuration is moved to an external repository: https://github.com/EliasDeHondt/elk-filebeat
+  #   http:
+  #     paths:
+  #     - path: /
+  #       pathType: Prefix
+  #       backend:
+  #         service:
+  #           name: kibana-service
+  #           port:
+  #             number: 5601
   - host: keycloak.kdg-ip2.eliasdh.com
     http:
       paths:

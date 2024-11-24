@@ -26,6 +26,13 @@ spec:
         image: registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/teamX/spring-backend:latest
         ports:
         - containerPort: 8081
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
       imagePullSecrets:
       - name: gitlab-registry
 ---

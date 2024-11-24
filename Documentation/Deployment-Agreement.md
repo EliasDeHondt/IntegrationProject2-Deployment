@@ -181,13 +181,13 @@
             - **Name:** `python-ai`
             - **Port:** `5000`
     - **Pod 5:**
-        - **ELK Stack (Elasticsearch, Logstash, Kibana):**
-            - **Name:** `elk-stack`
-            - **Port:** `5601`
-    - **Pod 6:**
         - **Grafana Monitoring Tool:**
             - **Name:** `grafana`
             - **Port:** `3000`
+    - **[External repository](https://github.com/EliasDeHondt/elk-filebeat):** 
+        - **ELK Stack (Elasticsearch, Logstash, Kibana):**
+            - **Name:** `elk-stack`
+            - **Port:** `5601`
 
 - **PostgreSQL Database:**
     - **Name of instance:** `cloud-sql-instance`

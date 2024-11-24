@@ -26,6 +26,13 @@ spec:
         image: registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/teamX/react-frontend:latest
         ports:
         - containerPort: 3000
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
       imagePullSecrets:
       - name: gitlab-registry
 ---

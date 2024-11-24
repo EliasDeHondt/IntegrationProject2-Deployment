@@ -96,6 +96,16 @@ find . -type f -exec sed -i 's/teamX/team0/g' {} +
 kubectl create secret docker-registry gitlab-registry --docker-server=registry.gitlab.com --docker-username=<your-gitlab-username> --docker-password=<your-personal-access-token> --docker-email=<your-kdg-email>
 ```
 
+- If you need the **ELK Stack** you can apply the following commands:
+```bash
+helm install filebeat https://raw.githubusercontent.com/EliasDeHondt/elk-filebeat/refs/heads/main/package/filebeat-7.15.0.tgz
+helm install logstash https://raw.githubusercontent.com/EliasDeHondt/elk-filebeat/refs/heads/main/package/logstash-7.15.0.tgz
+helm install elasticsearch https://raw.githubusercontent.com/EliasDeHondt/elk-filebeat/refs/heads/main/package/elasticsearch-7.15.0.tgz
+helm install kibana https://raw.githubusercontent.com/EliasDeHondt/elk-filebeat/refs/heads/main/package/kibana-7.15.0.tgz
+```
+
+> **Note:** The ELK Stack is located in a different [repository](https://github.com/EliasDeHondt/elk-filebeat) give it a ⭐ if you like it!
+
 - Apply the different services.
 ```bash
 kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.11.0/cert-manager.yaml
