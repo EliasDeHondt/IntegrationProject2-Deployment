@@ -1,0 +1,55 @@
+name: ip2_local
+
+services:
+  keycloak:
+    image: bitnami/keycloak:25
+    ports:
+      - "8080:8080"
+    environment:
+      KEYCLOAK_HTTP_PORT: 8080
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KEYCLOAK_DATABASE_HOST: postgres
+      KEYCLOAK_DATABASE_PORT: 5432
+      KEYCLOAK_DATABASE_NAME: keycloak
+      KEYCLOAK_DATABASE_USER: keycloak
+      KEYCLOAK_DATABASE_PASSWORD: keycloak
+
+  postgres:
+    image: postgres:16
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: ${DB_NAME:-game}
+      POSTGRES_USER: ${DB_USER:-user}
+      POSTGRES_PASSWORD: ${DB_PASS:-password}
+    configs:
+      - source: keycloak.sql
+        target: /docker-entrypoint-initdb.d/keycloak.sql
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+configs:
+  keycloak.sql:
+    content: |
+      CREATE ROLE keycloak WITH
+        LOGIN
+        NOSUPERUSER
+        NOCREATEDB
+        NOCREATEROLE
+        INHERIT
+        NOREPLICATION
+        NOBYPASSRLS
+        CONNECTION LIMIT -1
+        PASSWORD 'keycloak';
+
+      CREATE DATABASE keycloak
+          WITH
+          OWNER = keycloak
+          ENCODING = 'UTF8'
+          LOCALE_PROVIDER = 'libc'
+          CONNECTION LIMIT = -1
+          IS_TEMPLATE = False;
+
+volumes:
+  db_data:
