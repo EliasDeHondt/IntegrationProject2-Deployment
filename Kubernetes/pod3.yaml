@@ -43,7 +43,7 @@ spec:
           - "--private-ip"
           - "--auto-iam-authn"
           - "--structured-logs"
-          - "--port=5432"
+          - "--port=3306"
           - "projectId:us-central1-c:cloud-sql-instance"
         securityContext:
           runAsNonRoot: true

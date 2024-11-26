@@ -81,7 +81,7 @@ kubectl delete pod test-pod
 - Change the deafult team number to the correct number (change 0 to your team number!)
 ```bash
 cd ../Kubernetes
-sed -i "s/projectId/$PROJECT_ID/g" pod3.yaml
+sed -i "s/projectId/$PROJECT_ID/g" pod2.yaml pod3.yaml
 ```
 
 - Change the deafult team number to the correct number (change 0 to your team number!)
