@@ -31,8 +31,7 @@ gcloud init
 
 - Create a new service account and download the credentials file
 ```bash
-PROJECT_ID="integrationproject2-project" # Change this to your project ID
-export PROJECT_ID="integrationproject2-project7" # Change this to your project ID
+export PROJECT_ID="integrationproject2-project" # Change this to your project ID
 
 gcloud iam service-accounts create service-account-tf \
     --display-name="Service Account" \
@@ -78,7 +77,7 @@ kubectl delete pod test-pod
 
 ### 🌌Kubernetes Cluster
 
-- Change the deafult team number to the correct number (change 0 to your team number!)
+- Change the deafult project id to the project id you previously typed in
 ```bash
 cd ../Kubernetes
 sed -i "s/projectId/$PROJECT_ID/g" pod2.yaml pod3.yaml
@@ -102,6 +101,11 @@ find . -type f -exec sed -i 's/teamX/team0/g' {} +
 kubectl create secret docker-registry gitlab-registry --docker-server=registry.gitlab.com --docker-username=<your-gitlab-username> --docker-password=<your-personal-access-token> --docker-email=<your-kdg-email>
 ```
 
+- Create Kubernetes Secret to use the Cloud SQL Auth Proxy 
+```bash
+kubectl create secret generic sql-auth-proxy --from-file=service_account.json=../Terraform/credentials.json
+```
+
 - If you need the **ELK Stack** you can apply the following commands:
 ```bash
 helm install filebeat https://raw.githubusercontent.com/EliasDeHondt/elk-filebeat/refs/heads/main/package/filebeat-7.15.0.tgz
@@ -111,11 +115,6 @@ helm install kibana https://raw.githubusercontent.com/EliasDeHondt/elk-filebeat/
 ```
 
 > **Note:** The ELK Stack is located in a different [repository](https://github.com/EliasDeHondt/elk-filebeat) give it a ⭐ if you like it!
-
-- Create Kubernetes Secret to use the Cloud SQL Auth Proxy 
-```bash
-kubectl create secret generic sql-auth-proxy --from-file=service_account.json=../Terraform/credentials.json
-```
 
 - Apply the different services.
 ```bash
