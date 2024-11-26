@@ -10,6 +10,7 @@ resource "google_project_service" "enable_apis" {
         "compute.googleapis.com",               # Google Compute Engine API
         "cloudresourcemanager.googleapis.com",  # Google Cloud Resource Manager API
         "iam.googleapis.com",                   # Google Identity and Access Management API
+        "iamcredentials.googleapis.com",        # Google IAM Service Account Credentials API
         "servicenetworking.googleapis.com"      # Google Service Networking API
     ])
     project = var.projectid
