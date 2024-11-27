@@ -20,7 +20,7 @@ spec:
     privateKeySecretRef:
       name: letsencrypt-prod-key
     solvers:
-    - http01:
+      - http01:
         ingress:
           class: nginx
 ---
@@ -36,32 +36,32 @@ metadata:
 spec:
   ingressClassName: nginx
   tls:
-  - hosts:
-    - status.kdg-ip2.eliasdh.com
-    secretName: grafana-tls
+    - hosts:
+      - status.kdg-ip2.eliasdh.com
+      secretName: grafana-tls
   # - hosts: # This configuration is moved to an external repository: https://github.com/EliasDeHondt/elk-filebeat
   #   - elk.kdg-ip2.eliasdh.com
   #   secretName: elk-stack-tls
-  - hosts:
-    - keycloak.kdg-ip2.eliasdh.com
-    secretName: keycloak-iam-tls
-  - hosts:
-    - www.kdg-ip2.eliasdh.com
-    secretName: react-frontend-tls
-  - hosts:
-    - api.kdg-ip2.eliasdh.com
-    secretName: spring-backend-tls
+    - hosts:
+      - keycloak.kdg-ip2.eliasdh.com
+      secretName: keycloak-iam-tls
+    - hosts:
+      - www.kdg-ip2.eliasdh.com
+      secretName: react-frontend-tls
+    - hosts:
+      - api.kdg-ip2.eliasdh.com
+      secretName: spring-backend-tls
   rules:
-  - host: status.kdg-ip2.eliasdh.com
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: monitoring-service
-            port:
-              number: 80
+    - host: status.kdg-ip2.eliasdh.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: monitoring-service
+                port:
+                  number: 80
   # - host: elk.kdg-ip2.eliasdh.com # This configuration is moved to an external repository: https://github.com/EliasDeHondt/elk-filebeat
   #   http:
   #     paths:
@@ -72,34 +72,34 @@ spec:
   #           name: kibana-service
   #           port:
   #             number: 5601
-  - host: keycloak.kdg-ip2.eliasdh.com
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: keycloak-iam
-            port:
-              number: 80
-  - host: www.kdg-ip2.eliasdh.com
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: react-frontend-service
-            port:
-              number: 80
-  - host: api.kdg-ip2.eliasdh.com
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: spring-backend-service
-            port:
-              number: 80
+    - host: keycloak.kdg-ip2.eliasdh.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: keycloak-iam
+                port:
+                  number: 80
+    - host: www.kdg-ip2.eliasdh.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: react-frontend-service
+                port:
+                  number: 80
+    - host: api.kdg-ip2.eliasdh.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: spring-backend-service
+                port:
+                  number: 80
 ---
