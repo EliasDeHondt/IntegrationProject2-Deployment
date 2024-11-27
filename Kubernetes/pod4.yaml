@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
       - name: python-container
-        image: registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/teamX/python-ai:latest
+        image: registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/teamX/python-ai:latest # Team number changed by the end user when following the manual
         resources:
           limits:
             memory: "4Gi"
