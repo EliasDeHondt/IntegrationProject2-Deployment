@@ -17,7 +17,10 @@
    > **Let op**: de Docker Compose-versie moet minimaal **2.23.1** zijn.
 
 2. **Selecteer een bestand**  
-   Kies het juiste Compose-bestand op basis van de tabel hierboven.
+   Kies het juiste Compose-bestand:
+   - compose-base -> database, keycloak
+   - compose-app -> frontend, backend, database, keycloak
+   - compose-full -> frontend, backend, database, keycloak, ai, elk
 
 3. **Start de gewenste services**
    ```bash
