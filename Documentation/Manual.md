@@ -106,6 +106,13 @@ kubectl create secret docker-registry gitlab-registry --docker-server=registry.g
 kubectl create secret generic sql-auth-proxy --from-file=service_account.json=../Terraform/credentials.json
 ```
 
+- Apply the different services.
+```bash
+kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.11.0/cert-manager.yaml
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
+kubectl apply -f . # Apply all the Kubernetes files in the current directory
+```
+
 - If you need the **ELK Stack** you can apply the following commands:
 ```bash
 helm install filebeat https://raw.githubusercontent.com/EliasDeHondt/elk-filebeat/refs/heads/main/package/filebeat-7.15.0.tgz
@@ -115,10 +122,3 @@ helm install kibana https://raw.githubusercontent.com/EliasDeHondt/elk-filebeat/
 ```
 
 > **Note:** The ELK Stack is located in a different [repository](https://github.com/EliasDeHondt/elk-filebeat) give it a ⭐ if you like it!
-
-- Apply the different services.
-```bash
-kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.11.0/cert-manager.yaml
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
-kubectl apply -f . # Apply all the Kubernetes files in the current directory
-```

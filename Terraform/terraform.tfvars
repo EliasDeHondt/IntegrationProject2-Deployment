@@ -3,7 +3,7 @@
 # @since 18/11/2024       #
 ###########################
 # Description: This file contains the variables for all the Terraform configurations.
-projectid = "ip2-kubernetes"
+projectid = "integrationproject2-project"
 credentials_file = "credentials.json"
 
 datacenter = {
