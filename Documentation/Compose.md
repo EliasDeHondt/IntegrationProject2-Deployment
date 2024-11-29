@@ -2,7 +2,7 @@
 
 ## Vereisten
 - **Docker Compose** versie ≥ 2.23.1.
-
+- De applicatie luistert op de poorten die in het contract staan naar andere services zoals bv. de databank (5432)
 ---
 
 ## **1. Vul de juiste environment variabelen in in de .env file**
@@ -52,5 +52,9 @@
    docker volume rm ip2_local_mqtt_data      # RabbitMQ data
    ```
 
+7. **Veel voorkomende problemen**
+   - *"Required variable ... is missing a value":* Waarschijnlijk wordt de .env-file niet als het juiste bestandstype geïnterpreteerd. Daardoor worden de omgevingvariabelen niet aangemaakt en dus ook niet ingevuld.
+   - *"Cannot bind on port ...":* Er is al een service aan het luisteren op de poort. Kill dat proces en probeer opnieuw.
+   - 
 ---
 
