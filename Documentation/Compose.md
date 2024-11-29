@@ -31,6 +31,7 @@
 4. **Controleer de status van containers**
    ```bash
    docker ps
+   docker compose -f <bestandsnaam> logs
    ```
 
 5. **Services stoppen**  
