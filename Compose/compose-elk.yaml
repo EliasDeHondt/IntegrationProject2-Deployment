@@ -1,0 +1,63 @@
+name: ip2_local
+
+include:
+  - compose-app.yaml
+
+services:
+  kibana:
+      image: docker.elastic.co/kibana/kibana:8.16.0
+      ports:
+        - "5601:5601"
+      environment:
+        LICENSE: basic
+        KIBANA_PASSWORD: kibana
+        ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+
+      elasticsearch:
+        image: docker.elastic.co/elasticsearch/elasticsearch:8.16.0
+        environment:
+          LICENSE: basic
+          discovery.type: single-node
+          network.host: 0.0.0.0
+          xpack.security.enabled: false
+        volumes:
+          - es_data:/usr/share/elasticsearch/data/
+
+      logstash:
+        image: docker.elastic.co/logstash/logstash:8.16.0
+        environment:
+          LICENSE: basic
+        configs:
+          - source: logstash.yml
+            target: /usr/share/logstash/config/logstash.yml
+          - source: logstash.conf
+            target: /usr/share/logstash/pipeline/logstash.conf
+
+      rabbitmq:
+        image: rabbitmq:4
+        volumes:
+          - mqtt_data:/var/lib/rabbitmq
+
+  configs:
+    logstash.yml:
+      content: |
+        xpack.monitoring.enabled: true
+        xpack.monitoring.elasticsearch.hosts: ["http://elasticsearch:9200"]
+    logstash.conf:
+      content: |
+        input {
+          rabbitmq {
+            host => "rabbitmq"
+          }
+        }
+        filter { }
+        output {
+          elasticsearch {
+              hosts => ["http://elasticsearch:9200"]
+          }
+          stdout { codec => rubydebug }
+        }
+
+volumes:
+  mqtt_data:
+  es_data:

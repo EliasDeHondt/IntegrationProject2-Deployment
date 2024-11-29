@@ -20,7 +20,8 @@
    Kies het juiste Compose-bestand:
    - compose-base -> database, keycloak
    - compose-app -> frontend, backend, database, keycloak
-   - compose-full -> frontend, backend, database, keycloak, ai, elk
+   - compose-elk -> frontend, backend, database, keycloak, elk
+   - compose-ai -> frontend, backend, database, keycloak, ai
 
 3. **Start de gewenste services**
    ```bash
