@@ -79,7 +79,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: keycloak-iam
+                name: keycloak-iam-service
                 port:
                   number: 80
     - host: www.kdg-ip2.eliasdh.com
