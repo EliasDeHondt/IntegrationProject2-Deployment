@@ -57,48 +57,48 @@ spec:
         app: monitoring
     spec:
       containers:
-      - name: grafana
-        image: grafana/grafana:latest
-        ports:
-        - containerPort: 3000
-        env:
-        - name: GF_SECURITY_ADMIN_USER
-          valueFrom:
-            secretKeyRef:
-              name: monitoring-credentials
-              key: username
-        - name: GF_SECURITY_ADMIN_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: monitoring-credentials
-              key: password
-        resources:
-          limits:
-            memory: "512Mi"
-            cpu: "500m"
-          requests:
-            memory: "256Mi"
-            cpu: "250m"
-        volumeMounts:
-          - mountPath: /var/lib/grafana
-            name: grafana-storage
-          - mountPath: /etc/grafana/provisioning/datasources
-            name: grafana-datasources
-            readOnly: false
-      - name: prometheus
-        image: prom/prometheus:latest
-        ports:
-        - containerPort: 9090
-        resources:
-          limits:
-            memory: "512Mi"
-            cpu: "500m"
-          requests:
-            memory: "256Mi"
-            cpu: "250m"
-        volumeMounts:
-          - name: prometheus-server-conf
-            mountPath: /etc/prometheus
+        - name: grafana
+          image: grafana/grafana:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: GF_SECURITY_ADMIN_USER
+              valueFrom:
+                secretKeyRef:
+                  name: monitoring-credentials
+                  key: username
+            - name: GF_SECURITY_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: monitoring-credentials
+                  key: password
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+          volumeMounts:
+            - mountPath: /var/lib/grafana
+              name: grafana-storage
+            - mountPath: /etc/grafana/provisioning/datasources
+              name: grafana-datasources
+              readOnly: false
+        - name: prometheus
+          image: prom/prometheus:latest
+          ports:
+            - containerPort: 9090
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+          volumeMounts:
+            - name: prometheus-server-conf
+              mountPath: /etc/prometheus
       volumes:
         - name: grafana-storage
           emptyDir: {}

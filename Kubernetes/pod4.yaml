@@ -24,19 +24,19 @@ spec:
         app: python-runtime
     spec:
       containers:
-      - name: python-container
-        image: registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/teamX/python-ai:latest
-        resources:
-          limits:
-            memory: "4Gi"
-            cpu: "2"
-          requests:
-            memory: "2Gi"
-            cpu: "1"
-        ports:
-          - containerPort: 5000
+        - name: python-container
+          image: registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/teamX/python-ai:latest # Team number changed by the end user when following the manual
+          resources:
+            limits:
+              memory: "4Gi"
+              cpu: "2"
+            requests:
+              memory: "2Gi"
+              cpu: "1"
+          ports:
+            - containerPort: 5000
       imagePullSecrets:
-      - name: gitlab-registry
+        - name: gitlab-registry
 ---
 # Python Service
 apiVersion: v1

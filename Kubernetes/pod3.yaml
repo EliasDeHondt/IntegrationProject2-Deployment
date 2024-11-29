@@ -22,19 +22,52 @@ spec:
         app: spring-backend
     spec:
       containers:
-      - name: spring-backend
-        image: registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/teamX/spring-backend:latest
-        ports:
-        - containerPort: 8081
-        resources:
-          limits:
-            memory: "512Mi"
-            cpu: "500m"
-          requests:
-            memory: "256Mi"
-            cpu: "250m"
+        - name: spring-backend
+          image: registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/teamX/spring-backend:latest # Team number changed by the end user when following the manual
+          ports:
+            - containerPort: 8081
+          env:
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: db-credentials
+                  key: username
+            - name: DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: db-credentials
+                  key: password
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+        - name: cloud-sql-proxy
+          image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.14.1
+          args:
+            - "--private-ip"
+            - "--auto-iam-authn"
+            - "--structured-logs"
+            - "--port=3306"
+            - "projectId:us-central1-c:cloud-sql-instance" # ProjectId changed by the end user when following the manual
+          securityContext:
+            runAsNonRoot: true
+          volumeMounts:
+            - name: sql-auth-proxy-volume
+              mountPath: /secrets/
+              readOnly: true
+          resources:
+            requests:
+              memory: "2Gi"
+              cpu: "1"
       imagePullSecrets:
-      - name: gitlab-registry
+        - name: gitlab-registry
+      volumes:
+        - name: sql-auth-proxy-volume
+          secret:
+            secretName: sql-auth-proxy
 ---
 apiVersion: v1
 kind: Service
@@ -44,8 +77,8 @@ spec:
   selector:
     app: spring-backend
   ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 8081
+    - protocol: TCP
+      port: 80
+      targetPort: 8081
   type: ClusterIP
 ---
