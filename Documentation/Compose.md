@@ -13,7 +13,6 @@
       - [👉Step 5: Stopping services](#👉step-5-stopping-services)
       - [👉Step 6: Erase data](#👉step-6-erase-data)
 
-
 ## 📝Vereisten
 - **Docker Compose** version ≥ 2.23.1.
 
@@ -38,7 +37,8 @@ docker compose version
    - [compose-base.yaml](/Compose/compose-base.yaml) -> database, keycloak
    - [compose-app.yaml](/Compose/compose-app.yaml) -> frontend, backend, database, keycloak
    - [compose-elk.yaml](/Compose/compose-elk.yaml) -> frontend, backend, database, keycloak, elk
-   - [compose-ai.yaml](/Compose/compose-elk.yaml) -> frontend, backend, database, keycloak, ai
+   - [compose-ai.yaml](/Compose/compose-ai.yaml) -> frontend, backend, database, keycloak, ai
+   - [compose-full.yaml](/Compose/compose-full.yaml) -> frontend, backend, database, keycloak, elk, ai
 
 ### 👉Step 3: Start the desired services
 
