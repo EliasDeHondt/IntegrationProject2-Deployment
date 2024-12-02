@@ -5,19 +5,21 @@
 
 1. [📘Table of Contents](#📘table-of-contents)
 2. [📡Setup infrastructure](#📡setup-infrastructure)
-    1. [🔨Terraform](#🔨terraform)
-    2. [🌌Kubernetes Cluster](#🌌kubernetes-cluster)
+    1. [📦Environment](#📦environment)
+    2. [🔨Terraform](#🔨terraform)
+    3. [🌌Kubernetes Cluster](#🌌kubernetes-cluster)
 
 ---
 
 ## 📡Setup infrastructure
 
-### 🔨Terraform
+### 📦Environment
 
-- Clone the repository and navigate to the Terraform directory
+- Clone the repository:
 ```bash
+cd /home/$USER
 git clone https://github.com/EliasDeHondt/IntegrationProject2-Deployment.git
-cd IntegrationProject2-Deployment/Terraform
+cd IntegrationProject2-Deployment
 ```
 
 - Authenticate with Google Cloud
@@ -29,9 +31,22 @@ gcloud init
 # The fourth question you can simply ignore and press Ctrl+C (It's also possible that you will not have this question)
 ```
 
+- Enable the necessary APIs
+```bash
+sudo chmod +x Scripts/enable-google-apis.sh
+Scripts/enable-google-apis.sh
+```
+
+### 🔨Terraform
+
+- Navigate to the Terraform directory
+```bash
+cd Terraform
+```
+
 - Create a new service account and download the credentials file
 ```bash
-export PROJECT_ID="integrationproject2-project" # Change this to your project ID
+export PROJECT_ID="integrationproject2-project11" # Change this to your project ID
 
 gcloud iam service-accounts create service-account-tf \
     --display-name="Service Account" \

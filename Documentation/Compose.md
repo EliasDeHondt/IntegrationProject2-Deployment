@@ -1,55 +1,68 @@
-# Documentatie Docker Compose
+![logo](https://eliasdh.com/assets/media/images/logo-github.png)
+# 💙🤍Compose🤍💙
 
-## Vereisten
-- **Docker Compose** versie ≥ 2.23.1.
+## 📘Table of Contents
 
----
+1. [📘Table of Contents](#📘table-of-contents)
+2. [📝Vereisten](#📝vereisten)
+3. [✨Steps](#✨steps)
+      - [👉Step 1: Check if Docker and Docker Compose are installed](#👉step-1-check-if-docker-and-docker-compose-are-installed)
+      - [👉Step 2: Select a file](#👉step-2-select-a-file)
+      - [👉Step 3: Start the desired services](#👉step-3-start-the-desired-services)
+      - [👉Step 4: Check the status of containers](#👉step-4-check-the-status-of-containers)
+      - [👉Step 5: Stopping services](#👉step-5-stopping-services)
+      - [👉Step 6: Erase data](#👉step-6-erase-data)
 
-## **1. Vul de juiste environment variabelen in in de .env file**
-## **2. Services starten met Docker Compose**
+## 📝Vereisten
+- **Docker Compose** version ≥ 2.23.1.
 
-1. **Controleer of Docker en Docker Compose geïnstalleerd zijn**  
-   Voer de volgende commando's uit om de versies te controleren:
-   ```bash
-   docker --version
-   docker compose version
-   ```
-   > **Let op**: de Docker Compose-versie moet minimaal **2.23.1** zijn.
+## ✨Steps
 
-2. **Selecteer een bestand**  
-   Kies het juiste Compose-bestand:
-   - compose-base -> database, keycloak
-   - compose-app -> frontend, backend, database, keycloak
-   - compose-full -> frontend, backend, database, keycloak, ai, elk
+> **Note**: Fill in the correct environment variables in the .env file and starting services with Docker Compose
 
-3. **Start de gewenste services**
-   ```bash
-   docker compose -f <bestandsnaam> up -d
-   ```  
-   Voorbeeld:
-   ```bash
-   docker compose -f compose-full.yml up -d
-   ```
+### 👉Step 1: Check if Docker and Docker Compose are installed
 
-4. **Controleer de status van containers**
-   ```bash
-   docker ps
-   docker compose -f <bestandsnaam> logs
-   ```
+- To check the versions, run the following commands:
 
-5. **Services stoppen**  
-   Om alle containers te stoppen:
-   ```bash
-   docker compose -f <bestandsnaam> down
-   ```
+```bash
+docker --version
+docker compose version
+```
 
-6. **Data wissen**  
-   Wis specifieke data-volumes met de volgende commando's:
-   ```bash
-   docker volume rm ip2_local_db_data        # PostgreSQL data
-   docker volume rm ip2_local_es_data        # Elasticsearch data
-   docker volume rm ip2_local_mqtt_data      # RabbitMQ data
-   ```
+> **Note**: The Docker Compose version must be at least **2.23.1**.
 
----
+### 👉Step 2: Select a file
 
+- Choose the correct Compose file:
+   - [compose-base.yaml](/Compose/compose-base.yaml) -> database, keycloak
+   - [compose-app.yaml](/Compose/compose-app.yaml) -> frontend, backend, database, keycloak
+   - [compose-full.yaml](/Compose/compose-full.yaml) -> frontend, backend, database, keycloak, ai, elk
+
+### 👉Step 3: Start the desired services
+
+```bash
+docker compose -f <bestandsnaam> up -d # Example: docker compose -f compose-full.yml up -d
+```
+
+### 👉Step 4: Check the status of containers
+
+```bash
+docker ps
+docker compose -f <bestandsnaam> logs -f # Example: docker compose -f compose-full.yml logs
+```
+
+### 👉Step 5: Stopping services
+
+- To stop all containers:
+```bash
+docker compose -f <bestandsnaam> down # Example: docker compose -f compose-full.yml down
+```
+
+### 👉Step 6: Erase data
+
+- Erase specific data volumes using the following commands:
+```bash
+docker volume rm ip2_local_db_data        # PostgreSQL data
+docker volume rm ip2_local_es_data        # Elasticsearch data
+docker volume rm ip2_local_mqtt_data      # RabbitMQ data
+```

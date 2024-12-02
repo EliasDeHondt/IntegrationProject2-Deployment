@@ -1,27 +1,28 @@
 ![logo](https://eliasdh.com/assets/media/images/logo-github.png)
-# 💙🤍Image Delivery using Gitlab Container Registry🤍💙
+# 💙🤍Delivering Images🤍💙
+
+While many are accustomed to public or restricted repositories like Docker Hub for storing container images, larger projects often require more space and privacy than these platforms can offer.
+
+For this reason, we’ve chosen to use GitLab’s Container Registry, a secure image repository integrated directly into your GitLab project. Below are the simple steps to follow for delivering your images.
+
+**Important Reminder**: Your deliverables must be available in your repository, and our DevOps team needs access to this registry to facilitate image testing.
 
 ---
 
-Many are used to public or limited repositories like the Dockerhub for keeping safe their container images, but when dealing with a project like this, one needs more space and/or privacy then those platforms allow.
-So we have decided to use the Gitlab Container Registry, an image repository build directly into your Gitlab project. Written below are a few very simple steps one should follow when delivering us those images.
+1. Authenticate with GitLab
+- GitLab requires authentication to add, modify, or delete images in the container registry. To authenticate, log in to Docker in your shell environment using an Access Token.
 
-**Important Notice** The deliverables should be present in the your repository and we as your DevOps team should have access to this registry to allow us to test these images.
-
-
-1. Authenticate with the Gitlab Project
-Gitlab of course requires authentication to add, modify or remove any images to this repository. Login docker within your shell environment. You do this by providing an Access Token.
-
-```
+```bash
 TOKEN=<token>
 echo "$TOKEN" | docker login registry.example.com -u <username> --password-stdin
 ```
 
-2. Build your image and push it to your registry
-```
+2. Build and Push Your Image to the Registry
+- After authenticating, you can build and push your image to the registry.
+
+```bash
 docker build -t registry.example.com/group/project/image .
 docker push registry.example.com/group/project/image
 ```
 
-To get the registry link, navigate to your projects' Container Registry (Deploy > Container Registry) and copy the command with included link listed there. 
-For example: `registry.gitlab.com/kdg-ti/integratieproject-infinity/2100-2101/devopsinfinity/integrationprojectinfinity-deployment`
+- To find your registry URL, navigate to your project’s Container Registry section (Deploy > Container Registry), where you'll find the command with the corresponding URL. For example: `registry.gitlab.com/kdg-ti/integratieproject-infinity/2100-2101/devopsinfinity/integrationprojectinfinity-deployment`
