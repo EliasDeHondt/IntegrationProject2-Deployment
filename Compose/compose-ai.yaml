@@ -1,0 +1,16 @@
+name: ip2_local
+
+include:
+  - compose-app.yaml
+
+services:
+  ai:
+    image: ${AI_IMAGE:?Required}${AI_VERSION:+:}${AI_VERSION:-}
+    network_mode: "host"
+    extra_hosts:
+      - "frontend:127.0.0.1"
+      - "backend:127.0.0.1"
+      - "kibana:127.0.0.1"
+      - "elasticsearch:127.0.0.1"
+      - "logstash:127.0.0.1"
+      - "rabbitmq:127.0.0.1"
