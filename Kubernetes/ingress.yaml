@@ -1,10 +1,10 @@
-###########################
+###y########################
 # @author Elias De Hondt  #
 # @since 18/11/2024       #
 ###########################
 # Description: This ingress is used to expose the necessary services.
 # Usage:
-#         kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.11.0/cert-manager.yaml
+#         kubectl apply -f https://github.com/cert-manager/cert-manager/releases/latest/download/cert-manager.yaml
 #         kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
 #         kubectl apply -f ingress.yaml
 #         kubectl get ingress
@@ -21,8 +21,8 @@ spec:
       name: letsencrypt-prod-key
     solvers:
       - http01:
-        ingress:
-          class: nginx
+          ingress:
+            class: nginx
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -79,7 +79,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: keycloak-iam
+                name: keycloak-iam-service
                 port:
                   number: 80
     - host: www.kdg-ip2.eliasdh.com

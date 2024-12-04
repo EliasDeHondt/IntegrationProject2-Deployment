@@ -1,4 +1,3 @@
-
 ###########################
 # @author Elias De Hondt  #
 # @since 18/11/2024       #
@@ -29,23 +28,45 @@ resource "google_container_cluster" "kubernetes-cluster" {
 
     private_cluster_config {
         enable_private_nodes    = true
-        enable_private_endpoint = true
+        enable_private_endpoint = false
         master_ipv4_cidr_block  = "10.3.0.0/28"
     }
 
     ip_allocation_policy {
-        cluster_ipv4_cidr_block  = "cluster-range"
-        services_ipv4_cidr_block = "service-range"
+        cluster_secondary_range_name  = "cluster-range"  # Use the secondary range for pods
+        services_secondary_range_name = "service-range"
     }
 
     master_authorized_networks_config {
         cidr_blocks {
-            cidr_block   = "10.0.0.0/24"
+            cidr_block   = "0.0.0.0/0" #All for testing
             display_name = "Internal Network"
         }
     }
 
     remove_default_node_pool = true
+}
+
+resource "google_container_node_pool" "node-pool" {
+    name       = "custom-node-pool"
+    cluster    = google_container_cluster.kubernetes-cluster.name
+    location   = var.datacenter.zone
+    initial_node_count = var.kubernetes.node_count
+
+    node_config {
+        machine_type = var.kubernetes.node_config.machine_type
+        disk_size_gb = var.kubernetes.node_config.disk_size_gb
+        disk_type    = var.kubernetes.node_config.disk_type
+
+        oauth_scopes = [
+            "https://www.googleapis.com/auth/devstorage.read_only",
+            "https://www.googleapis.com/auth/logging.write",
+            "https://www.googleapis.com/auth/monitoring",
+            "https://www.googleapis.com/auth/servicecontrol",
+            "https://www.googleapis.com/auth/service.management.readonly",
+            "https://www.googleapis.com/auth/sqlservice.admin"
+        ]
+    }
 }
 
 resource "google_compute_network" "vpc-network" {
@@ -57,17 +78,17 @@ resource "google_compute_subnetwork" "subnetwork" {
     name = "subnetwork"
     network = google_compute_network.vpc-network.name
     region = var.datacenter.region
-    ip_cidr_range = "10.0.0.0/24"
+    ip_cidr_range = "10.0.0.0/16"
     private_ip_google_access = true
     
     secondary_ip_range {
         range_name = "cluster-range"
-        ip_cidr_range = "10.1.0.0/24"
+        ip_cidr_range = "10.1.0.0/16"
     }
 
     secondary_ip_range {
 	range_name = "service-range"
-        ip_cidr_range = "10.2.0.0/24"
+        ip_cidr_range = "10.2.0.0/16"
     }
 
 }
