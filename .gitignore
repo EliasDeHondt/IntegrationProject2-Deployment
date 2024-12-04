@@ -5,3 +5,4 @@ Terraform/.terraform.tfstate.lock.info
 Terraform/.terraform.lock.hcl
 Terraform/.terraform
 .vs
+Compose/compose-full.yaml
