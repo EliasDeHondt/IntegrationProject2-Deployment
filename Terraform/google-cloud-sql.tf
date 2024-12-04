@@ -9,6 +9,9 @@ resource "google_sql_database_instance" "cloud-sql-instance" {
     database_version = var.database.version
     settings {
         tier = var.database.tier
+        ip_configuration {
+            ipv4_enabled = false # Ensures no public IP is assigned
+            private_network = google_compute_global_address.google_managed_services.network
     }
 }
 
@@ -22,3 +25,4 @@ resource "google_sql_user" "database-user" {
     instance = google_sql_database_instance.cloud-sql-instance.name
     password = var.database.password
 }
+
