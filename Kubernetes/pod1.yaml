@@ -28,7 +28,7 @@ spec:
             - containerPort: 3000
           env:
             - name: BACKEND_URL
-              value: "http://spring-backend-service:80"
+              value: "http://spring-backend-service"
           resources:
             limits:
               memory: "512Mi"
