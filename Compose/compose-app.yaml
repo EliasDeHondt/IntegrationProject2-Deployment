@@ -25,8 +25,8 @@ services:
       - "logstash:127.0.0.1"
       - "rabbitmq:127.0.0.1"
     environment:
-      VITE_KC_REALM: ${VITE_KC_REALM:?Required}
-      VITE_KC_CLIENT_ID: ${VITE_KC_CLIENT_ID:?Required}
-      VITE_KC_URL: ${VITE_KC_URL:?Required}
-      VITE_KC_BACKEND_URL: ${VITE_KC_BACKEND_URL:?Required}
+      VITE_KC_REALM: ${VITE_KC_REALM}
+      VITE_KC_CLIENT_ID: ${VITE_KC_CLIENT_ID}
+      VITE_KC_URL: ${VITE_KC_URL}
+      VITE_KC_BACKEND_URL: ${VITE_KC_BACKEND_URL}
 

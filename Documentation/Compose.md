@@ -44,6 +44,7 @@ docker compose version
 ### 👉Step 3: Start the desired services
 
 ```bash
+docker compose -f <bestandsnaam> pull 
 docker compose -f <bestandsnaam> up -d # Example: docker compose -f compose-full.yml up -d
 ```
 
