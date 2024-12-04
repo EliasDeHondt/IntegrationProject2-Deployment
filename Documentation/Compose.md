@@ -15,7 +15,7 @@
 
 ## 📝Vereisten
 - **Docker Compose** version ≥ 2.23.1
-- **For Windows and Mac:** enable host networking in Docker Desktop > Settings > Features in development
+- **For Windows and Mac:** enable host networking in Docker Desktop > Settings > Resources > Network > enable host networking
 
 ## ✨Steps
 
