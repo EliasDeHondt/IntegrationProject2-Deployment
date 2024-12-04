@@ -14,7 +14,8 @@
       - [👉Step 6: Erase data](#👉step-6-erase-data)
 
 ## 📝Vereisten
-- **Docker Compose** version ≥ 2.23.1.
+- **Docker Compose** version ≥ 2.23.1
+- **For Windows and Mac:** enable host networking in Docker Desktop > Settings > Features in development
 
 ## ✨Steps
 
