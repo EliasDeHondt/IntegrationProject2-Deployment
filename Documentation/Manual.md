@@ -123,7 +123,7 @@ kubectl create secret generic sql-auth-proxy --from-file=service_account.json=..
 
 - Apply the different services.
 ```bash
-kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.11.0/cert-manager.yaml
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/latest/download/cert-manager.yaml
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
 kubectl apply -f . # Apply all the Kubernetes files in the current directory
 ```
