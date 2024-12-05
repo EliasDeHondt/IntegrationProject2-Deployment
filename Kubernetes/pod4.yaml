@@ -5,7 +5,6 @@
 # Description: This pod is used to run Python scripts for AI.
 # Usage: kubectl apply -f pod4.yaml
 ---
-# Python Deployment
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -38,7 +37,6 @@ spec:
       imagePullSecrets:
         - name: gitlab-registry
 ---
-# Python Service
 apiVersion: v1
 kind: Service
 metadata:

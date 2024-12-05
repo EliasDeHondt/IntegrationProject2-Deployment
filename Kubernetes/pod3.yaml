@@ -59,6 +59,9 @@ spec:
               mountPath: /secrets/
               readOnly: true
           resources:
+            limits:
+              memory: "4Gi"
+              cpu: "2"
             requests:
               memory: "2Gi"
               cpu: "1"
@@ -78,7 +81,7 @@ spec:
     app: spring-backend
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: 8081
+      port: 80 # External port
+      targetPort: 8081 # Internal port in the container
   type: ClusterIP
 ---
