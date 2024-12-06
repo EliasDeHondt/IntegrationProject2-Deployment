@@ -26,9 +26,9 @@ spec:
           image: quay.io/keycloak/keycloak:26.0.5
           args: ["start-dev"]
           env:
-            - name: KEYCLOAK_ADMIN
+            - name: KC_BOOTSTRAP_ADMIN_USERNAME
               value: "admin"
-            - name: KEYCLOAK_ADMIN_PASSWORD
+            - name: KC_BOOTSTRAP_ADMIN_PASSWORD
               value: "admin"
             - name: KC_PROXY
               value: "edge"
@@ -65,7 +65,7 @@ spec:
             - "--auto-iam-authn"
             - "--structured-logs"
             - "--port=3306"
-            - "projectId:us-central1-c:cloud-sql-instance" # ProjectId changed by the end user when following the manual
+            - ":us-central1-c:cloud-sql-instance" # ProjectId changed by the end user when following the manual
           securityContext:
             runAsNonRoot: true
           volumeMounts:
