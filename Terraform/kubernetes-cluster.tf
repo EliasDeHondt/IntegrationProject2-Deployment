@@ -33,19 +33,19 @@ resource "google_compute_network" "vpc-network" {
 }
 
 resource "google_compute_global_address" "google_managed_services" {
-    name          = "google-managed-services"
-    purpose       = "VPC_PEERING"
-    address_type  = "INTERNAL"
-    addresses     = 192.168.0.0 
-    prefix-length = 16 
-    network       = google_compute_network.vpc-network.name
-    description   = "IP range for the Database"
+    name = "google-managed-services"
+    purpose = "VPC_PEERING"
+    address_type = "INTERNAL"
+    address = "192.168.0.0"
+    prefix_length = 16
+    network = google_compute_network.vpc-network.name
+    description = "IP range for the Database"
 }
 
 resource "google_service_networking_connection" "vpc_peering" {
-  network                 = google_compute_network.vpc-network.name
-  service                 = "servicenetworking.googleapis.com"
-  reserved_peering_ranges = google_compute_global_address.google_managed_services.name
+    network = google_compute_network.vpc-network.name
+    service = "servicenetworking.googleapis.com"
+    reserved_peering_ranges = google_compute_global_address.google_managed_services.name
 }
 
 resource "google_compute_subnetwork" "subnetwork" {

@@ -51,4 +51,3 @@ spec:
       targetPort: 5000 # Internal port in the container
   type: ClusterIP
 ---
-
