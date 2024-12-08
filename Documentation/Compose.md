@@ -39,7 +39,6 @@ docker compose version
    - [compose-app.yaml](/Compose/compose-app.yaml) -> frontend, backend, database, keycloak
    - [compose-elk.yaml](/Compose/compose-elk.yaml) -> frontend, backend, database, keycloak, elk
    - [compose-ai.yaml](/Compose/compose-ai.yaml) -> frontend, backend, database, keycloak, ai
-   - [compose-full.yaml](/Compose/compose-full.yaml) -> frontend, backend, database, keycloak, elk, ai
 
 ### 👉Step 3: Start the desired services
 
