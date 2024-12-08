@@ -19,3 +19,11 @@ provider "google" {
     region = var.datacenter.region
     zone = var.datacenter.zone
 }
+
+provider "google-beta" {
+    credentials = file(var.credentials_file)
+
+    project = var.projectid
+    region = var.datacenter.region
+    zone = var.datacenter.zone
+}
