@@ -15,14 +15,14 @@
 
 ### 📦Environment
 
-- Clone the repository:
+- Clone the repository.
 ```bash
 cd /home/$USER
 git clone https://github.com/EliasDeHondt/IntegrationProject2-Deployment.git
 cd IntegrationProject2-Deployment
 ```
 
-- Authenticate with Google Cloud
+- Authenticate with Google Cloud.
 ```bash
 gcloud init
 # The first question, select one to use your primary settings.
@@ -31,7 +31,7 @@ gcloud init
 # The fourth question you can simply ignore and press Ctrl+C (It's also possible that you will not have this question)
 ```
 
-- Enable the necessary APIs
+- Enable the necessary APIs.
 ```bash
 sudo chmod +x Scripts/enable-google-apis.sh
 Scripts/enable-google-apis.sh
@@ -39,14 +39,14 @@ Scripts/enable-google-apis.sh
 
 ### 🔨Terraform
 
-- Navigate to the Terraform directory
+- Navigate to the Terraform directory.
 ```bash
 cd Terraform
 ```
 
-- Create a new service account and download the credentials file
+- Create a new service account and download the credentials file.
 ```bash
-export PROJECT_ID="integrationproject2-project11" # Change this to your project ID
+export PROJECT_ID="integrationproject2" # Change this to your project ID
 
 gcloud iam service-accounts create service-account-tf \
     --display-name="Service Account" \
@@ -60,7 +60,7 @@ gcloud iam service-accounts keys create credentials.json \
     --iam-account=service-account-tf@$PROJECT_ID.iam.gserviceaccount.com
 ```
 
-- Install Terraform and initialize Terraform
+- Install Terraform and initialize Terraform.
 ```bash
 wget -O - https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
 echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
@@ -78,12 +78,12 @@ terraform apply # Apply the changes
 
 > **Note:** At times, Terraform may not fully recognize that various APIs in a configuration are enabled, and it may proceed without allowing sufficient time for an API to be completely activated before accessing Google Cloud resources. If the initial attempt fails, a simple retry often resolves the issue.
 
-- Get the credentials for the Kubernetes cluster
+- Get the credentials for the Kubernetes cluster.
 ```bash
 gcloud container clusters get-credentials cluster-1 --region=us-central1-c
 ```
 
-- Test the connection to the internet **(Optional)**
+- Test the connection to the internet. **(Optional)**
 ```bash
 kubectl run test-pod --image=busybox --restart=Never -- sh -c "wget -qO- https://eliasdh.com"
 kubectl logs test-pod
@@ -92,31 +92,31 @@ kubectl delete pod test-pod
 
 ### 🌌Kubernetes Cluster
 
-- Change the deafult project id to the project id you previously typed in
+- Change the deafult project id to the project id you previously typed in.
 ```bash
 cd ../Kubernetes
 sed -i "s/projectId/$PROJECT_ID/g" pod2.yaml pod3.yaml
 ```
 
-- Change the deafult team number to the correct number (change 0 to your team number!)
+- Change the deafult team number to the correct number (change 0 to your team number!).
 ```bash
 find . -type f -exec sed -i 's/teamX/team0/g' {} +
 ```
 
-- Get your GitLab `read_registry` personal access token
-  - Go to [GitLab](https://gitlab.com/-/user_settings/personal_access_tokens?name=Read+Registry+token&scopes=read_registry)
-  - Change the expiration date to `2025-01-26`
-  - Create personal access token
-  - Save and copy the token (this personal access token will only be shown once)
+- Get your GitLab `read_registry` personal access token.
+  - Go to [GitLab](https://gitlab.com/-/user_settings/personal_access_tokens?name=Read+Registry+token&scopes=read_registry).
+  - Change the expiration date to `2025-01-26`.
+  - Create personal access token.
+  - Save and copy the token (this personal access token will only be shown once).
 
 > **Note:** This should only be done once per user, if the expiration date is set correctly.
 
-- Create Kubernetes Secret to pull GitLab registry images (change everything between <> !) 
+- Create Kubernetes Secret to pull GitLab registry images (change everything between <> !).
 ```bash
 kubectl create secret docker-registry gitlab-registry --docker-server=registry.gitlab.com --docker-username=<your-gitlab-username> --docker-password=<your-personal-access-token> --docker-email=<your-kdg-email>
 ```
 
-- Create Kubernetes Secret to use the Cloud SQL Auth Proxy 
+- Create Kubernetes Secret to use the Cloud SQL Auth Proxy.
 ```bash
 kubectl create secret generic sql-auth-proxy --from-file=service_account.json=../Terraform/credentials.json
 ```
@@ -128,7 +128,7 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main
 kubectl apply -f . # Apply all the Kubernetes files in the current directory
 ```
 
-- If you need the **ELK Stack** you can apply the following commands:
+- If you need the **ELK Stack** you can apply the following commands.
 ```bash
 helm install filebeat https://raw.githubusercontent.com/EliasDeHondt/elk-filebeat/refs/heads/main/package/filebeat-7.15.0.tgz
 helm install logstash https://raw.githubusercontent.com/EliasDeHondt/elk-filebeat/refs/heads/main/package/logstash-7.15.0.tgz
