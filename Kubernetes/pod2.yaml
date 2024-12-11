@@ -32,6 +32,8 @@ spec:
               value: "admin"
             - name: KC_PROXY
               value: "edge"
+            - name: DB_NAME
+              value: "postgresql"
             - name: DB_USER
               valueFrom:
                 secretKeyRef:

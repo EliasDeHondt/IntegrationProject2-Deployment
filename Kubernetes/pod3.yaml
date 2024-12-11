@@ -27,6 +27,8 @@ spec:
           ports:
             - containerPort: 8081
           env:
+            - name: DB_NAME
+              value: "database-postgresql"
             - name: DB_USER
               valueFrom:
                 secretKeyRef:
@@ -37,6 +39,8 @@ spec:
                 secretKeyRef:
                   name: db-credentials
                   key: password
+            - name: AI_URL
+              value: "http://python-runtime-service:5000"
           resources:
             limits:
               memory: "512Mi"
@@ -51,7 +55,7 @@ spec:
             - "--auto-iam-authn"
             - "--structured-logs"
             - "--port=3306"
-            - "projectId:us-central1-c:cloud-sql-instance" # ProjectId changed by the end user when following the manual
+            - " projectId:us-central1-c:cloud-sql-instance" # ProjectId changed by the end user when following the manual
           securityContext:
             runAsNonRoot: true
           volumeMounts:
