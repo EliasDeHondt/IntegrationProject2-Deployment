@@ -25,6 +25,9 @@ spec:
       containers:
         - name: python-container
           image: registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/teamX/python-ai:latest # Team number changed by the end user when following the manual
+          env:
+            - name: BACKEND_URL
+              value: "GOOGLE_SERVICE_ACCOUNT_CRED_B64" # For team 20, this is the base64 encoded service account key.
           resources:
             limits:
               memory: "4Gi"

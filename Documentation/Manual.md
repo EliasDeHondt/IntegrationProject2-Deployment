@@ -98,22 +98,32 @@ cd ../Kubernetes
 sed -i "s/projectId/$PROJECT_ID/g" pod2.yaml pod3.yaml
 ```
 
+- If you have followed the [Deployment-Agreement](/Documentation/Deployment-Agreement.md) to the letter, you can skip this section. However, since that's likely not the case, this part will guide you on where to update the `podX.yaml` files to configure the environment variables (env) specific to your application.
+    - [POD1 Frontend](/Kubernetes/pod1.yaml): Update on line 29.
+    - [POD2 Keycloak](/Kubernetes/pod2.yaml): Update on line 28.
+    - [POD3 Backend](/Kubernetes/pod3.yaml): Update on line 29.
+    - [POD4 Python](/Kubernetes/pod3.yaml): Update on line 28.
+
 - Change the deafult team number to the correct number (change 0 to your team number!).
 ```bash
 find . -type f -exec sed -i 's/teamX/team0/g' {} +
 ```
 
 - Get your GitLab `read_registry` personal access token.
-  - Go to [GitLab](https://gitlab.com/-/user_settings/personal_access_tokens?name=Read+Registry+token&scopes=read_registry).
-  - Change the expiration date to `2025-01-26`.
-  - Create personal access token.
-  - Save and copy the token (this personal access token will only be shown once).
+    - Go to [GitLab](https://gitlab.com/-/user_settings/personal_access_tokens?name=Read+Registry+token&scopes=read_registry).
+    - Change the expiration date to `2025-01-26`.
+    - Create personal access token.
+    - Save and copy the token (this personal access token will only be shown once).
 
 > **Note:** This should only be done once per user, if the expiration date is set correctly.
 
 - Create Kubernetes Secret to pull GitLab registry images (change everything between <> !).
 ```bash
-kubectl create secret docker-registry gitlab-registry --docker-server=registry.gitlab.com --docker-username=<your-gitlab-username> --docker-password=<your-personal-access-token> --docker-email=<your-kdg-email>
+kubectl create secret docker-registry gitlab-registry \
+    --docker-server=registry.gitlab.com \
+    --docker-username=<your-gitlab-username> \
+    --docker-password=<your-personal-access-token> \
+    --docker-email=<your-kdg-email>
 ```
 
 - Create Kubernetes Secret to use the Cloud SQL Auth Proxy.
