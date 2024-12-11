@@ -30,11 +30,11 @@ spec:
               value: "GOOGLE_SERVICE_ACCOUNT_CRED_B64" # For team 20, this is the base64 encoded service account key.
           resources:
             limits:
+              memory: "8Gi"
+              cpu: "4"
+            requests:
               memory: "4Gi"
               cpu: "2"
-            requests:
-              memory: "2Gi"
-              cpu: "1"
           ports:
             - containerPort: 5000
       imagePullSecrets:
