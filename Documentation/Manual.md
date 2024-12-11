@@ -104,9 +104,18 @@ sed -i "s/projectId/$PROJECT_ID/g" pod2.yaml pod3.yaml
     - [POD3 Backend](/Kubernetes/pod3.yaml): Update on line 29.
     - [POD4 Python](/Kubernetes/pod3.yaml): Update on line 28.
 
-- Change the deafult team number to the correct number (change 0 to your team number!).
+- Fill in your image paths, copy these from your GitLab Container Registry
 ```bash
-find . -type f -exec sed -i 's/teamX/team0/g' {} +
+export FRONTEND_IMAGE="registry.gitlab.com/..." # Change this to your frontend image path
+export BACKEND_IMAGE="registry.gitlab.com/..." # Change this to your backend image path
+export AI_IMAGE="registry.gitlab.com/..." # Change this to your ai image path
+```
+
+- Change the default image path to your path so all images can be pulled correctly
+```bash
+sed -i "s/registry.gitlab.com/$FRONTEND_IMAGE/g" pod1.yaml
+sed -i "s/registry.gitlab.com/$BACKEND_IMAGE/g" pod3.yaml
+sed -i "s/registry.gitlab.com/$AI_IMAGE/g" pod4.yaml
 ```
 
 - Get your GitLab `read_registry` personal access token.
