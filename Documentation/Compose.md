@@ -40,28 +40,35 @@ docker compose version
    - [compose-elk.yaml](/Compose/compose-elk.yaml) -> frontend, backend, database, keycloak, elk
    - [compose-ai.yaml](/Compose/compose-ai.yaml) -> frontend, backend, database, keycloak, ai
 
-### 👉Step 3: Start the desired services
+### 👉Step 3: Authenticate with your container registry
+
+```bash
+docker login registry.gitlab.com
+```
+- Log in with your GitLab account (or with a personal access token)
+
+### 👉Step 4: Start the desired services
 
 ```bash
 docker compose -f <bestandsnaam> pull 
 docker compose -f <bestandsnaam> up -d # Example: docker compose -f compose-full.yml up -d
 ```
 
-### 👉Step 4: Check the status of containers
+### 👉Step 5: Check the status of containers
 
 ```bash
 docker ps
 docker compose -f <bestandsnaam> logs -f # Example: docker compose -f compose-full.yml logs
 ```
 
-### 👉Step 5: Stopping services
+### 👉Step 6: Stopping services
 
 - To stop all containers:
 ```bash
 docker compose -f <bestandsnaam> down # Example: docker compose -f compose-full.yml down
 ```
 
-### 👉Step 6: Erase data
+### 👉Step 7: Erase data
 
 - Erase specific data volumes using the following commands:
 ```bash
