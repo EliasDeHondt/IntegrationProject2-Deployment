@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
         - name: spring-backend
-          image: registry.gitlab.com # Image path changed by the end user when following the manual
+          image: "registry.gitlab.com" # Image path changed by the end user when following the manual
           ports:
             - containerPort: 8081
           env:

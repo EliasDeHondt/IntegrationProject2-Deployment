@@ -23,12 +23,18 @@ spec:
     spec:
       containers:
         - name: react-frontend
-          image: registry.gitlab.com # Image path changed by the end user when following the manual
+          image: "registry.gitlab.com" # Image path changed by the end user when following the manual
           ports:
             - containerPort: 3000
           env:
             - name: BACKEND_URL
               value: "http://spring-backend-service:80"
+            - name: KEYCLOAK_URL
+              value: "http://keycloak-iam-service:80"
+            - name: KYCLOAK_REALM
+              value: "realm"
+            - name: KEYCLOAK_CLIENT_ID
+              value: "123"
           resources:
             limits:
               memory: "512Mi"
