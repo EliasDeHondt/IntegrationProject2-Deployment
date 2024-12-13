@@ -31,7 +31,7 @@ spec:
               value: "http://spring-backend-service:80"
             - name: KEYCLOAK_URL
               value: "http://keycloak-iam-service:80"
-            - name: KYCLOAK_REALM
+            - name: KEYCLOAK_REALM
               value: "realm"
             - name: KEYCLOAK_CLIENT_ID
               value: "123"
