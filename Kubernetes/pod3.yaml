@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
         - name: spring-backend
-          image: registry.gitlab.com # Image path changed by the end user when following the manual
+          image: "registry.gitlab.com" # Image path changed by the end user when following the manual
           imagePullPolicy: Always
           ports:
             - containerPort: 8081
@@ -55,8 +55,8 @@ spec:
             - "--private-ip"
             - "--auto-iam-authn"
             - "--structured-logs"
-            - "--port=3306"
-            - " projectId:us-central1-c:cloud-sql-instance" # ProjectId changed by the end user when following the manual
+            - "--port=5432"
+            - "projectId:us-central1:cloud-sql-instance" # ProjectId changed by the end user when following the manual
           securityContext:
             runAsNonRoot: true
           volumeMounts:

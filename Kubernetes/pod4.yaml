@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
         - name: python-container
-          image: registry.gitlab.com # Image path changed by the end user when following the manual
+          image: "registry.gitlab.com" # Image path changed by the end user when following the manual
           imagePullPolicy: Always
           env:
             - name: GOOGLE_SERVICE_ACCOUNT_CRED_B64
