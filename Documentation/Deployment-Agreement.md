@@ -122,7 +122,7 @@
 - **Sprint 3:**
     - **Dev → DevOps:**  
         - Final images: **01/01/2025**
-    - **DevOps → DevOps:**
+    - **DevOps → Dev:**
         - Final deployment files: **03/01/2025**
 
 ## 👌Points of Contact

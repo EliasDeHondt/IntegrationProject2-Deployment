@@ -4,23 +4,73 @@
 ## 📘Table of Contents
 
 1. [📘Table of Contents](#📘table-of-contents)
-2. [📡Setup infrastructure](#📡setup-infrastructure)
-    1. [📦Environment](#📦environment)
-    2. [🔨Terraform](#🔨terraform)
-    3. [🌌Kubernetes Cluster](#🌌kubernetes-cluster)
+2. [🌍Install Terraform](#🌍install-terraform)
+3. [☁️Install GCloud CLI](#☁️install-gcloud-cli)
+4. [📦Environment](#📦environment)
+5. [📡Setup infrastructure](#📡setup-infrastructure)
+    1. [🔨Terraform](#🔨terraform)
+    2. [🌌Kubernetes Cluster](#🌌kubernetes-cluster)
+6. [💣Tear down infrastructure](#💣tear-down-infrastructure)
 
 ---
 
-## 📡Setup infrastructure
+## 🌍Install Terraform
 
-### 📦Environment
-
-- Clone the repository.
+- Install the necessary packages.
 ```bash
-cd /home/$USER
-git clone https://github.com/EliasDeHondt/IntegrationProject2-Deployment.git
-cd IntegrationProject2-Deployment
+wget -O - https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
 ```
+
+- Add the HashiCorp repository.
+```bash
+echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+```
+
+- Update the package list and install Terraform.
+```bash
+sudo apt-get update -y && sudo apt-get upgrade -y && sudo apt-get install terraform -y
+```
+
+- Verify the installation.
+```bash
+terraform init
+```
+
+## ☁️Install GCloud CLI
+
+- Update and upgrade system.
+```bash
+sudo apt-get update -y && sudo apt-get upgrade -y
+```
+
+- Install tools
+```bash
+sudo apt-get install apt-transport-https ca-certificates gnupg curl sudo -y
+```
+
+- Download google cloud CLI
+```bash
+curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg
+curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
+curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+```
+
+- Add the gcloud CLI distribution URI as a package source
+```bash
+echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+```
+
+- Update and install the gcloud CLI
+```bash
+sudo apt-get update && sudo apt-get install google-cloud-cli
+```
+
+- Test
+```bash
+gcloud version
+```
+
+## 📦Environment
 
 - Authenticate with Google Cloud.
 ```bash
@@ -31,13 +81,20 @@ gcloud init
 # The fourth question you can simply ignore and press Ctrl+C (It's also possible that you will not have this question)
 ```
 
-- Enable the necessary APIs.
+- Clone the repository.
 ```bash
-sudo chmod +x Scripts/enable-google-apis.sh
-Scripts/enable-google-apis.sh
+git clone https://github.com/EliasDeHondt/IntegrationProject2-Deployment.git /home/$USER/IntegrationProject2-Deployment
+cd /home/$USER/IntegrationProject2-Deployment
 ```
 
+## 📡Setup infrastructure
+
 ### 🔨Terraform
+
+- Enable the necessary APIs.
+```bash
+sudo chmod +x Scripts/enable-google-apis.sh && Scripts/enable-google-apis.sh
+```
 
 - Navigate to the Terraform directory.
 ```bash
@@ -60,23 +117,10 @@ gcloud iam service-accounts keys create credentials.json \
     --iam-account=service-account-tf@$PROJECT_ID.iam.gserviceaccount.com
 ```
 
-- Install Terraform and initialize Terraform.
+- Apply the Terraform configuration to create the Kubernetes cluster and the necessary resources.
 ```bash
-wget -O - https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
-echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
-sudo apt-get update -y && sudo apt-get upgrade -y && sudo apt-get install terraform -y
-
-terraform init
+terraform apply
 ```
-
-- You can now `validate` the configuration. Then `plan` the configuration and then `apply` it.
-```bash
-terraform validate # Validate the configuration
-terraform plan # Create an execution plan
-terraform apply # Apply the changes
-```
-
-> **Note:** At times, Terraform may not fully recognize that various APIs in a configuration are enabled, and it may proceed without allowing sufficient time for an API to be completely activated before accessing Google Cloud resources. If the initial attempt fails, a simple retry often resolves the issue.
 
 - Get the credentials for the Kubernetes cluster.
 ```bash
@@ -104,18 +148,23 @@ sed -i "s/projectId/$PROJECT_ID/g" pod2.yaml pod3.yaml
     - [POD3 Backend](/Kubernetes/pod3.yaml): Update on line 29.
     - [POD4 Python](/Kubernetes/pod3.yaml): Update on line 28.
 
-- Fill in your image paths, copy these from your GitLab Container Registry
+- If you're using a service account key, you can add the key to the `sql-auth-proxy` secret. This is necessary to connect to the Cloud SQL database.
+```bash
+kubectl create secret generic sql-auth-proxy --from-file=service_account.json=../Terraform/credentials.json
+```
+
+- Fill in your image paths, copy these from your GitLab Container Registry.
 ```bash
 export FRONTEND_IMAGE="registry.gitlab.com/..." # Change this to your frontend image path
 export BACKEND_IMAGE="registry.gitlab.com/..." # Change this to your backend image path
 export AI_IMAGE="registry.gitlab.com/..." # Change this to your ai image path
 ```
 
-- Change the default image path to your path so all images can be pulled correctly
+- Change the default image path to your path so all images can be pulled correctly.
 ```bash
-sed -i "s/registry.gitlab.com/$FRONTEND_IMAGE/g" pod1.yaml
-sed -i "s/registry.gitlab.com/$BACKEND_IMAGE/g" pod3.yaml
-sed -i "s/registry.gitlab.com/$AI_IMAGE/g" pod4.yaml
+sed -i "s|registry.gitlab.com|$FRONTEND_IMAGE|g" pod1.yaml
+sed -i "s|registry.gitlab.com|$BACKEND_IMAGE|g" pod3.yaml
+sed -i "s|registry.gitlab.com|$AI_IMAGE|g" pod4.yaml
 ```
 
 - Get your GitLab `read_registry` personal access token.
@@ -156,3 +205,37 @@ helm install kibana https://raw.githubusercontent.com/EliasDeHondt/elk-filebeat/
 ```
 
 > **Note:** The ELK Stack is located in a different [repository](https://github.com/EliasDeHondt/elk-filebeat) give it a ⭐ if you like it!
+
+## 💣Tear down infrastructure
+
+> **Note:** If you wanna start over, you can simply delete the entire project. Otherwise below you can find some useful deletion commands.
+
+- The following command deletes all files from Terraform that were created when applying the configuration.
+```bash
+rm -rf terraform.tfstate .terraform.lock.hcl .terraform.tfstate.backup .terraform/
+```
+
+- Remove the credentials file.
+```bash
+rm -rf credentials.json
+```
+
+- Destroy the entire terraform configuration.
+```bash
+terraform destroy
+```
+
+- Remove the service account.
+```bash
+gcloud iam service-accounts delete service-account-tf@$PROJECT_ID.iam.gserviceaccount.com
+```
+
+- Delete the Kubernetes cluster.
+```bash
+gcloud container clusters delete cluster-1 --region=us-central1-c
+```
+
+- Remove the Kubernetes `podX.yaml` files.
+```bash
+kubectl delete -f .
+```

@@ -24,6 +24,7 @@ spec:
       containers:
         - name: react-frontend
           image: registry.gitlab.com # Image path changed by the end user when following the manual
+          imagePullPolicy: Always
           ports:
             - containerPort: 3000
           env:

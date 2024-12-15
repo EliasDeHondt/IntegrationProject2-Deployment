@@ -24,6 +24,7 @@ spec:
       containers:
         - name: spring-backend
           image: registry.gitlab.com # Image path changed by the end user when following the manual
+          imagePullPolicy: Always
           ports:
             - containerPort: 8081
           env:
@@ -42,12 +43,12 @@ spec:
             - name: AI_URL
               value: "http://python-runtime-service:5000"
           resources:
-            limits:
-              memory: "512Mi"
-              cpu: "500m"
-            requests:
-              memory: "256Mi"
-              cpu: "250m"
+          limits:
+              memory: "4Gi"
+              cpu: "2"
+          requests:
+              memory: "2Gi"
+              cpu: "1"
         - name: cloud-sql-proxy
           image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.14.1
           args:
@@ -64,11 +65,11 @@ spec:
               readOnly: true
           resources:
             limits:
-              memory: "4Gi"
-              cpu: "2"
+              memory: "1Gi"
+              cpu: "500m"
             requests:
-              memory: "2Gi"
-              cpu: "1"
+              memory: "512Mi"
+              cpu: "250m"
       imagePullSecrets:
         - name: gitlab-registry
       volumes:
