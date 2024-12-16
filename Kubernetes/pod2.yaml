@@ -32,8 +32,14 @@ spec:
               value: "admin"
             - name: KC_PROXY
               value: "edge"
-            - name: DB_NAME
-              value: "database-postgresql"
+            - name: KC_DB
+              value: "postgres"
+            - name: KC_DB_URL_HOST
+              value: "localhost"
+            - name: KC_DB_URL_PORT
+              value: "5432"
+            - name: KC_DB_NAME
+              value: "keycloak"
             - name: KEYCLOAK_ADMIN
               valueFrom:
                 secretKeyRef:
@@ -44,12 +50,12 @@ spec:
                 secretKeyRef:
                   name: keycloak-credentials
                   key: password
-            - name: DB_USER
+            - name: KC_DB_USERNAME
               valueFrom:
                 secretKeyRef:
                   name: db-credentials
                   key: username
-            - name: DB_PASS
+            - name: KC_DB_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: db-credentials
