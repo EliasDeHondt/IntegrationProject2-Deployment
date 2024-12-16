@@ -184,11 +184,6 @@ kubectl create secret docker-registry gitlab-registry \
     --docker-email=<your-kdg-email>
 ```
 
-- Create Kubernetes Secret to use the Cloud SQL Auth Proxy. **(Optional)**
-```bash
-kubectl create secret generic sql-auth-proxy --from-file=service_account.json=../Terraform/credentials.json
-```
-
 - If you want to use the **Ingress** service, you can apply the following commands.
 ```bash
 # Install cert-manager and ingress-nginx
