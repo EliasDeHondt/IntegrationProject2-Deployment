@@ -6,7 +6,7 @@
 # Usage:
 #         kubectl apply -f https://github.com/cert-manager/cert-manager/releases/latest/download/cert-manager.yaml
 #         kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
-#         kubectl apply -f ingress.yaml
+#         kubectl apply -f ingress-single-domain.yaml
 #         kubectl get ingress
 ---
 apiVersion: cert-manager.io/v1
@@ -32,61 +32,43 @@ metadata:
     cert-manager.io/cluster-issuer: letsencrypt-prod
     nginx.ingress.kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
-    nginx.ingress.kubernetes.io/ssl-redirect: "false" # Redirect HTTP to HTTPS
+    nginx.ingress.kubernetes.io/ssl-redirect: "true" # Redirect HTTP to HTTPS
 spec:
   ingressClassName: nginx
   tls:
     - hosts:
-      - status.kdg-ip2.eliasdh.com
-      secretName: grafana-tls
-    - hosts:
-      - keycloak.kdg-ip2.eliasdh.com
-      secretName: keycloak-iam-tls
-    - hosts:
-      - www.kdg-ip2.eliasdh.com
-      secretName: react-frontend-tls
-    - hosts:
-      - api.kdg-ip2.eliasdh.com
-      secretName: spring-backend-tls
+        - teamx.kdg.eliasdh.com
+      secretName: teamx-tls
   rules:
-    - host: status.kdg-ip2.eliasdh.com
+    - host: teamx.kdg.eliasdh.com
       http:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: react-frontend-service
+            port:
+              number: 80
+      - path: /api
+        pathType: Prefix
+        backend:
+          service:
+            name: spring-backend-service
+            port:
+              number: 80
         paths:
-          - path: /
+          - path: /status
             pathType: Prefix
             backend:
               service:
                 name: monitoring-service
                 port:
                   number: 80
-    - host: keycloak.kdg-ip2.eliasdh.com
-      http:
-        paths:
-          - path: /
+          - path: /keycloak
             pathType: Prefix
             backend:
               service:
                 name: keycloak-iam-service
-                port:
-                  number: 80
-    - host: www.kdg-ip2.eliasdh.com
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: react-frontend-service
-                port:
-                  number: 80
-    - host: api.kdg-ip2.eliasdh.com
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: spring-backend-service
                 port:
                   number: 80
 ---

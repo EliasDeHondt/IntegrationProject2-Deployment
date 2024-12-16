@@ -122,6 +122,8 @@ gcloud iam service-accounts keys create credentials.json \
 terraform apply
 ```
 
+### 🌌Kubernetes Cluster
+
 - Get the credentials for the Kubernetes cluster.
 ```bash
 gcloud container clusters get-credentials cluster-1 --region=us-central1-c
@@ -133,8 +135,6 @@ kubectl run test-pod --image=busybox --restart=Never -- sh -c "wget -qO- https:/
 kubectl logs test-pod
 kubectl delete pod test-pod
 ```
-
-### 🌌Kubernetes Cluster
 
 - Change the deafult project id to the project id you previously typed in.
 ```bash
@@ -184,16 +184,34 @@ kubectl create secret docker-registry gitlab-registry \
     --docker-email=<your-kdg-email>
 ```
 
-- Create Kubernetes Secret to use the Cloud SQL Auth Proxy.
+- Create Kubernetes Secret to use the Cloud SQL Auth Proxy. **(Optional)**
 ```bash
 kubectl create secret generic sql-auth-proxy --from-file=service_account.json=../Terraform/credentials.json
 ```
 
-- Apply the different services.
+- If you want to use the **Ingress** service, you can apply the following commands.
 ```bash
+# Install cert-manager and ingress-nginx
 kubectl apply -f https://github.com/cert-manager/cert-manager/releases/latest/download/cert-manager.yaml
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
-kubectl apply -f . # Apply all the Kubernetes files in the current directory
+
+# If you want to use multiple A records in your DNS
+kubectl apply -f ingress-multi-domain.yaml
+
+# If you want to use a single A record in your DNS
+export TEAMID="team0" # Change this to your team ID
+sed -i "s|teamx|$TEAMID|g" ingress-single-fqdn.yaml
+kubectl apply -f ingress-single-fqdn.yaml
+```
+
+- Apply the different services.
+```bash
+kubectl apply -f credentials.yaml
+kubectl apply -f pod1.yaml
+kubectl apply -f pod2.yaml
+kubectl apply -f pod3.yaml
+kubectl apply -f pod4.yaml
+kubectl apply -f pod5.yaml
 ```
 
 - If you need the **ELK Stack** you can apply the following commands.
