@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
         - name: react-frontend
-          image: "registry.gitlab.com" # Image path changed by the end user when following the manual
+          image: registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team20/frontend/react-frontend # Image path changed by the end user when following the manual
           imagePullPolicy: Always
           ports:
             - containerPort: 3000
@@ -33,9 +33,15 @@ spec:
             - name: KEYCLOAK_URL
               value: "http://keycloak-iam-service:80"
             - name: KEYCLOAK_REALM
-              value: "realm"
+              value: "catan"
             - name: KEYCLOAK_CLIENT_ID
-              value: "123"
+              value: "catan_client"
+            - name: VITE_KC_URL
+              value: "http://keycloak-iam-service:80"
+            - name: VITE_KC_REALM
+              value: "catan"
+            - name: VITE_KC_CLIENT_ID
+              value: "catan_client"
           resources:
             limits:
               memory: "512Mi"

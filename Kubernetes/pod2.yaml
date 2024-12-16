@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
         - name: keycloak-iam
-          image: quay.io/keycloak/keycloak:26.0.5
+          image: quay.io/keycloak/keycloak:25.0
           args: ["start-dev"]
           env:
             - name: KC_BOOTSTRAP_ADMIN_USERNAME
@@ -32,18 +32,6 @@ spec:
               value: "admin"
             - name: KC_PROXY
               value: "edge"
-            - name: DB_NAME
-              value: "database-postgresql"
-            - name: DB_USER
-              valueFrom:
-                secretKeyRef:
-                  name: db-credentials
-                  key: username
-            - name: DB_PASS
-              valueFrom:
-                secretKeyRef:
-                  name: db-credentials
-                  key: password
           resources:
             limits:
               memory: "512Mi"
@@ -67,7 +55,7 @@ spec:
             - "--auto-iam-authn"
             - "--structured-logs"
             - "--port=5432"
-            - "projectId:us-central1:cloud-sql-instance" # ProjectId changed by the end user when following the manual
+            - "ip2-devops4-team20:us-central1:cloud-sql-instance" # ProjectId changed by the end user when following the manual
           securityContext:
             runAsNonRoot: true
           volumeMounts:
