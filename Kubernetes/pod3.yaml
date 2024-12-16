@@ -42,6 +42,8 @@ spec:
                   key: password
             - name: AI_URL
               value: "http://python-runtime-service:5000"
+            - name: DB_URL
+              value: "jdbc:postgresql://localhost:5432/database-postgresql"
           resources:
           limits:
               memory: "4Gi"
