@@ -34,6 +34,16 @@ spec:
               value: "edge"
             - name: DB_NAME
               value: "database-postgresql"
+            - name: KEYCLOAK_ADMIN
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-credentials
+                  key: username
+            - name: KEYCLOAK_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-credentials
+                  key: password
             - name: DB_USER
               valueFrom:
                 secretKeyRef:
