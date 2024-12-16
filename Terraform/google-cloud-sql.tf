@@ -17,8 +17,13 @@ resource "google_sql_database_instance" "cloud-sql-instance" {
         }
 }
 
-resource "google_sql_database" "database-postgresql" {
+resource "google_sql_database" "database-postgresql" { # Database for application
     name = "database-postgresql"
+    instance = google_sql_database_instance.cloud-sql-instance.name
+}
+
+resource "google_sql_database" "keycloak" { # Database for Keycloak
+    name = "keycloak"
     instance = google_sql_database_instance.cloud-sql-instance.name
 }
 

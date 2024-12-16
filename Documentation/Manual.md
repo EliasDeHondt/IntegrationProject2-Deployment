@@ -121,6 +121,8 @@ gcloud iam service-accounts keys create credentials.json \
 ```bash
 terraform init
 terraform apply
+# terraform validate
+# terraform plan
 ```
 
 ### 🌌Kubernetes Cluster

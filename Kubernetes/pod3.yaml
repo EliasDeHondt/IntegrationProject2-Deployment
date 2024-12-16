@@ -45,12 +45,12 @@ spec:
             - name: DB_URL
               value: "jdbc:postgresql://localhost:5432/database-postgresql"
           resources:
-          limits:
-              memory: "4Gi"
-              cpu: "2"
-          requests:
-              memory: "2Gi"
-              cpu: "1"
+            limits:
+                memory: "4Gi"
+                cpu: "2"
+            requests:
+                memory: "2Gi"
+                cpu: "1"
         - name: cloud-sql-proxy
           image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.14.1
           args:
