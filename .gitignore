@@ -6,3 +6,4 @@ Terraform/.terraform.lock.hcl
 Terraform/.terraform
 .vs
 Compose/compose-full.yaml
+Kubernetes/credentials.yaml

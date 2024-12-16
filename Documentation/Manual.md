@@ -119,8 +119,11 @@ gcloud iam service-accounts keys create credentials.json \
 
 - Apply the Terraform configuration to create the Kubernetes cluster and the necessary resources.
 ```bash
+terraform init
 terraform apply
 ```
+
+### 🌌Kubernetes Cluster
 
 - Get the credentials for the Kubernetes cluster.
 ```bash
@@ -134,8 +137,6 @@ kubectl logs test-pod
 kubectl delete pod test-pod
 ```
 
-### 🌌Kubernetes Cluster
-
 - Change the deafult project id to the project id you previously typed in.
 ```bash
 cd ../Kubernetes
@@ -143,10 +144,10 @@ sed -i "s/projectId/$PROJECT_ID/g" pod2.yaml pod3.yaml
 ```
 
 - If you have followed the [Deployment-Agreement](/Documentation/Deployment-Agreement.md) to the letter, you can skip this section. However, since that's likely not the case, this part will guide you on where to update the `podX.yaml` files to configure the environment variables (env) specific to your application.
-    - [POD1 Frontend](/Kubernetes/pod1.yaml): Update on line 29.
+    - [POD1 Frontend](/Kubernetes/pod1.yaml): Update on line 30.
     - [POD2 Keycloak](/Kubernetes/pod2.yaml): Update on line 28.
-    - [POD3 Backend](/Kubernetes/pod3.yaml): Update on line 29.
-    - [POD4 Python](/Kubernetes/pod3.yaml): Update on line 28.
+    - [POD3 Backend](/Kubernetes/pod3.yaml): Update on line 30.
+    - [POD4 Python](/Kubernetes/pod4.yaml): Update on line 29.
 
 - If you're using a service account key, you can add the key to the `sql-auth-proxy` secret. This is necessary to connect to the Cloud SQL database.
 ```bash
@@ -184,16 +185,32 @@ kubectl create secret docker-registry gitlab-registry \
     --docker-email=<your-kdg-email>
 ```
 
-- Create Kubernetes Secret to use the Cloud SQL Auth Proxy.
+- If you want to use the **Ingress** service, you can apply the following commands.
 ```bash
-kubectl create secret generic sql-auth-proxy --from-file=service_account.json=../Terraform/credentials.json
+# Install cert-manager and ingress-nginx
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/latest/download/cert-manager.yaml
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
+
+# Set the team ID
+export TEAMID="team0" # Change this to your team ID
+
+# If you want to use multiple A records in your DNS
+sed -i "s|teamx|$TEAMID|g" ingress-multi-domain.yaml
+kubectl apply -f ingress-multi-domain.yaml
+
+# If you want to use a single A record in your DNS
+sed -i "s|teamx|$TEAMID|g" ingress-single-fqdn.yaml
+kubectl apply -f ingress-single-fqdn.yaml
 ```
 
 - Apply the different services.
 ```bash
-kubectl apply -f https://github.com/cert-manager/cert-manager/releases/latest/download/cert-manager.yaml
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
-kubectl apply -f . # Apply all the Kubernetes files in the current directory
+kubectl apply -f credentials.yaml
+kubectl apply -f pod1.yaml
+kubectl apply -f pod2.yaml
+kubectl apply -f pod3.yaml
+kubectl apply -f pod4.yaml
+kubectl apply -f pod5.yaml
 ```
 
 - If you need the **ELK Stack** you can apply the following commands.

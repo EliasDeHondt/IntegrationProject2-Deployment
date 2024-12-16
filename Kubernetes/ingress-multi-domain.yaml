@@ -6,7 +6,7 @@
 # Usage:
 #         kubectl apply -f https://github.com/cert-manager/cert-manager/releases/latest/download/cert-manager.yaml
 #         kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
-#         kubectl apply -f ingress.yaml
+#         kubectl apply -f ingress-multi-domain.yaml
 #         kubectl get ingress
 ---
 apiVersion: cert-manager.io/v1
@@ -37,39 +37,19 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-      - status.kdg-ip2.eliasdh.com
-      secretName: grafana-tls
+      - status.teamx.eliasdh.com
+      secretName: status-tls
     - hosts:
-      - keycloak.kdg-ip2.eliasdh.com
+      - keycloak.teamx.eliasdh.com
       secretName: keycloak-iam-tls
     - hosts:
-      - www.kdg-ip2.eliasdh.com
-      secretName: react-frontend-tls
+      - www.teamx.eliasdh.com
+      secretName: www-tls
     - hosts:
-      - api.kdg-ip2.eliasdh.com
-      secretName: spring-backend-tls
+      - api.teamx.eliasdh.com
+      secretName: api-tls
   rules:
-    - host: status.kdg-ip2.eliasdh.com
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: monitoring-service
-                port:
-                  number: 80
-    - host: keycloak.kdg-ip2.eliasdh.com
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: keycloak-iam-service
-                port:
-                  number: 80
-    - host: www.kdg-ip2.eliasdh.com
+    - host: www.teamx.eliasdh.com
       http:
         paths:
           - path: /
@@ -79,7 +59,7 @@ spec:
                 name: react-frontend-service
                 port:
                   number: 80
-    - host: api.kdg-ip2.eliasdh.com
+    - host: api.teamx.eliasdh.com
       http:
         paths:
           - path: /
@@ -87,6 +67,26 @@ spec:
             backend:
               service:
                 name: spring-backend-service
+                port:
+                  number: 80
+    - host: status.teamx.eliasdh.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: monitoring-service
+                port:
+                  number: 80
+    - host: keycloak.teamx.eliasdh.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: keycloak-iam-service
                 port:
                   number: 80
 ---

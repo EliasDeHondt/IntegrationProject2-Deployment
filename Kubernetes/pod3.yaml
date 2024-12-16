@@ -41,7 +41,7 @@ spec:
                   name: db-credentials
                   key: password
             - name: DB_URL
-              value: "jdbc:postgresql://ip2-devops4-team20:5432/database-postgresql?autoReconnect=true"
+              value: "jdbc:postgresql://localhost:5432/database-postgresql?autoReconnect=true"
             - name: AI_URL
               value: "http://python-runtime-service"
           resources:
