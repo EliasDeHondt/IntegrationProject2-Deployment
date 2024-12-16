@@ -36,6 +36,13 @@ spec:
               value: "realm"
             - name: KEYCLOAK_CLIENT_ID
               value: "123"
+            # Example of VITE environment variables
+            # - name: VITE_KC_URL
+            #   value: "http://keycloak-iam-service:80"
+            # - name: VITE_KC_REALM
+            #   value: "catan"
+            # - name: VITE_KC_CLIENT_ID
+            #   value: "catan_client"
           resources:
             limits:
               memory: "512Mi"

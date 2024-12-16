@@ -203,6 +203,13 @@ sed -i "s|teamx|$TEAMID|g" ingress-single-fqdn.yaml
 kubectl apply -f ingress-single-fqdn.yaml
 ```
 
+- Change the targets in Prometheus.
+```bash
+export TEAMID="team0"
+
+sed -i "s|teamx|$TEAMID|g" pod5.yaml
+```
+
 - Apply the different services.
 ```bash
 kubectl apply -f credentials.yaml
