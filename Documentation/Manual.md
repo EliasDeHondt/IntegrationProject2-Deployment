@@ -201,8 +201,8 @@ sed -i "s|teamx|$TEAMID|g" ingress-multi-domain.yaml
 kubectl apply -f ingress-multi-domain.yaml
 
 # If you want to use a single A record in your DNS
-sed -i "s|teamx|$TEAMID|g" ingress-single-fqdn.yaml
-kubectl apply -f ingress-single-fqdn.yaml
+sed -i "s|teamx|$TEAMID|g" ingress-single-domain.yaml
+kubectl apply -f ingress-single-domain.yaml
 ```
 
 - Change the targets in Prometheus.
@@ -220,6 +220,11 @@ kubectl apply -f pod2.yaml
 kubectl apply -f pod3.yaml
 kubectl apply -f pod4.yaml
 kubectl apply -f pod5.yaml
+```
+
+- Get the external IP of the frontend service.
+```bash
+kubectl get ingress
 ```
 
 - If you need the **ELK Stack** you can apply the following commands.

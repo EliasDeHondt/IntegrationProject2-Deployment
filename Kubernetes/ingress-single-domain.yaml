@@ -40,7 +40,7 @@ spec:
   tls:
     - hosts:
         - teamx.eliasdh.com
-      secretName: teamx-tls
+      secretName: team9-tls
   rules:
     - host: teamx.eliasdh.com
       http:
