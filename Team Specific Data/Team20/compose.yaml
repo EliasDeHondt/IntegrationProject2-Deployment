@@ -2,4 +2,96 @@
 # @author Elias De Hondt  #
 # @since 18/11/2024       #
 ###########################
+# sudo docker login registry.gitlab.com
+# sudo docker compose -f compose.yaml pull
+# sudo docker compose -f compose.yaml up -d
+# sudo docker ps
+# sudo docker compose -f compose.yaml logs -f
+# sudo docker compose -f compose.yaml down
+# sudo docker volume rm team9_compose_db_data
 name: team20_compose
+
+# Services Definition
+services:
+  # Backend service
+  backend:
+    image: ${BACKEND_IMAGE:?Required}${BACKEND_VERSION:+:}${BACKEND_VERSION:-}
+    network_mode: "host"
+    extra_hosts:
+      - "frontend:127.0.0.1"
+      - "ai:127.0.0.1"
+  # Frontend service
+  frontend:
+    image: ${FRONTEND_IMAGE:?Required}${FRONTEND_VERSION:+:}${FRONTEND_VERSION:-}
+    network_mode: "host"
+    extra_hosts:
+      - "backend:127.0.0.1"
+      - "ai:127.0.0.1"
+    environment:
+      VITE_KC_URL: ${VITE_KC_URL}
+      VITE_KC_REALM: ${VITE_KC_REALM}
+      VITE_KC_CLIENT_ID: ${VITE_KC_CLIENT_ID}
+      VITE_BACKEND_URL: ${VITE_BACKEND_URL}
+      VITE_AI_URL: ${VITE_AI_URL}
+  # AI service
+  ai:
+    image: ${AI_IMAGE:?Required}${AI_VERSION:+:}${AI_VERSION:-}
+    network_mode: "host"
+    extra_hosts:
+      - "frontend:127.0.0.1"
+      - "backend:127.0.0.1"
+  # Keycloak service
+  keycloak:
+    image: bitnami/keycloak:25
+    ports:
+      - "8080:8080"
+    environment:
+      KEYCLOAK_HTTP_PORT: 8080
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KEYCLOAK_DATABASE_HOST: postgres
+      KEYCLOAK_DATABASE_PORT: 5432
+      KEYCLOAK_DATABASE_NAME: keycloak
+      KEYCLOAK_DATABASE_USER: keycloak
+      KEYCLOAK_DATABASE_PASSWORD: keycloak
+  # Postgres service
+  postgres:
+    image: postgres:17
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: ${DB_NAME:-game}
+      POSTGRES_USER: ${DB_USER:-user}
+      POSTGRES_PASSWORD: ${DB_PASS:-password}
+    configs:
+      - source: keycloak.sql
+        target: /docker-entrypoint-initdb.d/keycloak.sql
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+# Configs Definition
+configs:
+  keycloak.sql:
+    content: |
+      CREATE ROLE keycloak WITH
+        LOGIN
+        NOSUPERUSER
+        NOCREATEDB
+        NOCREATEROLE
+        INHERIT
+        NOREPLICATION
+        NOBYPASSRLS
+        CONNECTION LIMIT -1
+        PASSWORD 'keycloak';
+
+      CREATE DATABASE keycloak
+          WITH
+          OWNER = keycloak
+          ENCODING = 'UTF8'
+          LOCALE_PROVIDER = 'libc'
+          CONNECTION LIMIT = -1
+          IS_TEMPLATE = False;
+
+# Volumes Definition
+volumes:
+  db_data:

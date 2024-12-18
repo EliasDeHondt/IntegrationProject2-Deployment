@@ -19,7 +19,7 @@ database = {
 
 kubernetes = {
     cluster_name = "cluster-2"
-    node_count = 5
+    node_count = 3
     node_config = {
         #machine_type = "n1-standard-1" # vCPU=1, RAM=3.75GB
         #machine_type = "n1-standard-2" # vCPU=2, RAM=7.5GB
