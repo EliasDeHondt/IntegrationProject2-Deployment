@@ -103,7 +103,7 @@ cd Terraform
 
 - Create a new service account and download the credentials file.
 ```bash
-export PROJECT_ID="integrationproject2" # Change this to your project ID
+export PROJECT_ID="project-id" # Change this to your project ID
 
 gcloud iam service-accounts create service-account-tf \
     --display-name="Service Account" \
@@ -115,6 +115,11 @@ gcloud projects add-iam-policy-binding $PROJECT_ID \
 
 gcloud iam service-accounts keys create credentials.json \
     --iam-account=service-account-tf@$PROJECT_ID.iam.gserviceaccount.com
+```
+
+- Change the default project id
+```bash
+sed -i "s/project-placeholder/$PROJECT_ID/g" terraform.tfvars
 ```
 
 - Apply the Terraform configuration to create the Kubernetes cluster and the necessary resources.
@@ -158,9 +163,9 @@ kubectl create secret generic sql-auth-proxy --from-file=service_account.json=..
 
 - Fill in your image paths, copy these from your GitLab Container Registry.
 ```bash
-export FRONTEND_IMAGE="registry.gitlab.com/..." # Change this to your frontend image path
-export BACKEND_IMAGE="registry.gitlab.com/..." # Change this to your backend image path
-export AI_IMAGE="registry.gitlab.com/..." # Change this to your ai image path
+export FRONTEND_IMAGE=<frontend_image_path> # Change this to your frontend image path
+export BACKEND_IMAGE=<backend_image_path> # Change this to your backend image path
+export AI_IMAGE=<ai_image_path> # Change this to your ai image path
 ```
 
 - Change the default image path to your path so all images can be pulled correctly.
@@ -182,9 +187,9 @@ sed -i "s|registry.gitlab.com|$AI_IMAGE|g" pod4.yaml
 ```bash
 kubectl create secret docker-registry gitlab-registry \
     --docker-server=registry.gitlab.com \
-    --docker-username=<your-gitlab-username> \
-    --docker-password=<your-personal-access-token> \
-    --docker-email=<your-kdg-email>
+    --docker-username=<username> \
+    --docker-password=<access_token> \
+    --docker-email=<email>
 ```
 
 - If you want to use the **Ingress** service, you can apply the following commands.
@@ -194,7 +199,7 @@ kubectl apply -f https://github.com/cert-manager/cert-manager/releases/latest/do
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
 
 # Set the team ID
-export TEAMID="team0" # Change this to your team ID
+export TEAMID="teamX" # Change this to your team ID
 
 # If you want to use multiple A records in your DNS
 sed -i "s|teamx|$TEAMID|g" ingress-multi-domain.yaml
@@ -239,7 +244,7 @@ helm install kibana https://raw.githubusercontent.com/EliasDeHondt/elk-filebeat/
 
 ## 💣Tear down infrastructure
 
-> **Note:** If you wanna start over, you can simply delete the entire project. Otherwise below you can find some useful deletion commands.
+> **Note:** If you want to start over, you can simply delete the entire project. Otherwise, you can find some useful deletion commands below.
 
 - The following command deletes all files from Terraform that were created when applying the configuration.
 ```bash
