@@ -42,10 +42,15 @@ docker compose version
 
 ### 👉Step 3: Authenticate with your container registry
 
+- Authenticate with the [GitLab](https://gitlab.com/-/user_settings/personal_access_tokens?name=Read+Registry+token&scopes=read_registry) container registry:
 ```bash
 docker login registry.gitlab.com
 ```
-- Log in with your GitLab account (or with a personal access token)
+
+- Authenticate with the [GitHub](https://github.com/settings/tokens) container registry:
+```bash
+docker login ghcr.io
+```
 
 ### 👉Step 4: Start the desired services
 

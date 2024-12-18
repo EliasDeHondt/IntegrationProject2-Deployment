@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
         - name: spring-backend
-          image: registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team20/backend-game-service/spring-backend # Image path changed by the end user when following the manual
+          image: "registry.gitlab.com" # Image path changed by the end user when following the manual
           imagePullPolicy: Always
           ports:
             - containerPort: 8081
@@ -40,17 +40,17 @@ spec:
                 secretKeyRef:
                   name: db-credentials
                   key: password
-            - name: DB_URL
-              value: "jdbc:postgresql://localhost:5432/database-postgresql?autoReconnect=true"
             - name: AI_URL
-              value: "http://python-runtime-service"
+              value: "http://python-runtime-service:5000"
+            - name: DB_URL
+              value: "jdbc:postgresql://localhost:5432/database-postgresql"
           resources:
             limits:
-              memory: "4Gi"
-              cpu: "2"
+                memory: "4Gi"
+                cpu: "2"
             requests:
-              memory: "2Gi"
-              cpu: "1"
+                memory: "2Gi"
+                cpu: "1"
         - name: cloud-sql-proxy
           image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.14.1
           args:
@@ -58,7 +58,7 @@ spec:
             - "--auto-iam-authn"
             - "--structured-logs"
             - "--port=5432"
-            - "ip2-devops4-team20:us-central1:cloud-sql-instance" # ProjectId changed by the end user when following the manual
+            - "projectId:us-central1:cloud-sql-instance" # ProjectId changed by the end user when following the manual
           securityContext:
             runAsNonRoot: true
           volumeMounts:

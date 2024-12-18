@@ -23,7 +23,7 @@ resource "google_sql_database" "database-postgresql" {
     instance = google_sql_database_instance.cloud-sql-instance.name
 }
 
-resource "google_sql_database" "database-keycloak" {
+resource "google_sql_database" "keycloak" { # Database for Keycloak
     depends_on=[google_sql_database_instance.cloud-sql-instance]
     name = "keycloak"
     instance = google_sql_database_instance.cloud-sql-instance.name
