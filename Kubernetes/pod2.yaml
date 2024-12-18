@@ -83,7 +83,7 @@ spec:
             - "--auto-iam-authn"
             - "--structured-logs"
             - "--port=5432"
-            - "projectId:us-central1:cloud-sql-instance" # ProjectId changed by the end user when following the manual
+            - "ip2-devops4-team20:us-central1:cloud-sql-instance" # ProjectId changed by the end user when following the manual
           securityContext:
             runAsNonRoot: true
           volumeMounts:

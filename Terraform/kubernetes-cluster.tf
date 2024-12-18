@@ -85,6 +85,7 @@ resource "google_compute_global_address" "google_managed_services" {
 }
 
 resource "google_service_networking_connection" "vpc_peering" {
+    depends_on=[google_compute_network.vpc-network]
     network = google_compute_network.vpc-network.name
     service = "servicenetworking.googleapis.com"
     reserved_peering_ranges = [google_compute_global_address.google_managed_services.name]
