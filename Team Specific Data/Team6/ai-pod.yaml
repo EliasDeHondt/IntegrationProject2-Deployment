@@ -1,0 +1,66 @@
+###########################
+# @author Elias De Hondt  #
+# @since 18/11/2024       #
+###########################
+# Description: This pod is used to run Python scripts for AI.
+# Usage: kubectl apply -f pod4.yaml
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: python-runtime
+  namespace: default
+  labels:
+    app: python-runtime
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: python-runtime
+  template:
+    metadata:
+      labels:
+        app: python-runtime
+    spec:
+      containers:
+        - name: python-container
+          image: "registry.gitlab.com" # Image path changed by the end user when following the manual
+          imagePullPolicy: Always
+          resources:
+            limits:
+              memory: "8Gi"
+              cpu: "4"
+            requests:
+              memory: "4Gi"
+              cpu: "2"
+          ports:
+            - containerPort: 5000
+	- name: ollama-container
+          image: "registry.gitlab.com" # Image path changed by the end user when following the manual
+          imagePullPolicy: Always
+          resources:
+            limits:
+              memory: "8Gi"
+              cpu: "4"
+            requests:
+              memory: "4Gi"
+              cpu: "2"
+          ports:
+            - containerPort: 5000
+      imagePullSecrets:
+        - name: gitlab-registry
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: python-runtime-service
+  namespace: default
+spec:
+  selector:
+    app: python-runtime
+  ports:
+    - protocol: TCP
+      port: 5000 # External port
+      targetPort: 5000 # Internal port in the container
+  type: ClusterIP
+---
