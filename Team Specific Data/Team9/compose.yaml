@@ -2,6 +2,13 @@
 # @author Elias De Hondt  #
 # @since 18/11/2024       #
 ###########################
+# sudo docker login registry.gitlab.com
+# sudo docker compose -f compose.yaml pull
+# sudo docker compose -f compose.yaml up -d
+# sudo docker ps
+# sudo docker compose -f compose.yaml logs -f
+# sudo docker compose -f compose.yaml down
+# sudo docker volume rm team9_compose_db_data
 name: team9_compose
 
 # Services Definition
@@ -21,10 +28,11 @@ services:
       - "backend:127.0.0.1"
       - "ai:127.0.0.1"
     environment:
+      VITE_KC_URL: ${VITE_KC_URL}
       VITE_KC_REALM: ${VITE_KC_REALM}
       VITE_KC_CLIENT_ID: ${VITE_KC_CLIENT_ID}
-      VITE_KC_URL: ${VITE_KC_URL}
-      VITE_KC_BACKEND_URL: ${VITE_KC_BACKEND_URL}
+      VITE_BACKEND_URL: ${VITE_BACKEND_URL}
+      VITE_AI_URL: ${VITE_AI_URL}
   # AI service
   ai:
     image: ${AI_IMAGE:?Required}${AI_VERSION:+:}${AI_VERSION:-}
