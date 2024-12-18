@@ -63,6 +63,32 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
+  name: grafana-dashboard-provider
+data:
+  provider.yaml: |-
+    { 
+
+      "apiVersion": 1,
+      
+      "providers": [ 
+      {
+        "name": "Default # A uniquely identifiable name for the provider",
+        "folder": "Services # The folder where to place the dashboards",
+        "type": "file",
+          "options": [
+            {
+              "path": "/var/lib/grafana/dashboards"
+            }
+          ]
+            # Default path for Windows: C:/Program Files/GrafanaLabs/grafana/public/dashboards
+            # Default path for Linux is: /var/lib/grafana/dashboards
+      }
+      ]
+    }
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
   name: grafana-dashboards
 data:
   cluster.json: |-
@@ -220,6 +246,8 @@ spec:
               name: grafana-datasources
               readOnly: false
             - mountPath: /etc/grafana/provisioning/dashboards
+              name: grafana-dashboard-provider
+            - mountPath: /var/lib/grafana/dashboards
               name: grafana-dashboards
         - name: prometheus
           image: prom/prometheus:latest
@@ -250,6 +278,10 @@ spec:
           configMap:
             defaultMode: 420
             name: grafana-dashboards
+        - name: grafana-dashboard-provider
+          configMap:
+            defaultMode: 420
+            name: grafana-dashboard-provider
         - name: prometheus-server-conf
           configMap:
             defaultMode: 420
