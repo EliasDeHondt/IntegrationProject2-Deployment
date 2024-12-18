@@ -27,12 +27,7 @@ services:
     extra_hosts:
       - "backend:127.0.0.1"
       - "ai:127.0.0.1"
-    environment:
-      VITE_KC_URL: ${VITE_KC_URL}
-      VITE_KC_REALM: ${VITE_KC_REALM}
-      VITE_KC_CLIENT_ID: ${VITE_KC_CLIENT_ID}
-      VITE_BACKEND_URL: ${VITE_BACKEND_URL}
-      VITE_AI_URL: ${VITE_AI_URL}
+#    environment:
   # AI service
   ai:
     image: ${AI_IMAGE:?Required}${AI_VERSION:+:}${AI_VERSION:-}
