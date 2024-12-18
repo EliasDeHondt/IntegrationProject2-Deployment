@@ -117,6 +117,11 @@ gcloud iam service-accounts keys create credentials.json \
     --iam-account=service-account-tf@$PROJECT_ID.iam.gserviceaccount.com
 ```
 
+- Change the default project id
+```bash
+sed -i "s/project-placeholder/$PROJECT_ID/g" terraform.tfvars
+```
+
 - Apply the Terraform configuration to create the Kubernetes cluster and the necessary resources.
 ```bash
 terraform init
