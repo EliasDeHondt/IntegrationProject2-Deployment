@@ -136,25 +136,10 @@ spec:
     spec:
       containers:
         - name: react-frontend
-          image: "registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team9/frontend/react-frontend"
+          image: "registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team9/frontend/react-frontend:production"
           imagePullPolicy: Always
           ports:
             - containerPort: 3000
-          env:
-            - name: BACKEND_URL
-              value: "http://spring-backend-service:80"
-            - name: KEYCLOAK_URL
-              value: "http://keycloak-iam-service:80"
-            - name: KEYCLOAK_REALM
-              value: "realm"
-            - name: KEYCLOAK_CLIENT_ID
-              value: "123"
-            # - name: VITE_KC_URL
-            #   value: "http://keycloak-iam-service:80"
-            # - name: VITE_KC_REALM
-            #   value: "catan"
-            # - name: VITE_KC_CLIENT_ID
-            #   value: "catan_client"
           resources:
             limits:
               memory: "512Mi"
