@@ -22,7 +22,7 @@ services:
       - "ai:127.0.0.1"
   # Frontend service
   frontend:
-    image: registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team9/frontend/react-frontend:latest
+    image: registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team9/frontend/react-frontend:local
     network_mode: "host"
     extra_hosts:
       - "backend:127.0.0.1"
