@@ -8,7 +8,7 @@
 # sudo docker ps
 # sudo docker compose -f compose.yaml logs -f
 # sudo docker compose -f compose.yaml down
-# sudo docker volume rm team9_compose_db_data
+# sudo docker volume rm team20_compose_db_data
 name: team20_compose
 
 # Services Definition

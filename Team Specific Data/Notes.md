@@ -27,12 +27,12 @@
 ```bash
 kubectl apply -f https://github.com/cert-manager/cert-manager/releases/latest/download/cert-manager.yaml
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
-kubectl apply -f https://raw.githubusercontent.com/EliasDeHondt/IntegrationProject2-Deployment/refs/heads/main/Team%20Specific%20Data/Team5/k8s-deployment.yaml
+kubectl apply -f https://raw.githubusercontent.com/EliasDeHondt/IntegrationProject2-Deployment/refs/heads/main/Team%20Specific%20Data/Team5/kubernetes.yaml
 ```
 
 - Compose:
 ```bash
-sudo docker compose -f https://raw.githubusercontent.com/EliasDeHondt/IntegrationProject2-Deployment/refs/heads/main/Team%20Specific%20Data/Team5/compose.yaml up -d
+curl -s https://raw.githubusercontent.com/EliasDeHondt/IntegrationProject2-Deployment/main/Team%20Specific%20Data/Team5/compose.yaml | sudo docker compose -f - up -d
 ```
 
 ### ⬇️Down
@@ -41,12 +41,12 @@ sudo docker compose -f https://raw.githubusercontent.com/EliasDeHondt/Integratio
 ```bash
 kubectl delete -f https://github.com/cert-manager/cert-manager/releases/latest/download/cert-manager.yaml
 kubectl delete -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
-kubectl delete -f https://raw.githubusercontent.com/EliasDeHondt/IntegrationProject2-Deployment/refs/heads/main/Team%20Specific%20Data/Team5/k8s-deployment.yaml
+kubectl delete -f https://raw.githubusercontent.com/EliasDeHondt/IntegrationProject2-Deployment/refs/heads/main/Team%20Specific%20Data/Team5/kubernetes.yaml
 ```
 
 - Compose:
 ```bash
-sudo docker compose -f https://raw.githubusercontent.com/EliasDeHondt/IntegrationProject2-Deployment/refs/heads/main/Team%20Specific%20Data/Team5/compose.yaml down
+curl -s https://raw.githubusercontent.com/EliasDeHondt/IntegrationProject2-Deployment/main/Team%20Specific%20Data/Team5/compose.yaml | sudo docker compose -f - down
 sudo docker volume rm team5_compose_db_data
 ```
 
@@ -56,12 +56,12 @@ sudo docker volume rm team5_compose_db_data
 ```bash
 kubectl apply -f https://github.com/cert-manager/cert-manager/releases/latest/download/cert-manager.yaml
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
-kubectl apply -f https://raw.githubusercontent.com/EliasDeHondt/IntegrationProject2-Deployment/refs/heads/main/Team%20Specific%20Data/Team6/k8s-deployment.yaml
+kubectl apply -f https://raw.githubusercontent.com/EliasDeHondt/IntegrationProject2-Deployment/refs/heads/main/Team%20Specific%20Data/Team6/kubernetes.yaml
 ```
 
 - Compose:
 ```bash
-sudo docker compose -f https://raw.githubusercontent.com/EliasDeHondt/IntegrationProject2-Deployment/refs/heads/main/Team%20Specific%20Data/Team6/compose.yaml up -d
+curl -s https://raw.githubusercontent.com/EliasDeHondt/IntegrationProject2-Deployment/main/Team%20Specific%20Data/Team6/compose.yaml | sudo docker compose -f - up -d
 ```
 
 ### ⬇️Down
@@ -70,12 +70,12 @@ sudo docker compose -f https://raw.githubusercontent.com/EliasDeHondt/Integratio
 ```bash
 kubectl delete -f https://github.com/cert-manager/cert-manager/releases/latest/download/cert-manager.yaml
 kubectl delete -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
-kubectl delete -f https://raw.githubusercontent.com/EliasDeHondt/IntegrationProject2-Deployment/refs/heads/main/Team%20Specific%20Data/Team6/k8s-deployment.yaml
+kubectl delete -f https://raw.githubusercontent.com/EliasDeHondt/IntegrationProject2-Deployment/refs/heads/main/Team%20Specific%20Data/Team6/kubernetes.yaml
 ```
 
 - Compose:
 ```bash
-sudo docker compose -f https://raw.githubusercontent.com/EliasDeHondt/IntegrationProject2-Deployment/refs/heads/main/Team%20Specific%20Data/Team6/compose.yaml down
+curl -s https://raw.githubusercontent.com/EliasDeHondt/IntegrationProject2-Deployment/main/Team%20Specific%20Data/Team6/compose.yaml | sudo docker compose -f - down
 sudo docker volume rm team6_compose_db_data
 ```
 
@@ -85,12 +85,12 @@ sudo docker volume rm team6_compose_db_data
 ```bash
 kubectl apply -f https://github.com/cert-manager/cert-manager/releases/latest/download/cert-manager.yaml
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
-kubectl apply -f https://raw.githubusercontent.com/EliasDeHondt/IntegrationProject2-Deployment/refs/heads/main/Team%20Specific%20Data/Team9/k8s-deployment.yaml
+kubectl apply -f https://raw.githubusercontent.com/EliasDeHondt/IntegrationProject2-Deployment/refs/heads/main/Team%20Specific%20Data/Team9/kubernetes.yaml
 ```
 
 - Compose:
 ```bash
-sudo docker compose -f https://raw.githubusercontent.com/EliasDeHondt/IntegrationProject2-Deployment/refs/heads/main/Team%20Specific%20Data/Team9/compose.yaml up -d
+curl -s https://raw.githubusercontent.com/EliasDeHondt/IntegrationProject2-Deployment/main/Team%20Specific%20Data/Team9/compose.yaml | sudo docker compose -f - up -d
 ```
 
 ### ⬇️Down
@@ -99,15 +99,14 @@ sudo docker compose -f https://raw.githubusercontent.com/EliasDeHondt/Integratio
 ```bash
 kubectl delete -f https://github.com/cert-manager/cert-manager/releases/latest/download/cert-manager.yaml
 kubectl delete -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
-kubectl delete -f https://raw.githubusercontent.com/EliasDeHondt/IntegrationProject2-Deployment/refs/heads/main/Team%20Specific%20Data/Team9/k8s-deployment.yaml
+kubectl delete -f https://raw.githubusercontent.com/EliasDeHondt/IntegrationProject2-Deployment/refs/heads/main/Team%20Specific%20Data/Team9/kubernetes.yaml
 ```
 
 - Compose:
 ```bash
-sudo docker compose -f https://raw.githubusercontent.com/EliasDeHondt/IntegrationProject2-Deployment/refs/heads/main/Team%20Specific%20Data/Team9/compose.yaml down
+curl -s https://raw.githubusercontent.com/EliasDeHondt/IntegrationProject2-Deployment/main/Team%20Specific%20Data/Team9/compose.yaml | sudo docker compose -f - down
 sudo docker volume rm team9_compose_db_data
 ```
-
 
 ## 2️⃣0️⃣Team
 
@@ -115,12 +114,12 @@ sudo docker volume rm team9_compose_db_data
 ```bash
 kubectl apply -f https://github.com/cert-manager/cert-manager/releases/latest/download/cert-manager.yaml
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
-kubectl apply -f https://raw.githubusercontent.com/EliasDeHondt/IntegrationProject2-Deployment/refs/heads/main/Team%20Specific%20Data/Team20/k8s-deployment.yaml
+kubectl apply -f https://raw.githubusercontent.com/EliasDeHondt/IntegrationProject2-Deployment/refs/heads/main/Team%20Specific%20Data/Team20/kubernetes.yaml
 ```
 
 - Compose:
 ```bash
-sudo docker compose -f https://raw.githubusercontent.com/EliasDeHondt/IntegrationProject2-Deployment/refs/heads/main/Team%20Specific%20Data/Team20/compose.yaml up -d
+curl -s https://raw.githubusercontent.com/EliasDeHondt/IntegrationProject2-Deployment/main/Team%20Specific%20Data/Team20/compose.yaml | sudo docker compose -f - up -d
 ```
 
 ### ⬇️Down
@@ -129,11 +128,11 @@ sudo docker compose -f https://raw.githubusercontent.com/EliasDeHondt/Integratio
 ```bash
 kubectl delete -f https://github.com/cert-manager/cert-manager/releases/latest/download/cert-manager.yaml
 kubectl delete -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
-kubectl delete -f https://raw.githubusercontent.com/EliasDeHondt/IntegrationProject2-Deployment/refs/heads/main/Team%20Specific%20Data/Team20/k8s-deployment.yaml
+kubectl delete -f https://raw.githubusercontent.com/EliasDeHondt/IntegrationProject2-Deployment/refs/heads/main/Team%20Specific%20Data/Team20/kubernetes.yaml
 ```
 
 - Compose:
 ```bash
-sudo docker compose -f https://raw.githubusercontent.com/EliasDeHondt/IntegrationProject2-Deployment/refs/heads/main/Team%20Specific%20Data/Team20/compose.yaml down
+curl -s https://raw.githubusercontent.com/EliasDeHondt/IntegrationProject2-Deployment/main/Team%20Specific%20Data/Team20/compose.yaml | sudo docker compose -f - down
 sudo docker volume rm team20_compose_db_data
 ```
