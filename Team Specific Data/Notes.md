@@ -28,6 +28,12 @@
 kubectl apply -f https://github.com/cert-manager/cert-manager/releases/latest/download/cert-manager.yaml
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
 kubectl apply -f https://raw.githubusercontent.com/EliasDeHondt/IntegrationProject2-Deployment/refs/heads/main/Team%20Specific%20Data/Team5/kubernetes.yaml
+
+# Update the Helm repositories with the domain in the values.yaml file for Kibana.
+helm install filebeat https://raw.githubusercontent.com/EliasDeHondt/elk-filebeat/refs/heads/main/package/filebeat-7.15.0.tgz
+helm install logstash https://raw.githubusercontent.com/EliasDeHondt/elk-filebeat/refs/heads/main/package/logstash-7.15.0.tgz
+helm install elasticsearch https://raw.githubusercontent.com/EliasDeHondt/elk-filebeat/refs/heads/main/package/elasticsearch-7.15.0.tgz
+helm install kibana https://raw.githubusercontent.com/EliasDeHondt/elk-filebeat/refs/heads/main/package/kibana-7.15.0.tgz
 ```
 
 - Compose:
@@ -42,6 +48,12 @@ curl -s https://raw.githubusercontent.com/EliasDeHondt/IntegrationProject2-Deplo
 kubectl delete -f https://github.com/cert-manager/cert-manager/releases/latest/download/cert-manager.yaml
 kubectl delete -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
 kubectl delete -f https://raw.githubusercontent.com/EliasDeHondt/IntegrationProject2-Deployment/refs/heads/main/Team%20Specific%20Data/Team5/kubernetes.yaml
+
+# Update the Helm repositories with the domain in the values.yaml file for Kibana.
+helm uninstall filebeat https://raw.githubusercontent.com/EliasDeHondt/elk-filebeat/refs/heads/main/package/filebeat-7.15.0.tgz
+helm uninstall logstash https://raw.githubusercontent.com/EliasDeHondt/elk-filebeat/refs/heads/main/package/logstash-7.15.0.tgz
+helm uninstall elasticsearch https://raw.githubusercontent.com/EliasDeHondt/elk-filebeat/refs/heads/main/package/elasticsearch-7.15.0.tgz
+helm uninstall kibana https://raw.githubusercontent.com/EliasDeHondt/elk-filebeat/refs/heads/main/package/kibana-7.15.0.tgz
 ```
 
 - Compose:
