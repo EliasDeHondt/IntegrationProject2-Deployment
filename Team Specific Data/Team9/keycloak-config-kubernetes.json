@@ -667,7 +667,7 @@
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "https://team9.eliasdh.com/*"
+        "https://www.team9.eliasdh.com/*"
       ],
       "webOrigins": [
         "+"
