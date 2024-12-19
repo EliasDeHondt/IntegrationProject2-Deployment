@@ -266,12 +266,12 @@ terraform destroy
 gcloud iam service-accounts delete service-account-tf@$PROJECT_ID.iam.gserviceaccount.com
 ```
 
-- Delete the Kubernetes cluster.
-```bash
-gcloud container clusters delete cluster-1 --region=us-central1-c
-```
-
 - Remove the Kubernetes `podX.yaml` files.
 ```bash
 kubectl delete -f .
+```
+
+- Delete the Kubernetes cluster.
+```bash
+gcloud container clusters delete cluster-1 --region=us-central1-c
 ```

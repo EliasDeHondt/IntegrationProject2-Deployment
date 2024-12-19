@@ -2,4 +2,3 @@
 # @author Elias De Hondt  #
 # @since 18/11/2024       #
 ###########################
-# Usage: kubectl apply -f deploy.yaml
