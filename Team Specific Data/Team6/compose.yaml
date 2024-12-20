@@ -15,27 +15,36 @@ name: team6_compose
 services:
   # Backend service
   backend:
-    image: ${BACKEND_IMAGE:?Required}${BACKEND_VERSION:+:}${BACKEND_VERSION:-}
+    image: registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team6/backend-game-service/spring-backend:latest
     network_mode: "host"
     extra_hosts:
       - "frontend:127.0.0.1"
       - "ai:127.0.0.1"
+    environment:
+      MAIL_USERNAME=kdgpoker@gmail.com
+      MAIL_PASSWORD=jgdzxikbexgjwqze
   # Frontend service
   frontend:
-    image: ${FRONTEND_IMAGE:?Required}${FRONTEND_VERSION:+:}${FRONTEND_VERSION:-}
+    image: registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team6/frontend:latest
     network_mode: "host"
     extra_hosts:
       - "backend:127.0.0.1"
       - "ai:127.0.0.1"
     environment:
-      VITE_KC_URL: ${VITE_KC_URL}
-      VITE_KC_REALM: ${VITE_KC_REALM}
-      VITE_KC_CLIENT_ID: ${VITE_KC_CLIENT_ID}
-      VITE_BACKEND_URL: ${VITE_BACKEND_URL}
-      VITE_AI_URL: ${VITE_AI_URL}
-  # AI service
-  ai:
-    image: ${AI_IMAGE:?Required}${AI_VERSION:+:}${AI_VERSION:-}
+      VITE_KEYCLOAK_REALM=kdg_poker
+      VITE_KEYCLOAK_URL=http://localhost:8080/
+      VITE_KEYCLOAK_CLIENT_ID=kdg_poker_frontend
+      VITE_BACKEND_URL=http://localhost:8081/
+  # AI app service
+  ai_app:
+    image: registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team6/backend-ai-service/app:latest
+    network_mode: "host"
+    extra_hosts:
+      - "frontend:127.0.0.1"
+      - "backend:127.0.0.1"
+  # AI ollama service
+  ai_ollama:
+    image: registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team6/backend-ai-service/ollama:latest
     network_mode: "host"
     extra_hosts:
       - "frontend:127.0.0.1"
@@ -51,18 +60,18 @@ services:
       KEYCLOAK_ADMIN_PASSWORD: admin
       KEYCLOAK_DATABASE_HOST: postgres
       KEYCLOAK_DATABASE_PORT: 5432
-      KEYCLOAK_DATABASE_NAME: keycloak
-      KEYCLOAK_DATABASE_USER: keycloak
-      KEYCLOAK_DATABASE_PASSWORD: keycloak
+      KEYCLOAK_DATABASE_NAME: poker_db
+      KEYCLOAK_DATABASE_USER: postgres
+      KEYCLOAK_DATABASE_PASSWORD: password123
   # Postgres service
   postgres:
     image: postgres:17
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_DB: ${DB_NAME:-game}
-      POSTGRES_USER: ${DB_USER:-user}
-      POSTGRES_PASSWORD: ${DB_PASS:-password}
+      POSTGRES_DB: poker_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password123
     configs:
       - source: keycloak.sql
         target: /docker-entrypoint-initdb.d/keycloak.sql
