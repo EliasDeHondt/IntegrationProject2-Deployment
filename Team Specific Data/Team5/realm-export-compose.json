@@ -505,7 +505,7 @@
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "/realms/poker/account/*"
+        "http://localhost:3000/*"
       ],
       "webOrigins": [],
       "notBefore": 0,
