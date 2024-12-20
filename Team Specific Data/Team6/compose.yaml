@@ -35,6 +35,7 @@ services:
       VITE_KEYCLOAK_URL=http://localhost:8080/
       VITE_KEYCLOAK_CLIENT_ID=kdg_poker_frontend
       VITE_BACKEND_URL=http://localhost:8081/
+      VITE_AI_URL=http://localhost:5000
   # AI app service
   ai_app:
     image: registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team6/backend-ai-service/app:latest
