@@ -15,22 +15,21 @@ name: team20_compose
 services:
   # Backend service
   backend:
-    image: ${BACKEND_IMAGE:?Required}${BACKEND_VERSION:+:}${BACKEND_VERSION:-}
+    image: registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team20/backend-game-service/spring-backend:latest
     network_mode: "host"
     extra_hosts:
       - "frontend:127.0.0.1"
       - "ai:127.0.0.1"
   # Frontend service
   frontend:
-    image: ${FRONTEND_IMAGE:?Required}${FRONTEND_VERSION:+:}${FRONTEND_VERSION:-}
+    image: registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team20/frontend/react-frontend:latest
     network_mode: "host"
     extra_hosts:
       - "backend:127.0.0.1"
       - "ai:127.0.0.1"
-#    environment:
   # AI service
   ai:
-    image: ${AI_IMAGE:?Required}${AI_VERSION:+:}${AI_VERSION:-}
+    image: registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team20/backend-ai-service/python-ai:latest
     network_mode: "host"
     extra_hosts:
       - "frontend:127.0.0.1"
@@ -55,9 +54,9 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_DB: ${DB_NAME:-game}
-      POSTGRES_USER: ${DB_USER:-user}
-      POSTGRES_PASSWORD: ${DB_PASS:-password}
+      POSTGRES_DB: game
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
     configs:
       - source: keycloak.sql
         target: /docker-entrypoint-initdb.d/keycloak.sql
