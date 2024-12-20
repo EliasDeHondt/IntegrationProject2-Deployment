@@ -2,3 +2,735 @@
 # @author Elias De Hondt  #
 # @since 18/11/2024       #
 ###########################
+---
+# Source: credentials.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: monitoring-credentials
+type: Opaque
+data:
+  username: YWRtaW4= # admin
+  password: MTIz # 123
+---
+# Source: credentials.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: db-credentials
+type: Opaque
+data:
+  username: ZGF0YWJhc2UtdXNlcg== # database-user
+  password: MTIz # 123
+  url: amRiYzpwb3N0Z3Jlc3FsOi8vbG9jYWxob3N0OjU0MzIvY2F0YW5fZGI=
+---
+# Source: credentials.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: keycloak-credentials
+type: Opaque
+data:
+  username: YWRtaW4= # admin
+  password: MTIz # 123
+---
+# Source: ingress-multi-domain.yaml
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: elias.dehondt@outlook.com
+    privateKeySecretRef:
+      name: letsencrypt-prod-key
+    solvers:
+      - http01:
+          ingress:
+            class: nginx
+---
+# Source: ingress-multi-domain.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    nginx.ingress.kubernetes.io/ssl-redirect: "false" # Redirect HTTP to HTTPS
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - status.team6.eliasdh.com
+      secretName: status-tls
+    - hosts:
+      - keycloak.team6.eliasdh.com
+      secretName: keycloak-iam-tls
+    - hosts:
+      - www.team6.eliasdh.com
+      secretName: www-tls
+    - hosts:
+      - api.team6.eliasdh.com
+      secretName: api-tls
+  rules:
+    - host: www.team6.eliasdh.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: react-frontend-service
+                port:
+                  number: 80
+    - host: api.team6.eliasdh.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: spring-backend-service
+                port:
+                  number: 80
+    - host: status.team6.eliasdh.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: monitoring-service
+                port:
+                  number: 80
+    - host: keycloak.team6.eliasdh.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: keycloak-iam-service
+                port:
+                  number: 80
+---
+# Source: pod1.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: react-frontend
+  labels:
+    app: react-frontend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: react-frontend
+  template:
+    metadata:
+      labels:
+        app: react-frontend
+    spec:
+      containers:
+        - name: react-frontend
+          image: "registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team6/frontend:latest"
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          env:
+            - name: VITE_BACKEND_URL
+              value: "http://spring-backend-service:80"
+            - name: VITE_KEYCLOAK_URL
+              value: "http://keycloak-iam-service:80"
+            - name: VITE_KEYCLOAK_REALM
+              value: "kdg_poker"
+            - name: VITE_KEYCLOAK_CLIENT_ID
+              value: "kdg_poker_frontend"
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+      imagePullSecrets:
+        - name: gitlab-registry
+---
+# Source: pod1.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: react-frontend-service
+spec:
+  selector:
+    app: react-frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+---
+# Source: pod2.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keycloak-iam
+  labels:
+    app: keycloak-iam
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: keycloak-iam
+  template:
+    metadata:
+      labels:
+        app: keycloak-iam
+    spec:
+      containers:
+        - name: keycloak-iam
+          image: quay.io/keycloak/keycloak:25.0
+          args: ["start-dev"]
+          env:
+            - name: KC_BOOTSTRAP_ADMIN_USERNAME
+              value: "admin"
+            - name: KC_BOOTSTRAP_ADMIN_PASSWORD
+              value: "admin"
+            - name: KC_PROXY
+              value: "edge"
+            - name: KC_DB
+              value: "postgres"
+            - name: KC_DB_URL_HOST
+              value: "localhost"
+            - name: KC_DB_URL_PORT
+              value: "5432"
+            - name: KC_DB_NAME
+              value: "keycloak"
+            - name: KEYCLOAK_ADMIN
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-credentials
+                  key: username
+            - name: KEYCLOAK_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-credentials
+                  key: password
+            - name: KC_DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: db-credentials
+                  key: username
+            - name: KC_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-credentials
+                  key: password
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+          ports:
+            - name: http
+              containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /realms/master
+              port: 8080
+            initialDelaySeconds: 60
+            periodSeconds: 10
+        - name: cloud-sql-proxy
+          image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.14.1
+          args:
+            - "--private-ip"
+            - "--auto-iam-authn"
+            - "--structured-logs"
+            - "--port=5432"
+            - "team9-dev4-demo:us-central1:cloud-sql-instance"
+          securityContext:
+            runAsNonRoot: true
+          volumeMounts:
+            - name: sql-auth-proxy-volume
+              mountPath: /secrets/
+              readOnly: true
+          resources:
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+      volumes:
+        - name: sql-auth-proxy-volume
+          secret:
+            secretName: sql-auth-proxy
+---
+# Source: pod2.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: keycloak-iam-service
+spec:
+  selector:
+    app: keycloak-iam
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+---
+# Source: pod3.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-backend
+  labels:
+    app: spring-backend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: spring-backend
+  template:
+    metadata:
+      labels:
+        app: spring-backend
+    spec:
+      containers:
+        - name: spring-backend
+          image: "registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team6/backend-game-service/spring-backend:latest"
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8081
+          env:
+            - name: MAIL_USERNAME
+              value: "kdgpoker@gmail.com"
+            - name: MAIL_PASSWORD
+              value: "jgdzxikbexgjwqze"
+            - name: DB_NAME
+              value: "database-postgresql"
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: db-credentials
+                  key: username
+            - name: DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: db-credentials
+                  key: password
+            - name: AI_URL
+              value: "http://python-runtime-service:5000"
+            - name: DB_URL
+              value: "jdbc:postgresql://localhost:5432/database-postgresql"
+          resources:
+            limits:
+                memory: "4Gi"
+                cpu: "2"
+            requests:
+                memory: "2Gi"
+                cpu: "1"
+        - name: cloud-sql-proxy
+          image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.14.1
+          args:
+            - "--private-ip"
+            - "--auto-iam-authn"
+            - "--structured-logs"
+            - "--port=5432"
+            - "team9-dev4-demo:us-central1:cloud-sql-instance"
+          securityContext:
+            runAsNonRoot: true
+          volumeMounts:
+            - name: sql-auth-proxy-volume
+              mountPath: /secrets/
+              readOnly: true
+          resources:
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+      imagePullSecrets:
+        - name: gitlab-registry
+      volumes:
+        - name: sql-auth-proxy-volume
+          secret:
+            secretName: sql-auth-proxy
+---
+# Source: pod3.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: spring-backend-service
+spec:
+  selector:
+    app: spring-backend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8081
+  type: ClusterIP
+---
+# Source: pod4.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: python-runtime
+  namespace: default
+  labels:
+    app: python-runtime
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: python-runtime
+  template:
+    metadata:
+      labels:
+        app: python-runtime
+    spec:
+      containers:
+        - name: python-container
+          image: "registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team6/backend-ai-service/app:latest" 
+          imagePullPolicy: Always
+          resources:
+            limits:
+              memory: "8Gi"
+              cpu: "4"
+            requests:
+              memory: "4Gi"
+              cpu: "2"
+          ports:
+            - containerPort: 5000
+        - name: ollama-container
+          image: "registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team6/backend-ai-service/ollama:latest" # Image path changed by the end user when following the manual
+          imagePullPolicy: Always
+          resources:
+            limits:
+              memory: "8Gi"
+              cpu: "4"
+            requests:
+              memory: "4Gi"
+              cpu: "2"
+          ports:
+            - containerPort: 5001
+      imagePullSecrets:
+        - name: gitlab-registry
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: python-runtime-service
+  namespace: default
+spec:
+  selector:
+    app: python-runtime
+  ports:
+    - protocol: TCP
+      port: 5000 # External port
+      targetPort: 5000 # Internal port in the container
+  type: ClusterIP
+---
+# Source: pod5.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-server-conf
+data:
+  prometheus.yml: |
+    global:
+      scrape_interval: 15s
+      evaluation_interval: 15s
+    scrape_configs:
+      - job_name: 'prometheus'
+        static_configs:
+          - targets: ['localhost:9090']
+      - job_name: 'blackbox'
+        metrics_path: /metrics
+        static_configs:
+          - targets: ['localhost:9115']
+      - job_name: 'blackbox-http'
+        metrics_path: /probe
+        params:
+          module: [http_2xx]
+        static_configs:
+          - targets:
+              - localhost:9115
+              - https://keycloak.team6.eliasdh.com
+              - https://www.team6.eliasdh.com
+              - https://api.team6.eliasdh.com
+        relabel_configs:
+          - source_labels: [__address__]
+            target_label: __param_target
+          - source_labels: [__param_target]
+            target_label: instance
+          - target_label: __address__
+            replacement: localhost:9115
+---
+# Source: pod5.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-datasources
+data:
+  prometheus.yaml: |-
+    {
+        "apiVersion": 1,
+        "datasources": [
+            {
+                "access":"proxy",
+                "editable": true,
+                "name": "prometheus",
+                "orgId": 1,
+                "type": "prometheus",
+                "url": "http://localhost:9090",
+                "version": 1
+            }
+        ]
+    }
+---
+# Source: pod5.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboard-provider
+data:
+  provider.yaml: |-
+    {
+      "apiVersion": 1,
+      "providers": [
+        {
+          "name": "Default",
+          "folder": "Services",
+          "type": "file",
+          "options": {
+            "path": "/var/lib/grafana/dashboards"
+          }
+        }
+      ]
+    }
+---
+# Source: pod5.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboards
+data:
+  cluster.json: |-
+    {
+      "__inputs": [],
+      "__requires": [],
+      "annotations": {
+        "list": []
+      },
+      "editable": false,
+      "gnetId": null,
+      "graphTooltip": 0,
+      "hideControls": false,
+      "id": null,
+      "links": [],
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": "TestData",
+          "fill": 1,
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 0
+          },
+          "id": 2,
+          "legend": {
+            "alignAsTable": false,
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "rightSide": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "repeat": null,
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "CPU Usage",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        }
+      ],
+      "refresh": "",
+      "rows": [],
+      "schemaVersion": 16,
+      "tags": [
+        "kubernetes"
+      ],
+      "templating": {
+        "list": []
+      },
+      "time": {
+        "from": "now-6h",
+        "to": "now"
+      },
+      "timepicker": {},
+      "timezone": "browser",
+      "title": "Cluster",
+      "version": 0
+    }
+---
+# Source: pod5.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: monitoring 
+  labels:
+    app: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: monitoring
+  template:
+    metadata:
+      labels:
+        app: monitoring
+    spec:
+      containers:
+        - name: grafana
+          image: grafana/grafana:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: GF_SECURITY_ADMIN_USER
+              valueFrom:
+                secretKeyRef:
+                  name: monitoring-credentials
+                  key: username
+            - name: GF_SECURITY_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: monitoring-credentials
+                  key: password
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+          volumeMounts:
+            - mountPath: /var/lib/grafana
+              name: grafana-storage
+            - mountPath: /etc/grafana/provisioning/datasources
+              name: grafana-datasources
+              readOnly: false
+            - mountPath: /etc/grafana/provisioning/dashboards
+              name: grafana-dashboard-provider
+            - mountPath: /var/lib/grafana/dashboards
+              name: grafana-dashboards
+        - name: prometheus
+          image: prom/prometheus:latest
+          ports:
+            - containerPort: 9090
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+          volumeMounts:
+            - name: prometheus-server-conf
+              mountPath: /etc/prometheus
+        - name: blackbox-exporter
+          image: prom/blackbox-exporter:latest
+          ports:
+            - containerPort: 9115
+      volumes:
+        - name: grafana-storage
+          emptyDir: {}
+        - name: grafana-datasources
+          configMap:
+            defaultMode: 420
+            name: grafana-datasources
+        - name: grafana-dashboards
+          configMap:
+            defaultMode: 420
+            name: grafana-dashboards
+        - name: grafana-dashboard-provider
+          configMap:
+            defaultMode: 420
+            name: grafana-dashboard-provider
+        - name: prometheus-server-conf
+          configMap:
+            defaultMode: 420
+            name: prometheus-server-conf
+---
+# Source: pod5.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: monitoring-service
+  labels:
+    app: monitoring
+spec:
+  selector:
+    app: monitoring
+  ports:
+    - name: grafana
+      protocol: TCP
+      port: 80
+      targetPort: 3000
+---
