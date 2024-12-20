@@ -246,6 +246,12 @@ helm install kibana https://raw.githubusercontent.com/EliasDeHondt/elk-filebeat/
 
 > **Note:** If you want to start over, you can simply delete the entire project. Otherwise, you can find some useful deletion commands below.
 
+- Destroy the entire terraform configuration.
+```bash
+cd /home/$USER/IntegrationProject2-Deployment/Terraform
+terraform destroy
+```
+
 - The following command deletes all files from Terraform that were created when applying the configuration.
 ```bash
 rm -rf terraform.tfstate .terraform.lock.hcl .terraform.tfstate.backup .terraform/
@@ -254,11 +260,6 @@ rm -rf terraform.tfstate .terraform.lock.hcl .terraform.tfstate.backup .terrafor
 - Remove the credentials file.
 ```bash
 rm -rf credentials.json
-```
-
-- Destroy the entire terraform configuration.
-```bash
-terraform destroy
 ```
 
 - Remove the service account.
