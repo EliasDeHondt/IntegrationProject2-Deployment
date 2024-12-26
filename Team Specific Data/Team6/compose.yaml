@@ -21,21 +21,26 @@ services:
       - "frontend:127.0.0.1"
       - "ai:127.0.0.1"
     environment:
-      MAIL_USERNAME=kdgpoker@gmail.com
-      MAIL_PASSWORD=jgdzxikbexgjwqze
+      MAIL_USERNAME: kdgpoker@gmail.com
+      MAIL_PASSWORD: jgdzxikbexgjwqze
+      DB_USER: postgres
+      DB_PASS: password123
+      DB_URL: jdbc:postgresql://localhost:5432/poker_db
+      AI_URL: http://localhost:5000
+      FRONTEND_URL: http://localhost:3000
   # Frontend service
   frontend:
-    image: registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team6/frontend:latest
+    image: registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team6/frontend/react-frontend:local
     network_mode: "host"
     extra_hosts:
       - "backend:127.0.0.1"
       - "ai:127.0.0.1"
     environment:
-      VITE_KEYCLOAK_REALM=kdg_poker
-      VITE_KEYCLOAK_URL=http://localhost:8080/
-      VITE_KEYCLOAK_CLIENT_ID=kdg_poker_frontend
-      VITE_BACKEND_URL=http://localhost:8081/
-      VITE_AI_URL=http://localhost:5000
+      VITE_KEYCLOAK_REALM: kdg_poker
+      VITE_KEYCLOAK_URL: http://localhost:8080/
+      VITE_KEYCLOAK_CLIENT_ID: kdg_poker_frontend
+      VITE_BACKEND_URL: http://localhost:8081/
+      VITE_AI_URL: http://localhost:5000
   # AI app service
   ai_app:
     image: registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team6/backend-ai-service/app:latest
