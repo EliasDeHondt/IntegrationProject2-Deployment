@@ -293,7 +293,7 @@ spec:
     spec:
       containers:
         - name: spring-backend
-          image: "registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team9/backend-game-service/spring-backend"
+          image: "registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team9/backend-game-service/spring-backend:production"
           imagePullPolicy: Always
           ports:
             - containerPort: 8081

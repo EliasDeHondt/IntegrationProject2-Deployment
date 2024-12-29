@@ -15,7 +15,7 @@ name: team9_compose
 services:
   # Backend service
   backend:
-    image: registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team9/backend-game-service/spring-backend:latest
+    image: registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team9/backend-game-service/spring-backend:local
     network_mode: "host"
     extra_hosts:
       - "frontend:127.0.0.1"
