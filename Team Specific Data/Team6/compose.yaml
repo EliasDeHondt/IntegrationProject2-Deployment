@@ -23,9 +23,14 @@ services:
     environment:
       MAIL_USERNAME: kdgpoker@gmail.com
       MAIL_PASSWORD: jgdzxikbexgjwqze
+      DB_USER: postgres
+      DB_PASS: password123
+      DB_URL: jdbc:postgresql://localhost:5432/poker_db
+      AI_URL: http://localhost:5000
+      FRONTEND_URL: http://localhost:3000
   # Frontend service
   frontend:
-    image: registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team6/frontend:latest
+    image: registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team6/frontend/react-frontend:local
     network_mode: "host"
     extra_hosts:
       - "backend:127.0.0.1"
