@@ -3,7 +3,7 @@
 # @since 18/11/2024       #
 ###########################
 # Description: This file contains the variables for all the Terraform configurations.
-projectid = ""
+projectid = "project-placeholder"
 credentials_file = "credentials.json"
 
 datacenter = {

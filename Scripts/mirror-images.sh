@@ -52,25 +52,29 @@ sudo docker rmi registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team6/b
 # Pull images from GitLab registry
 sudo docker pull registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team9/frontend/react-frontend:local
 sudo docker pull registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team9/frontend/react-frontend:production
-sudo docker pull registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team9/backend-game-service/spring-backend:latest
+sudo docker pull registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team9/backend-game-service/spring-backend:local
+sudo docker pull registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team9/backend-game-service/spring-backend:production
 sudo docker pull registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team9/backend-ai-service/python-ai:latest
 
 # Tag and push images to GitHub Container Registry
 sudo docker tag registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team9/frontend/react-frontend:local ghcr.io/eliasdehondt/team9-ip2-frontend:compose
 sudo docker tag registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team9/frontend/react-frontend:production ghcr.io/eliasdehondt/team9-ip2-frontend:kubernetes
-sudo docker tag registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team9/backend-game-service/spring-backend:latest ghcr.io/eliasdehondt/team9-ip2-backend:latest
+sudo docker tag registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team9/backend-game-service/spring-backend:local ghcr.io/eliasdehondt/team9-ip2-backend:compose
+sudo docker tag registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team9/backend-game-service/spring-backend:production ghcr.io/eliasdehondt/team9-ip2-backend:kubernetes
 sudo docker tag registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team9/backend-ai-service/python-ai:latest ghcr.io/eliasdehondt/team9-ip2-ai:latest
 
 # Push images to GitHub Container Registry
 sudo docker push ghcr.io/eliasdehondt/team9-ip2-frontend:compose
 sudo docker push ghcr.io/eliasdehondt/team9-ip2-frontend:kubernetes
-sudo docker push ghcr.io/eliasdehondt/team9-ip2-backend:latest
+sudo docker push ghcr.io/eliasdehondt/team9-ip2-backend:compose
+sudo docker push ghcr.io/eliasdehondt/team9-ip2-backend:kubernetes
 sudo docker push ghcr.io/eliasdehondt/team9-ip2-ai:latest
 
 # Remove images from local machine
 sudo docker rmi registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team9/frontend/react-frontend:local
 sudo docker rmi registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team9/frontend/react-frontend:production
-sudo docker rmi registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team9/backend-game-service/spring-backend:latest
+sudo docker rmi registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team9/backend-game-service/spring-backend:local
+sudo docker rmi registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team9/backend-game-service/spring-backend:production
 sudo docker rmi registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team9/backend-ai-service/python-ai:latest
 ########################### TEAM09 ###########################
 

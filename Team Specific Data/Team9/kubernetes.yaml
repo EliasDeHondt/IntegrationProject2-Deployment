@@ -242,7 +242,7 @@ spec:
             - "--auto-iam-authn"
             - "--structured-logs"
             - "--port=5432"
-            - "team9-test1:us-central1:cloud-sql-instance" # team9-dev4-demo
+            - "team9-dev4-demo:us-central1:cloud-sql-instance" # team9-dev4-demo
           securityContext:
             runAsNonRoot: true
           volumeMounts:
@@ -328,7 +328,7 @@ spec:
             - "--auto-iam-authn"
             - "--structured-logs"
             - "--port=5432"
-            - "team9-test1:us-central1:cloud-sql-instance" # team9-dev4-demo
+            - "team9-dev4-demo:us-central1:cloud-sql-instance" # team9-dev4-demo
           securityContext:
             runAsNonRoot: true
           volumeMounts:
@@ -383,7 +383,7 @@ spec:
     spec:
       containers:
         - name: python-container
-          image: "registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team9/backend-ai-service/python-ai"
+          image: "registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team9/backend-ai-service/python-ai:latest"
           imagePullPolicy: Always
           resources:
             limits:
