@@ -27,36 +27,35 @@ resource "google_container_cluster" "kubernetes-cluster" {
     }
 
     private_cluster_config {
-        enable_private_nodes    = true
+        enable_private_nodes = true
         enable_private_endpoint = false
-        master_ipv4_cidr_block  = "10.3.0.0/28"
+        master_ipv4_cidr_block = "10.3.0.0/28"
     }
 
     ip_allocation_policy {
-        cluster_secondary_range_name  = "cluster-range"  # Use the secondary range for pods
+        cluster_secondary_range_name = "cluster-range"
         services_secondary_range_name = "service-range"
     }
 
     master_authorized_networks_config {
         cidr_blocks {
-            cidr_block   = "0.0.0.0/0" #All for testing
+            cidr_block = "0.0.0.0/0"
             display_name = "Internal Network"
         }
     }
-
     remove_default_node_pool = true
 }
 
 resource "google_container_node_pool" "node-pool" {
-    name       = "custom-node-pool"
-    cluster    = google_container_cluster.kubernetes-cluster.name
-    location   = var.datacenter.zone
+    name = "custom-node-pool"
+    cluster = google_container_cluster.kubernetes-cluster.name
+    location = var.datacenter.zone
     initial_node_count = var.kubernetes.node_count
 
     node_config {
         machine_type = var.kubernetes.node_config.machine_type
         disk_size_gb = var.kubernetes.node_config.disk_size_gb
-        disk_type    = var.kubernetes.node_config.disk_type
+        disk_type = var.kubernetes.node_config.disk_type
 
         oauth_scopes = [
             "https://www.googleapis.com/auth/devstorage.read_only",
@@ -107,7 +106,6 @@ resource "google_compute_subnetwork" "subnetwork" {
 	range_name = "service-range"
         ip_cidr_range = "10.2.0.0/16"
     }
-
 }
 
 resource "google_compute_router" "router" {
