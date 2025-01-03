@@ -672,3 +672,61 @@ spec:
       port: 80
       targetPort: 3000
 ---
+# Source: pod6.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rabbitmq
+  labels:
+    app: rabbitmq
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rabbitmq
+  template:
+    metadata:
+      labels:
+        app: rabbitmq
+    spec:
+      containers:
+        - name: rabbitmq
+          image: rabbitmq:management
+          ports:
+            - containerPort: 5672 # Messaging
+            - containerPort: 15672 # Management UI
+          env:
+            - name: RABBITMQ_DEFAULT_USER
+              value: "guest"
+            - name: RABBITMQ_DEFAULT_PASS
+              value: "guest"
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+  volumes:
+    - name: rabbitmq-storage
+      emptyDir: {}
+
+---
+# Source: pod6.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbitmq-service
+spec:
+  selector:
+    app: rabbitmq
+  ports:
+    - name: mqport
+      protocol: TCP
+      port: 5672
+      targetPort: 5672
+    - name: managementport
+      protocol: TCP
+      port: 15672
+      targetPort: 15672
+---
