@@ -1,0 +1,24 @@
+logstashPipeline:
+  logstash.conf: |
+    input {
+      beats {
+        port => 5044
+      }
+      rabbitmq {
+        host => "rabbitmq-service"
+        queue => "logstash-queue"
+        durable => true
+      }
+    }
+    output {
+      elasticsearch {
+        hosts => ["http://elasticsearch:9200"]
+      }
+    }
+resources:
+  limits:
+    memory: 2Gi
+    cpu: 1
+  requests:
+    memory: 1Gi
+    cpu: 500m
