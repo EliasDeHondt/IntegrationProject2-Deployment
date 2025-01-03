@@ -48,6 +48,12 @@ spec:
     - hosts:
       - api.teamx.eliasdh.com
       secretName: api-tls
+    - hosts:
+      - elk.teamx.eliasdh.com
+      secretName: elk-tls
+    - hosts:
+      - rabbitmq.teamx.eliasdh.com
+      secretName: rabbitmq-tls
   rules:
     - host: www.teamx.eliasdh.com
       http:
@@ -89,4 +95,26 @@ spec:
                 name: keycloak-iam-service
                 port:
                   number: 80
+    - host: elk.teamx.eliasdh.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: elk-service
+                port:
+                  number: 80
+    - host: rabbitmq.teamx.eliasdh.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: rabbitmq-service
+                port:
+                  number: 80
 ---
+
+
