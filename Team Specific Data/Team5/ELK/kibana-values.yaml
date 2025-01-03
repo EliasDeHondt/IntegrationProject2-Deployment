@@ -69,19 +69,19 @@ ingress:
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
   hosts:
-    - host: elk.team5.eliasdh.com
+    - host: elk.team5.vdz-homelab.com
       paths:
         - path: /
-    - host: rabbitmq.team5.eliasdh.com
+    - host: rabbitmq.team5.vdz-homelab.com
       paths:
         - path: /
   tls:
     - secretName: elk-tls
       hosts:
-        - elk.team5.eliasdh.com
+        - elk.team5.vdz-homelab.com
     - secretName: rabbitmq-tls
       hosts:
-        - rabbitmq.team5.eliasdh.com
+        - rabbitmq.team5.vdz-homelab.com
 readinessProbe:
   failureThreshold: 3
   initialDelaySeconds: 10
