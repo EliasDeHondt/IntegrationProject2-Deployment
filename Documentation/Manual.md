@@ -144,8 +144,7 @@ kubectl logs test-pod
 kubectl delete pod test-pod
 ```
 
-### Attention! Integration project teams potentially have their files preconfigured
-- If your administrator mentioned that you should use the "Team Specific" setup, navigate to "/Team Specific Data/TeamX".  
+> If your administrator mentioned that you should use the "Team Specific" setup, navigate to "/Team Specific Data/TeamX".  
 This allows you to skip the following edits as they will have been preconfigured for your specific team.
 
 - Change the deafult project id to the project id you previously typed in.
@@ -237,7 +236,7 @@ kubectl get ingress
 ```
 
 - If you need the **ELK Stack** you can apply the following commands.  
-The project here is provided as-is and doesn't have certain integrations to fit into the integrationproject's architecture. For the teams that need it a custom configuration is provided under their [Team Specific Setup](Team%20Specific%20Data/)
+> The project here is provided as-is and doesn't have certain integrations to fit into the integrationproject's architecture. For the teams that need it a custom configuration is provided under their [Team Specific Setup](Team%20Specific%20Data/)
 
 ```bash
 helm install filebeat https://raw.githubusercontent.com/EliasDeHondt/elk-filebeat/refs/heads/main/package/filebeat-7.15.0.tgz
