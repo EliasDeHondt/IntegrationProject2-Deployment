@@ -150,7 +150,7 @@ This allows you to skip the following edits as they will have been preconfigured
 - Change the deafult project id to the project id you previously typed in.
 ```bash
 cd ../Kubernetes
-sed -i "s/projectId/$PROJECT_ID/g" pod2.yaml pod3.yaml
+sed -i "s/ProjectId/$PROJECT_ID/g" pod2.yaml pod3.yaml
 ```
 
 - If you have followed the [Deployment-Agreement](/Documentation/Deployment-Agreement.md) to the letter, you can skip this section. However, since that's likely not the case, this part will guide you on where to update the `podX.yaml` files to configure the environment variables (env) specific to your application.
