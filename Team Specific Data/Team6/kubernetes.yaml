@@ -140,15 +140,6 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 3000
-          #env:
-          #  - name: VITE_BACKEND_URL
-          #    value: "http://spring-backend-service:80"
-          #  - name: VITE_KEYCLOAK_URL
-          #    value: "http://keycloak-iam-service:80"
-          #  - name: VITE_KEYCLOAK_REALM
-          #    value: "kdg_poker"
-          #  - name: VITE_KEYCLOAK_CLIENT_ID
-          #    value: "kdg_poker_frontend"
           resources:
             limits:
               memory: "512Mi"
