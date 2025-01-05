@@ -75,9 +75,9 @@ docker compose -f <bestandsnaam> down # Example: docker compose -f compose-full.
 
 ### 👉Step 7: Erase data
 
-- Erase specific data volumes using the following commands:
+- Erase specific data volumes using the following commands (Change X into your team number):
 ```bash
-docker volume rm ip2_local_db_data        # PostgreSQL data
-docker volume rm ip2_local_es_data        # Elasticsearch data
-docker volume rm ip2_local_mqtt_data      # RabbitMQ data
+docker volume rm teamX_compose_db_data        # PostgreSQL data
+docker volume rm teamX_compose_es_data        # Elasticsearch data
+docker volume rm teamX_compose_mqtt_data      # RabbitMQ data
 ```

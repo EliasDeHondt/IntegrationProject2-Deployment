@@ -16,24 +16,35 @@ services:
   # Backend service
   backend:
     image: registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team20/backend-game-service/spring-backend:latest
+    pull_policy: always
+    environment:
+      KEYCLOAK_URL: http://localhost:8080/realms/MonopolyRealm
     network_mode: "host"
     extra_hosts:
       - "frontend:127.0.0.1"
       - "ai:127.0.0.1"
   # Frontend service
   frontend:
-    image: registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team20/frontend/react-frontend:latest
+    image: registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team20/frontend/react-frontend-isb-local:latest
+    pull_policy: always
+    environment:
+      VITE_API_BASE_URL: http://backend:8081/
+      VITE_KEYCLOAK_CLIENT_ID: 123
+      VITE_KEYCLOAK_REALM: realm
+      VITE_KEYCLOAK_URL: http://localhost:8080
+      VITE_DEFAULT_BACKGROUND_URL: https://storage.googleapis.com/team-20-monopoly-ip2-pulic-assets/store-item/content/city.png
+      VITE_DEFAULT_SOUND_URL: https://storage.googleapis.com/team-20-monopoly-ip2-pulic-assets/store-item/content/main-theme.mp3
     network_mode: "host"
     extra_hosts:
       - "backend:127.0.0.1"
       - "ai:127.0.0.1"
   # AI service
-  ai:
-    image: registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team20/backend-ai-service/python-ai:latest
-    network_mode: "host"
-    extra_hosts:
-      - "frontend:127.0.0.1"
-      - "backend:127.0.0.1"
+#  ai:
+#    image: registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team20/backend-ai-service/python-ai:latest
+#    network_mode: "host"
+#    extra_hosts:
+#      - "frontend:127.0.0.1"
+#      - "backend:127.0.0.1"
   # Keycloak service
   keycloak:
     image: bitnami/keycloak:25
@@ -50,11 +61,12 @@ services:
       KEYCLOAK_DATABASE_PASSWORD: keycloak
   # Postgres service
   postgres:
-    image: postgres:17
+    image: postgres:16
+    pull_policy: always
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_DB: game
+      POSTGRES_DB: mono_db
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
     configs:
