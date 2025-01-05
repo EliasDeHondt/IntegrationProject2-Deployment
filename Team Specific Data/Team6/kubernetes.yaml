@@ -136,19 +136,19 @@ spec:
     spec:
       containers:
         - name: react-frontend
-          image: "registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team6/frontend:latest"
+          image: "registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team6/frontend/react-frontend:production"
           imagePullPolicy: Always
           ports:
             - containerPort: 3000
-          env:
-            - name: VITE_BACKEND_URL
-              value: "http://spring-backend-service:80"
-            - name: VITE_KEYCLOAK_URL
-              value: "http://keycloak-iam-service:80"
-            - name: VITE_KEYCLOAK_REALM
-              value: "kdg_poker"
-            - name: VITE_KEYCLOAK_CLIENT_ID
-              value: "kdg_poker_frontend"
+          #env:
+          #  - name: VITE_BACKEND_URL
+          #    value: "http://spring-backend-service:80"
+          #  - name: VITE_KEYCLOAK_URL
+          #    value: "http://keycloak-iam-service:80"
+          #  - name: VITE_KEYCLOAK_REALM
+          #    value: "kdg_poker"
+          #  - name: VITE_KEYCLOAK_CLIENT_ID
+          #    value: "kdg_poker_frontend"
           resources:
             limits:
               memory: "512Mi"
@@ -325,6 +325,8 @@ spec:
                   key: password
             - name: AI_URL
               value: "http://python-runtime-service:5000"
+            - name: FRONTEND_URL
+              value: "http://react-frontend-service:80"
             - name: DB_URL
               value: "jdbc:postgresql://localhost:5432/database-postgresql"
           resources:
