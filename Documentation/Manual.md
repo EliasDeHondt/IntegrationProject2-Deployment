@@ -4,13 +4,13 @@
 ## 📘Table of Contents
 
 1. [📘Table of Contents](#📘table-of-contents)
-2. [🌍Install Terraform](#🌍install-terraform)
-3. [☁️Install GCloud CLI](#☁️install-gcloud-cli)
-4. [📦Environment](#📦environment)
-5. [📡Setup infrastructure](#📡setup-infrastructure)
-    1. [🔨Terraform](#🔨terraform)
-    2. [🌌Kubernetes Cluster](#🌌kubernetes-cluster)
-6. [💣Tear down infrastructure](#💣tear-down-infrastructure)
+2. [🌍Install Terraform](##🌍install-terraform)
+3. [☁️Install GCloud CLI](##☁️install-gcloud-cli)
+4. [📦Environment](##📦environment)
+5. [📡Setup infrastructure](##📡setup-infrastructure)
+    1. [🔨Terraform](##🔨terraform)
+    2. [🌌Kubernetes Cluster](##🌌kubernetes-cluster)
+6. [💣Tear down infrastructure](##💣tear-down-infrastructure)
 
 ---
 
@@ -144,6 +144,9 @@ kubectl logs test-pod
 kubectl delete pod test-pod
 ```
 
+> If your administrator mentioned that you should use the "Team Specific" setup, navigate to "/Team Specific Data/TeamX".  
+This allows you to skip the following edits as they will have been preconfigured for your specific team.
+
 - Change the deafult project id to the project id you previously typed in.
 ```bash
 cd ../Kubernetes
@@ -232,7 +235,9 @@ kubectl apply -f pod5.yaml
 kubectl get ingress
 ```
 
-- If you need the **ELK Stack** you can apply the following commands.
+- If you need the **ELK Stack** you can apply the following commands.  
+> The project here is provided as-is and doesn't have certain integrations to fit into the integrationproject's architecture. For the teams that need it a custom configuration is provided under their [Team Specific Setup](Team%20Specific%20Data/)
+
 ```bash
 helm install filebeat https://raw.githubusercontent.com/EliasDeHondt/elk-filebeat/refs/heads/main/package/filebeat-7.15.0.tgz
 helm install logstash https://raw.githubusercontent.com/EliasDeHondt/elk-filebeat/refs/heads/main/package/logstash-7.15.0.tgz

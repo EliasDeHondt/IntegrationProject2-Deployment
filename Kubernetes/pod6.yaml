@@ -1,0 +1,75 @@
+###############################
+# @author Wolf Van den Zegel  #
+# @since 03/01/2025           #
+###############################
+# Description: This pod is used to run RabbitMQ.
+# Usage: kubectl apply -f pod6.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rabbitmq
+  labels:
+    app: rabbitmq
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rabbitmq
+  template:
+    metadata:
+      labels:
+        app: rabbitmq
+    spec:
+      containers:
+        - name: rabbitmq
+          image: rabbitmq:management
+          ports:
+            - containerPort: 5672 # RabbitMQ port
+            - containerPort: 15672 # Management console port
+          volumeMounts:
+            - name: rabbitmq-data
+              mountPath: /var/lib/rabbitmq
+          env:
+            - name: RABBITMQ_DEFAULT_USER
+              value: "guest"
+            - name: RABBITMQ_DEFAULT_PASS
+              value: "guest"
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+      volumes:
+        - name: rabbitmq-data
+          persistentVolumeClaim:
+            claimName: rabbitmq-pvc
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: rabbitmq-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbitmq-service
+spec:
+  ports:
+    - name: "mqport"
+      port: 5672
+      targetPort: 5672
+    - name: "management"
+      port: 15672
+      targetPort: 15672
+  selector:
+    app: rabbitmq
