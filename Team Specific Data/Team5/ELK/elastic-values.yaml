@@ -1,0 +1,26 @@
+##############################
+# @author Wolf Van den Zegel #
+# @since 04/01/2025          #
+##############################
+esConfig:
+  elasticsearch.yml: |
+    xpack.security.enabled: false
+    xpack.security.http.ssl.enabled: false
+    xpack.security.transport.ssl.enabled: false
+    discovery.seed_hosts: []
+    node.name: "elasticsearch-node-0"
+imageTag: "8.16.0"
+sysctlInitContainer:
+  enabled: "true"
+  sysctls:
+    - name: vm.max_map_count
+      value: "262144"
+terminationGracePeriod: "300"
+replicas: 1
+resources:
+  requests:
+    cpu: "1000m"
+    memory: "2Gi"
+  limits:
+    cpu: "2"
+    memory: "4Gi"
