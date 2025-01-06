@@ -330,7 +330,7 @@ spec:
             - name: DB_URL
               value: "jdbc:postgresql://localhost:5432/database-postgresql"
             - name: KEYCLOAK_URL
-              value: "http://keycloak-iam-service:8080/realms/MonopolyRealm"
+              value: "https://keycloak.team20.eliasdh.com/realms/MonopolyRealm"
           resources:
             limits:
                 memory: "4Gi"

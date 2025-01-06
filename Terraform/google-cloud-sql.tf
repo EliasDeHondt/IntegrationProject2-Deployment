@@ -18,13 +18,13 @@ resource "google_sql_database_instance" "cloud-sql-instance" {
 }
 
 resource "google_sql_database" "database-postgresql" {
-    depends_on=[google_sql_database_instance.cloud-sql-instance]
+    depends_on=[google_sql_database_instance.cloud-sql-instance, google_sql_user.database-user]
     name = "database-postgresql"
     instance = google_sql_database_instance.cloud-sql-instance.name
 }
 
 resource "google_sql_database" "keycloak" { # Database for Keycloak
-    depends_on=[google_sql_database_instance.cloud-sql-instance]
+    depends_on=[google_sql_database_instance.cloud-sql-instance, google_sql_user.database-user]
     name = "keycloak"
     instance = google_sql_database_instance.cloud-sql-instance.name
 }
