@@ -1,0 +1,32 @@
+name: ip2_local
+
+include:
+  - compose-base.yaml
+
+services:
+  backend:
+    image: ${BACKEND_IMAGE:?Required}${BACKEND_VERSION:+:}${BACKEND_VERSION:-}
+    network_mode: "host"
+    extra_hosts:
+      - "frontend:127.0.0.1"
+      - "ai:127.0.0.1"
+      - "kibana:127.0.0.1"
+      - "elasticsearch:127.0.0.1"
+      - "logstash:127.0.0.1"
+      - "rabbitmq:127.0.0.1"
+  frontend:
+    image: ${FRONTEND_IMAGE:?Required}${FRONTEND_VERSION:+:}${FRONTEND_VERSION:-}
+    network_mode: "host"
+    extra_hosts:
+      - "backend:127.0.0.1"
+      - "ai:127.0.0.1"
+      - "kibana:127.0.0.1"
+      - "elasticsearch:127.0.0.1"
+      - "logstash:127.0.0.1"
+      - "rabbitmq:127.0.0.1"
+    environment:
+      VITE_KC_REALM: ${VITE_KC_REALM}
+      VITE_KC_CLIENT_ID: ${VITE_KC_CLIENT_ID}
+      VITE_KC_URL: ${VITE_KC_URL}
+      VITE_KC_BACKEND_URL: ${VITE_KC_BACKEND_URL}
+

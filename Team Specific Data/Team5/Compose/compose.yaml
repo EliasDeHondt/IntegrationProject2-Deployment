@@ -1,0 +1,12 @@
+###########################
+# @author Elias De Hondt  #
+# @since 18/11/2024       #
+###########################
+# sudo docker login registry.gitlab.com
+# sudo docker compose -f compose.yaml pull
+# sudo docker compose -f compose.yaml up -d
+# sudo docker ps
+# sudo docker compose -f compose.yaml logs -f
+# sudo docker compose -f compose.yaml down
+# sudo docker volume rm team5_compose_db_data
+name: team5_compose
