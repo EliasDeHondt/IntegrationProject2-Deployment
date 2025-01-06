@@ -136,25 +136,19 @@ spec:
     spec:
       containers:
         - name: react-frontend
-          image: "registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team20/frontend/react-frontend"
+          image: "registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team20/frontend/react-frontend-isb"
           imagePullPolicy: Always
+          env:
+            - name: VITE_KC_URL
+              value: "http://keycloak-iam-service:8080/"
+            - name: VITE_KC_BACKEND_URL
+              value: "http://spring-backend-service:8081/"
+            - name: VITE_KC_REALM
+              value: "MonopolyRealm"
+            - name: VITE_KC_CLIENT
+              value: "monopoly-client"
           ports:
             - containerPort: 3000
-          env:
-            - name: BACKEND_URL
-              value: "http://spring-backend-service:80"
-            - name: KEYCLOAK_URL
-              value: "http://keycloak-iam-service:80"
-            - name: KEYCLOAK_REALM
-              value: "realm"
-            - name: KEYCLOAK_CLIENT_ID
-              value: "123"
-            # - name: VITE_KC_URL
-            #   value: "http://keycloak-iam-service:80"
-            # - name: VITE_KC_REALM
-            #   value: "catan"
-            # - name: VITE_KC_CLIENT_ID
-            #   value: "catan_client"
           resources:
             limits:
               memory: "512Mi"
@@ -201,9 +195,15 @@ spec:
           args: ["start-dev"]
           env:
             - name: KC_BOOTSTRAP_ADMIN_USERNAME
-              value: "admin"
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-credentials
+                  key: username
             - name: KC_BOOTSTRAP_ADMIN_PASSWORD
-              value: "admin"
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-credentials
+                  key: password
             - name: KC_PROXY
               value: "edge"
             - name: KC_DB
