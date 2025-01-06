@@ -437,9 +437,9 @@ data:
         static_configs:
           - targets:
               - localhost:9115
-              - https://keycloak.team9.eliasdh.com
-              - https://www.team9.eliasdh.com
-              - https://api.team9.eliasdh.com
+              - https://keycloak.teamx.eliasdh.com
+              - https://www.teamx.eliasdh.com
+              - https://api.teamx.eliasdh.com
         relabel_configs:
           - source_labels: [__address__]
             target_label: __param_target
