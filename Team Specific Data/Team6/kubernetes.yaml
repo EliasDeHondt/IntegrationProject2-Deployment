@@ -395,11 +395,11 @@ spec:
           imagePullPolicy: Always
           resources:
             limits:
+              memory: "16Gi"
+              cpu: "8"
+            requests:
               memory: "8Gi"
               cpu: "4"
-            requests:
-              memory: "4Gi"
-              cpu: "2"
           ports:
             - containerPort: 5000
         - name: ollama-container
@@ -407,11 +407,11 @@ spec:
           imagePullPolicy: Always
           resources:
             limits:
+              memory: "16Gi"
+              cpu: "8"
+            requests:
               memory: "8Gi"
               cpu: "4"
-            requests:
-              memory: "4Gi"
-              cpu: "2"
           ports:
             - containerPort: 5001
       imagePullSecrets:
