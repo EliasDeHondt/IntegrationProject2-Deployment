@@ -1,0 +1,116 @@
+##############################
+# @author Wolf Van den Zegel #
+# @since 04/01/2025          #
+##############################
+#logstashPipeline:
+#  logstash.conf: |
+#    input {
+#      beats {
+#        port => 5044
+#      }
+#      rabbitmq {
+#        host => "rabbitmq-service"
+#        queue => "logstash-queue"
+#        durable => true
+#      }
+#    }
+#    output {
+#      elasticsearch {
+#        hosts => ["http://elasticsearch-master:9200"]
+#        manage_template => false
+#      }
+#    }
+imageTag: "8.16.0"
+logstashConfig:
+  logstash.yml: |
+    http.host: "0.0.0.0"
+    xpack.monitoring.enabled: true
+    xpack.monitoring.elasticsearch.hosts: ["http://elasticsearch-master:9200"]
+logstashPipeline:
+  logstash.conf: |
+    input {
+      rabbitmq {
+        host => "rabbitmq-service"
+        queue => "user-profile"
+        durable => true
+        user => "user"
+        password => "password"
+        port => 5672
+        codec => json
+        add_field => { "[@metadata][index]" => "user-profile-index" }
+      }
+
+      rabbitmq {
+        host => "rabbitmq-service"
+        queue => "user-activity"
+        durable => true
+        user => "user"
+        password => "password"
+        port => 5672
+        codec => json
+        add_field => { "[@metadata][index]" => "user-activity-index" }
+      }
+
+      rabbitmq {
+        host => "rabbitmq-service"
+        queue => "game-sessions"
+        durable => true
+        user => "user"
+        password => "password"
+        port => 5672
+        codec => json
+        add_field => { "[@metadata][index]" => "game-sessions-index" }
+      }
+
+      rabbitmq {
+        host => "rabbitmq-service"
+        queue => "game-bets"
+        durable => true
+        user => "user"
+        password => "password"
+        port => 5672
+        codec => json
+        add_field => { "[@metadata][index]" => "game-bets-index" }
+      }
+
+      rabbitmq {
+        host => "rabbitmq-service"
+        queue => "game-decisions"
+        durable => true
+        user => "user"
+        password => "password"
+        port => 5672
+        codec => json
+        add_field => { "[@metadata][index]" => "game-decisions-index" }
+      }
+
+      rabbitmq {
+        host => "rabbitmq-service"
+        queue => "game-results"
+        durable => true
+        user => "user"
+        password => "password"
+        port => 5672
+        codec => json
+        add_field => { "[@metadata][index]" => "game-results-index" }
+      }
+    }
+    filter {
+      mutate {
+        remove_field => ["@timestamp", "@version", "host", "event"]
+      }
+    }
+    output {
+      elasticsearch {
+        hosts => ["http://elasticsearch-master:9200"]
+        index => "%{[@metadata][index]}"
+      }
+      stdout { codec => rubydebug }
+    }
+resources:
+  limits:
+    memory: 2Gi
+    cpu: 1
+  requests:
+    memory: 1Gi
+    cpu: 500m

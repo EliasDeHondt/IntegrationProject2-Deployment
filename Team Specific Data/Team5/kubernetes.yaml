@@ -1,7 +1,3 @@
-###########################
-# @author Elias De Hondt  #
-# @since 18/11/2024       #
-###########################
 ---
 # Source: credentials.yaml
 apiVersion: v1
@@ -20,9 +16,9 @@ metadata:
   name: db-credentials
 type: Opaque
 data:
-  username: ZGF0YWJhc2UtdXNlcg== # database-user
-  password: MTIz # 123
-  url: amRiYzpwb3N0Z3Jlc3FsOi8vbG9jYWxob3N0OjU0MzIvY2F0YW5fZGI=
+  username: dXNlcg== # user
+  password: cGFzc3dvcmQ= # password
+  url: amRiYzpwb3N0Z3Jlc3FsOi8vbG9jYWxob3N0OjU0MzIva2V5Y2xvYWs=
 ---
 # Source: credentials.yaml
 apiVersion: v1
@@ -33,6 +29,15 @@ type: Opaque
 data:
   username: YWRtaW4= # admin
   password: MTIz # 123
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: rabbitmq-credentials
+type: Opaque
+data:
+  username: dXNlcg== # user
+  password: cGFzc3dvcmQ= # password
 ---
 # Source: ingress-multi-domain.yaml
 apiVersion: cert-manager.io/v1
@@ -64,19 +69,19 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-      - status.team9.eliasdh.com
+      - status.team5.vdz-homelab.com
       secretName: status-tls
     - hosts:
-      - keycloak.team9.eliasdh.com
+      - keycloak.team5.vdz-homelab.com
       secretName: keycloak-iam-tls
     - hosts:
-      - www.team9.eliasdh.com
+      - www.team5.vdz-homelab.com
       secretName: www-tls
     - hosts:
-      - api.team9.eliasdh.com
+      - api.team5.vdz-homelab.com
       secretName: api-tls
   rules:
-    - host: www.team9.eliasdh.com
+    - host: www.team5.vdz-homelab.com
       http:
         paths:
           - path: /
@@ -86,7 +91,7 @@ spec:
                 name: react-frontend-service
                 port:
                   number: 80
-    - host: api.team9.eliasdh.com
+    - host: api.team5.vdz-homelab.com
       http:
         paths:
           - path: /
@@ -96,7 +101,7 @@ spec:
                 name: spring-backend-service
                 port:
                   number: 80
-    - host: status.team9.eliasdh.com
+    - host: status.team5.vdz-homelab.com
       http:
         paths:
           - path: /
@@ -106,7 +111,7 @@ spec:
                 name: monitoring-service
                 port:
                   number: 80
-    - host: keycloak.team9.eliasdh.com
+    - host: keycloak.team5.vdz-homelab.com
       http:
         paths:
           - path: /
@@ -136,25 +141,19 @@ spec:
     spec:
       containers:
         - name: react-frontend
-          image: "registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team9/frontend/react-frontend"
+          image: "registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team5/react-frontend:k8s-latest"
           imagePullPolicy: Always
           ports:
             - containerPort: 3000
           env:
-            - name: BACKEND_URL
-              value: "http://spring-backend-service:80"
-            - name: KEYCLOAK_URL
-              value: "http://keycloak-iam-service:80"
-            - name: KEYCLOAK_REALM
-              value: "realm"
-            - name: KEYCLOAK_CLIENT_ID
-              value: "123"
-            # - name: VITE_KC_URL
-            #   value: "http://keycloak-iam-service:80"
-            # - name: VITE_KC_REALM
-            #   value: "catan"
-            # - name: VITE_KC_CLIENT_ID
-            #   value: "catan_client"
+            - name: VITE_BACKEND_URL
+              value: "https://api.team5.vdz-homelab.com/"
+            - name: VITE_KC_URL
+              value: "https://keycloak.team5.vdz-homelab.com/"
+            - name: VITE_KC_REALM
+              value: "poker"
+            - name: VITE_KC_CLIENT_ID
+              value: "poker_client"
           resources:
             limits:
               memory: "512Mi"
@@ -198,6 +197,7 @@ spec:
       containers:
         - name: keycloak-iam
           image: quay.io/keycloak/keycloak:25.0
+          imagePullPolicy: Always
           args: ["start-dev"]
           env:
             - name: KC_BOOTSTRAP_ADMIN_USERNAME
@@ -208,28 +208,28 @@ spec:
               value: "edge"
             - name: KC_DB
               value: "postgres"
-            - name: KC_DB_URL_HOST
-              value: "localhost"
-            - name: KC_DB_URL_PORT
-              value: "5432"
-            - name: KC_DB_NAME
-              value: "keycloak"
+            - name: KC_DB_URL
+              value: "jdbc:postgresql://localhost:5432/keycloak"
             - name: KEYCLOAK_ADMIN
+              #value: "admin"
               valueFrom:
                 secretKeyRef:
                   name: keycloak-credentials
                   key: username
             - name: KEYCLOAK_ADMIN_PASSWORD
+              #value: "123"
               valueFrom:
                 secretKeyRef:
                   name: keycloak-credentials
                   key: password
             - name: KC_DB_USERNAME
+              #value: "user"
               valueFrom:
                 secretKeyRef:
                   name: db-credentials
                   key: username
             - name: KC_DB_PASSWORD
+              #value: "password"
               valueFrom:
                 secretKeyRef:
                   name: db-credentials
@@ -252,12 +252,13 @@ spec:
             periodSeconds: 10
         - name: cloud-sql-proxy
           image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.14.1
+          imagePullPolicy: Always
           args:
             - "--private-ip"
             - "--auto-iam-authn"
             - "--structured-logs"
             - "--port=5432"
-            - "team9-dev4-demo:us-central1:cloud-sql-instance"
+            - "propane-bebop-443208-k8:us-central1:cloud-sql-instance"
           securityContext:
             runAsNonRoot: true
           volumeMounts:
@@ -308,7 +309,7 @@ spec:
     spec:
       containers:
         - name: spring-backend
-          image: "registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team9/backend-game-service/spring-backend"
+          image: "registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team5/spring-backend:k8s-latest"
           imagePullPolicy: Always
           ports:
             - containerPort: 8081
@@ -338,12 +339,13 @@ spec:
                 cpu: "1"
         - name: cloud-sql-proxy
           image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.14.1
+          imagePullPolicy: Always
           args:
             - "--private-ip"
             - "--auto-iam-authn"
             - "--structured-logs"
             - "--port=5432"
-            - "team9-dev4-demo:us-central1:cloud-sql-instance"
+            - "propane-bebop-443208-k8:us-central1:cloud-sql-instance"
           securityContext:
             runAsNonRoot: true
           volumeMounts:
@@ -378,54 +380,7 @@ spec:
       targetPort: 8081
   type: ClusterIP
 ---
-# Source: pod4.yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: python-runtime
-  namespace: default
-  labels:
-    app: python-runtime
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: python-runtime
-  template:
-    metadata:
-      labels:
-        app: python-runtime
-    spec:
-      containers:
-        - name: python-container
-          image: "registry.gitlab.com/kdg-ti/integratieproject-2/2024-2025/team9/backend-ai-service/python-ai"
-          imagePullPolicy: Always
-          resources:
-            limits:
-              memory: "8Gi"
-              cpu: "4"
-            requests:
-              memory: "4Gi"
-              cpu: "2"
-          ports:
-            - containerPort: 5000
-      imagePullSecrets:
-        - name: gitlab-registry
----
-# Source: pod4.yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: python-runtime-service
-  namespace: default
-spec:
-  selector:
-    app: python-runtime
-  ports:
-    - protocol: TCP
-      port: 5000
-      targetPort: 5000
-  type: ClusterIP
+# No pod4 due to lack of AI stack
 ---
 # Source: pod5.yaml
 apiVersion: v1
@@ -641,6 +596,7 @@ spec:
       containers:
         - name: grafana
           image: grafana/grafana:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 3000
           env:
@@ -673,6 +629,7 @@ spec:
               name: grafana-dashboards
         - name: prometheus
           image: prom/prometheus:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 9090
           resources:
@@ -687,6 +644,7 @@ spec:
               mountPath: /etc/prometheus
         - name: blackbox-exporter
           image: prom/blackbox-exporter:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 9115
       volumes:
@@ -725,3 +683,69 @@ spec:
       port: 80
       targetPort: 3000
 ---
+# Source: pod6.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rabbitmq
+  labels:
+    app: rabbitmq
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rabbitmq
+  template:
+    metadata:
+      labels:
+        app: rabbitmq
+    spec:
+      containers:
+        - name: rabbitmq
+          image: rabbitmq:management
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 5672 # Messaging
+            - containerPort: 15672 # Management UI
+          env:
+            - name: RABBITMQ_DEFAULT_USER
+              valueFrom:
+                secretKeyRef:
+                  name: rabbitmq-credentials
+                  key: username
+            - name: RABBITMQ_DEFAULT_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: rabbitmq-credentials
+                  key: password
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+          volumeMounts:
+            - name: rabbitmq-storage
+              mountPath: /var/lib/rabbitmq
+      volumes:
+        - name: rabbitmq-storage
+          emptyDir: {}
+---
+# Source: pod6.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbitmq-service
+spec:
+  selector:
+    app: rabbitmq
+  ports:
+    - name: mqport
+      protocol: TCP
+      port: 5672
+      targetPort: 5672
+    - name: managementport
+      protocol: TCP
+      port: 15672
+      targetPort: 15672
