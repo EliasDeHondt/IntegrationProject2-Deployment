@@ -1,0 +1,92 @@
+esConfig:
+  elasticsearch.yml: |
+    xpack.security.enabled: true
+    xpack.security.http.ssl.enabled: true
+    xpack.security.transport.ssl.enabled: true
+    xpack.security.http.ssl.key: /usr/share/elasticsearch/config/certs/instance/instance.key
+    xpack.security.http.ssl.certificate: /usr/share/elasticsearch/config/certs/instance/instance.crt
+    xpack.security.http.ssl.certificate_authorities: [ "/usr/share/elasticsearch/config/certs/ca/ca.crt" ]
+    xpack.security.transport.ssl.key: /usr/share/elasticsearch/config/certs/instance/instance.key
+    xpack.security.transport.ssl.certificate: /usr/share/elasticsearch/config/certs/instance/instance.crt
+    xpack.security.transport.ssl.certificate_authorities: [ "/usr/share/elasticsearch/config/certs/ca/ca.crt" ]
+    node.name: "elasticsearch-node-0"
+    cluster.initial_master_nodes: ["elasticsearch-master-0"]
+    discovery.seed_hosts: ["elasticsearch-master-0"]
+imageTag: "8.16.0"
+replicas: 1
+resources:
+  requests:
+    cpu: "1000m"
+    memory: "2Gi"
+  limits:
+    cpu: "2"
+    memory: "4Gi"
+terminationGracePeriod: 300
+readinessProbe:
+  exec:
+    command:
+      - curl
+      - --cacert
+      - /usr/share/elasticsearch/config/certs/ca/ca.crt
+      - https://127.0.0.1:9200
+sysctlInitContainer:
+  enabled: true
+  sysctls:
+    - name: vm.max_map_count
+      value: "262144"
+extraEnvs:
+  - name: ELASTIC_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: elastic-credentials
+        key: password
+  - name: ELASTIC_USERNAME
+    valueFrom:
+      secretKeyRef:
+        name: elastic-credentials
+        key: username
+volumeClaimTemplate:
+  accessModes: ["ReadWriteOnce"]
+  resources:
+    requests:
+      storage: 30Gi
+extraVolumes:
+  - name: certs
+    emptyDir: {}
+extraVolumeMounts:
+  - name: certs
+    mountPath: /usr/share/elasticsearch/config/certs
+    readOnly: false
+extraInitContainers:
+  - name: generate-certs
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.16.0
+    imagePullPolicy: IfNotPresent
+    command:
+      - bash
+      - -c
+      - |
+        set -euo pipefail
+        echo "Generating CA certificate..."
+        mkdir -p /usr/share/elasticsearch/config/certs
+        elasticsearch-certutil ca --silent --pem -out /usr/share/elasticsearch/config/certs/ca.zip
+        if [ ! -f /usr/share/elasticsearch/config/certs/ca.zip ]; then
+          echo "CA generation failed!" >&2
+          exit 1
+        fi
+        unzip -o /usr/share/elasticsearch/config/certs/ca.zip -d /usr/share/elasticsearch/config/certs
+        echo "Generating instance certificates..."
+        elasticsearch-certutil cert --silent --pem \
+          --ca-cert /usr/share/elasticsearch/config/certs/ca/ca.crt \
+          --ca-key /usr/share/elasticsearch/config/certs/ca/ca.key \
+          --out /usr/share/elasticsearch/config/certs/certs.zip
+        if [ ! -f /usr/share/elasticsearch/config/certs/certs.zip ]; then
+          echo "Instance certificate generation failed!" >&2
+          exit 1
+        fi
+        unzip -o /usr/share/elasticsearch/config/certs/certs.zip -d /usr/share/elasticsearch/config/certs
+        cp /usr/share/elasticsearch/config/certs/instance/* /usr/share/elasticsearch/config/certs/
+        echo "Certificates generated successfully."
+        ls -l /usr/share/elasticsearch/config/certs
+    volumeMounts:
+      - name: certs
+        mountPath: /usr/share/elasticsearch/config/certs

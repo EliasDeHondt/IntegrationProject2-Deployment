@@ -7,7 +7,9 @@ logstashConfig:
   logstash.yml: |
     http.host: "0.0.0.0"
     xpack.monitoring.enabled: true
-    xpack.monitoring.elasticsearch.hosts: ["http://elasticsearch-master:9200"]
+    xpack.monitoring.elasticsearch.hosts: ["https://elasticsearch-master:9200"]
+    xpack.monitoring.elasticsearch.ssl.certificate_authority: "/usr/share/logstash/config/certs/ca.crt"
+    config.support_escapes: true
 logstashPipeline:
   logstash.conf: |
     input {
@@ -15,8 +17,8 @@ logstashPipeline:
         host => "rabbitmq-service"
         queue => "user-profile"
         durable => true
-        user => "user"
-        password => "password"
+        user => "${RABBITMQ_USERNAME}"
+        password => "${RABBITMQ_PASSWORD}"
         port => 5672
         codec => json
         add_field => { "[@metadata][index]" => "user-profile-index" }
@@ -26,8 +28,8 @@ logstashPipeline:
         host => "rabbitmq-service"
         queue => "user-activity"
         durable => true
-        user => "user"
-        password => "password"
+        user => "${RABBITMQ_USERNAME}"
+        password => "${RABBITMQ_PASSWORD}"
         port => 5672
         codec => json
         add_field => { "[@metadata][index]" => "user-activity-index" }
@@ -37,8 +39,8 @@ logstashPipeline:
         host => "rabbitmq-service"
         queue => "game-sessions"
         durable => true
-        user => "user"
-        password => "password"
+        user => "${RABBITMQ_USERNAME}"
+        password => "${RABBITMQ_PASSWORD}"
         port => 5672
         codec => json
         add_field => { "[@metadata][index]" => "game-sessions-index" }
@@ -48,8 +50,8 @@ logstashPipeline:
         host => "rabbitmq-service"
         queue => "game-bets"
         durable => true
-        user => "user"
-        password => "password"
+        user => "${RABBITMQ_USERNAME}"
+        password => "${RABBITMQ_PASSWORD}"
         port => 5672
         codec => json
         add_field => { "[@metadata][index]" => "game-bets-index" }
@@ -59,8 +61,8 @@ logstashPipeline:
         host => "rabbitmq-service"
         queue => "game-decisions"
         durable => true
-        user => "user"
-        password => "password"
+        user => "${RABBITMQ_USERNAME}"
+        password => "${RABBITMQ_PASSWORD}"
         port => 5672
         codec => json
         add_field => { "[@metadata][index]" => "game-decisions-index" }
@@ -70,8 +72,8 @@ logstashPipeline:
         host => "rabbitmq-service"
         queue => "game-results"
         durable => true
-        user => "user"
-        password => "password"
+        user => "${RABBITMQ_USERNAME}"
+        password => "${RABBITMQ_PASSWORD}"
         port => 5672
         codec => json
         add_field => { "[@metadata][index]" => "game-results-index" }
@@ -84,12 +86,14 @@ logstashPipeline:
     }
     output {
       elasticsearch {
-        hosts => ["http://elasticsearch-master:9200"]
+        hosts => ["https://elasticsearch-master:9200"]
+        user => "${ELASTIC_USERNAME}"
+        password => "${ELASTIC_PASSWORD}"
+        ssl_certificate_authorities => "/usr/share/logstash/config/certs/ca.crt"
         index => "%{[@metadata][index]}"
       }
       stdout { codec => rubydebug }
     }
-replicas: 1
 resources:
   limits:
     memory: 2Gi
@@ -97,3 +101,38 @@ resources:
   requests:
     memory: 1Gi
     cpu: 500m
+readinessProbe:
+  exec:
+    command:
+      - curl
+      - --cacert
+      - /usr/share/elasticsearch/config/certs/ca/ca.crt
+      - https://127.0.0.1:9200
+extraVolumes: |
+  - name: elasticsearch-certificates
+    secret:
+      secretName: elasticsearch-certificates
+extraVolumeMounts: |
+  - name: elasticsearch-certificates
+    mountPath: /usr/share/logstash/config/certs
+    readOnly: true
+extraEnvVars:
+  - name: ELASTIC_USERNAME
+    valueFrom:
+      secretKeyRef:
+        name: elastic-credentials
+        key: username
+  - name: ELASTIC_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: elastic-credentials
+        key: password
+  - name: RABBITMQ_USERNAME
+    valueFrom:
+      secretKeyRef:
+        name: rabbitmq-credentials
+        key: username
+  - name: RABBITMQ_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: rabbitmq-credentials

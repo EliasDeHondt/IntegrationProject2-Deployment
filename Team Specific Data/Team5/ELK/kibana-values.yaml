@@ -27,14 +27,6 @@ resources:
 protocol: http
 serverHost: "0.0.0.0"
 healthCheckPath: "/app/kibana"
-# kibanaConfig:
-#    kibana.yml: |
-#      server.host: "0.0.0.0"
-#      elasticsearch.hosts: ["http://elasticsearch-master:9200"]
-#      xpack.encryptedSavedObjects.encryptionKey: "9h3eVT7uPT3jjXgYHDm9OPGuVPAbrJv/5iRGx5TaxsQ="
-#      xpack.security.encryptionKey: "Gj8P0AJJbrpF88I37xUCstdfLocYDzdbef9dkjyG1Ik="
-#      xpack.reporting.encryptionKey: "qlT3u+Y+tzATyf3z4TEuayUHRUz1N3fZFEteyDAxC90="
-#      xpack.fleet.enabled: false
 podSecurityContext:
   fsGroup: 1000
 securityContext:
@@ -75,13 +67,13 @@ ingress:
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
   hosts:
-    - host: elk.team5.vdz-homelab.com
+    - host: elk.team5.eliasdh.com
       paths:
         - path: /
   tls:
     - secretName: elk-tls
       hosts:
-        - elk.team5.vdz-homelab.com
+        - elk.team5.eliasdh.com
 readinessProbe:
   failureThreshold: 3
   initialDelaySeconds: 60
