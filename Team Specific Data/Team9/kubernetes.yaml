@@ -436,10 +436,9 @@ data:
           module: [http_2xx]
         static_configs:
           - targets:
-              - localhost:9115
-              - https://keycloak.teamx.eliasdh.com
-              - https://www.teamx.eliasdh.com
-              - https://api.teamx.eliasdh.com
+              - https://keycloak.team9.eliasdh.com
+              - https://www.team9.eliasdh.com
+              - https://api.team9.eliasdh.com
         relabel_configs:
           - source_labels: [__address__]
             target_label: __param_target
@@ -497,114 +496,263 @@ kind: ConfigMap
 metadata:
   name: grafana-dashboards
 data:
-  cluster.json: |-
+  status.json: |-
     {
-      "__inputs": [],
-      "__requires": [],
-      "annotations": {
-        "list": []
-      },
-      "editable": false,
-      "gnetId": null,
-      "graphTooltip": 0,
-      "hideControls": false,
-      "id": null,
-      "links": [],
-      "panels": [
-        {
-          "aliasColors": {},
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
-          "datasource": "TestData",
-          "fill": 1,
-          "gridPos": {
-            "h": 8,
-            "w": 24,
-            "x": 0,
-            "y": 0
-          },
-          "id": 2,
-          "legend": {
-            "alignAsTable": false,
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "rightSide": false,
-            "show": true,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 1,
-          "links": [],
-          "nullPointMode": "null",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "repeat": null,
-          "seriesOverrides": [],
-          "spaceLength": 10,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "CPU Usage",
-          "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
+        "annotations": {
+            "list": [
             {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
+              "builtIn": 1,
+              "datasource": {
+                "type": "grafana",
+                "uid": "-- Grafana --"
+              },
+              "enable": true,
+              "hide": true,
+              "iconColor": "rgba(0, 211, 255, 1)",
+              "name": "Annotations & Alerts",
+              "type": "dashboard"
             }
           ]
-        }
-      ],
-      "refresh": "",
-      "rows": [],
-      "schemaVersion": 16,
-      "tags": [
-        "kubernetes"
-      ],
-      "templating": {
-        "list": []
-      },
-      "time": {
-        "from": "now-6h",
-        "to": "now"
-      },
-      "timepicker": {},
-      "timezone": "browser",
-      "title": "Cluster",
-      "version": 0
-    }
+        },
+        "editable": true,
+        "fiscalYearStartMonth": 0,
+        "graphTooltip": 0,
+        "id": 4,
+        "links": [],
+        "panels": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "P1809F7CD0C75ACF3"
+            },
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "fixedColor": "text",
+                  "mode": "fixed"
+                },
+                "custom": {
+                  "align": "auto",
+                  "cellOptions": {
+                    "type": "color-text"
+                  },
+                  "filterable": false,
+                  "inspect": false
+                },
+                "mappings": [
+                  {
+                    "options": {
+                      "from": 200,
+                      "result": {
+                        "color": "green",
+                        "index": 0,
+                        "text": "UP"
+                      },
+                      "to": 403
+                    },
+                    "type": "range"
+                  },
+                  {
+                    "options": {
+                      "from": 404,
+                      "result": {
+                        "color": "red",
+                        "index": 1,
+                        "text": "DOWN"
+                      },
+                      "to": 600
+                    },
+                    "type": "range"
+                  }
+                ],
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    }
+                  ]
+                }
+              },
+              "overrides": []
+            },
+            "gridPos": {
+              "h": 7,
+              "w": 24,
+              "x": 0,
+              "y": 0
+            },
+            "id": 2,
+            "options": {
+              "cellHeight": "sm",
+              "footer": {
+                "countRows": false,
+                "enablePagination": false,
+                "fields": "",
+                "reducer": [
+                  "sum"
+                ],
+                "show": false
+              },
+              "showHeader": true,
+              "sortBy": [
+                {
+                  "desc": false,
+                  "displayName": "instance"
+                }
+              ]
+            },
+            "pluginVersion": "11.4.0",
+            "targets": [
+              {
+                "editorMode": "code",
+                "expr": "sum(probe_http_status_code) without (__name__,job)",
+                "format": "table",
+                "legendFormat": "__auto",
+                "range": true,
+                "refId": "A"
+              }
+            ],
+            "title": "Current state",
+            "transformations": [
+              {
+                "id": "renameByRegex",
+                "options": {
+                  "regex": "(instance)",
+                  "renamePattern": "Target"
+                }
+              },
+              {
+                "id": "renameByRegex",
+                "options": {
+                  "regex": "Value",
+                  "renamePattern": "State"
+                }
+              },
+              {
+                "id": "renameByRegex",
+                "options": {
+                  "regex": "Time",
+                  "renamePattern": "Last checked"
+                }
+              }
+            ],
+            "type": "table"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "P1809F7CD0C75ACF3"
+            },
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "custom": {
+                  "axisBorderShow": false,
+                  "axisCenteredZero": false,
+                  "axisColorMode": "text",
+                  "axisGridShow": true,
+                  "axisLabel": "",
+                  "axisPlacement": "auto",
+                  "barAlignment": 0,
+                  "barWidthFactor": 0.6,
+                  "drawStyle": "line",
+                  "fillOpacity": 0,
+                  "gradientMode": "none",
+                  "hideFrom": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": false
+                  },
+                  "insertNulls": false,
+                  "lineInterpolation": "linear",
+                  "lineStyle": {
+                    "fill": "solid"
+                  },
+                  "lineWidth": 1,
+                  "pointSize": 5,
+                  "scaleDistribution": {
+                    "type": "linear"
+                  },
+                  "showPoints": "auto",
+                  "spanNulls": false,
+                  "stacking": {
+                    "group": "A",
+                    "mode": "none"
+                  },
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "mappings": [],
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    }
+                  ]
+                }
+              },
+              "overrides": []
+            },
+            "gridPos": {
+              "h": 9,
+              "w": 24,
+              "x": 0,
+              "y": 7
+            },
+            "id": 1,
+            "interval": "30s",
+            "options": {
+              "legend": {
+                "calcs": [],
+                "displayMode": "list",
+                "placement": "bottom",
+                "showLegend": true
+              },
+              "tooltip": {
+                "mode": "single",
+                "sort": "none"
+              }
+            },
+            "pluginVersion": "11.4.0",
+            "targets": [
+              {
+                "editorMode": "code",
+                "expr": "sum(probe_http_status_code) without (__name__,job)",
+                "legendFormat": "__auto",
+                "range": true,
+                "refId": "A"
+              }
+            ],
+            "timeFrom": "6h",
+            "title": "Status code over time",
+            "type": "timeseries"
+          }
+        ],
+        "preload": false,
+        "refresh": "30s",
+        "schemaVersion": 40,
+        "tags": [],
+        "templating": {
+          "list": []
+        },
+        "time": {
+          "from": "now",
+          "to": "now"
+        },
+        "timepicker": {},
+        "timezone": "browser",
+        "title": "Service Status",
+        "uid": "fe7hz34qa94aob",
+        "version": 4,
+        "weekStart": ""
+      }
 ---
 # Source: pod5.yaml
 apiVersion: apps/v1
