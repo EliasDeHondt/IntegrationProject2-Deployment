@@ -54,9 +54,9 @@ docker login registry.gitlab.com \
   --username "<gitlab-username>" \
   --password "<gitlab-api-key>"
 
-docker compose -f ./Compose/compose-base  up -d
-docker compose -f ./Compose/compose-app  up -d
-docker compose -f ./Compose/compose-elk  up -d
+docker compose -f ./Compose/compose-base.yaml  up -d
+docker compose -f ./Compose/compose-app.yaml  up -d
+docker compose -f ./Compose/compose-elk.yaml up -d
 ```
 
 ### ⬇️Down
