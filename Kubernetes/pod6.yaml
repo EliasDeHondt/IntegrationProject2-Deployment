@@ -45,7 +45,6 @@ spec:
         - name: rabbitmq-data
           persistentVolumeClaim:
             claimName: rabbitmq-pvc
-
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -57,7 +56,6 @@ spec:
   resources:
     requests:
       storage: 1Gi
-
 ---
 apiVersion: v1
 kind: Service
@@ -73,3 +71,4 @@ spec:
       targetPort: 15672
   selector:
     app: rabbitmq
+---

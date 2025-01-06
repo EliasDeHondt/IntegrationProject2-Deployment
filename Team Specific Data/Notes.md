@@ -25,8 +25,8 @@
 
 - Kubernetes:
 ```bash
-#This assumes you cloned this repository and set up an environment using the provided Terraform configuration.
-#Create the neccesary secrets for the cluster.
+# This assumes you cloned this repository and set up an environment using the provided Terraform configuration.
+# Create the neccesary secrets for the cluster.
 gcloud container clusters get-credentials cluster-1 --region=us-central1-c
 kubectl create secret generic sql-auth-proxy --from-file=service_account.json=../../Terraform/credentials.json
 kubectl create secret docker-registry gitlab-registry --docker-server=registry.gitlab.com --docker-username=<gitlab-username> --docker-password=<gitlab-API-key> --docker-email=<gitlab-email>
@@ -34,10 +34,10 @@ kubectl create secret docker-registry gitlab-registry --docker-server=registry.g
 kubectl apply -f https://github.com/cert-manager/cert-manager/releases/latest/download/cert-manager.yaml
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
 
-#Wait a minute until the last two containers are "Ready" and then navigate to this directory.
+# Wait a minute until the last two containers are "Ready" and then navigate to this directory.
 cd "../Team Specific Data/Team5"
 kubectl apply -f kubernetes.yaml
-#Now all containers will start spinning up and booting assuming you've configured all secrets correctly.
+# Now all containers will start spinning up and booting assuming you've configured all secrets correctly.
 
 
 # Team 5 also needs an ELK stack, so we're deploying it using the packages and .yamls provided in the ./ELK subdirectory of this directory. This is to match it to the specific version they use for their local testing: 8.16
@@ -58,12 +58,6 @@ curl -s https://raw.githubusercontent.com/EliasDeHondt/IntegrationProject2-Deplo
 kubectl delete -f https://github.com/cert-manager/cert-manager/releases/latest/download/cert-manager.yaml
 kubectl delete -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
 kubectl delete -f https://raw.githubusercontent.com/EliasDeHondt/IntegrationProject2-Deployment/refs/heads/main/Team%20Specific%20Data/Team5/kubernetes.yaml
-
-# Update the Helm repositories with the domain in the values.yaml file for Kibana.
-helm uninstall filebeat https://raw.githubusercontent.com/EliasDeHondt/elk-filebeat/refs/heads/main/package/filebeat-7.15.0.tgz
-helm uninstall logstash https://raw.githubusercontent.com/EliasDeHondt/elk-filebeat/refs/heads/main/package/logstash-7.15.0.tgz
-helm uninstall elasticsearch https://raw.githubusercontent.com/EliasDeHondt/elk-filebeat/refs/heads/main/package/elasticsearch-7.15.0.tgz
-helm uninstall kibana https://raw.githubusercontent.com/EliasDeHondt/elk-filebeat/refs/heads/main/package/kibana-7.15.0.tgz
 ```
 
 - Compose:
