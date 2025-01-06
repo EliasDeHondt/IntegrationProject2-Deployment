@@ -28,7 +28,6 @@ data:
           module: [http_2xx]
         static_configs:
           - targets:
-              - localhost:9115
               - https://keycloak.teamx.eliasdh.com
               - https://www.teamx.eliasdh.com
               - https://api.teamx.eliasdh.com
