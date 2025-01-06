@@ -48,7 +48,10 @@ helm install kibana ./ELK/kibana-7.15.0.tgz -f ./ELK/kibana-values.yaml
 
 - Compose:
 ```bash
-curl -s https://raw.githubusercontent.com/EliasDeHondt/IntegrationProject2-Deployment/main/Team%20Specific%20Data/Team5/compose.yaml | sudo docker compose -f - up -d
+cd Compose
+docker compose -f ./Compose/compose-base  up -d
+docker compose -f ./Compose/compose-app  up -d
+docker compose -f ./Compose/compose-elk  up -d
 ```
 
 ### ⬇️Down
@@ -62,7 +65,9 @@ kubectl delete -f https://raw.githubusercontent.com/EliasDeHondt/IntegrationProj
 
 - Compose:
 ```bash
-curl -s https://raw.githubusercontent.com/EliasDeHondt/IntegrationProject2-Deployment/main/Team%20Specific%20Data/Team5/compose.yaml | sudo docker compose -f - down
+docker compose -f ./Compose/compose-base  down
+docker compose -f ./Compose/compose-app  down
+docker compose -f ./Compose/compose-elk  down
 sudo docker volume rm team5_compose_db_data
 ```
 
