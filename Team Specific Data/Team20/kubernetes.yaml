@@ -257,7 +257,7 @@ spec:
             - "--auto-iam-authn"
             - "--structured-logs"
             - "--port=5432"
-            - "team9-dev4-test2:us-central1:cloud-sql-instance"
+            - "ProjectId:us-central1:cloud-sql-instance"
           securityContext:
             runAsNonRoot: true
           volumeMounts:
@@ -345,7 +345,7 @@ spec:
             - "--auto-iam-authn"
             - "--structured-logs"
             - "--port=5432"
-            - "team9-dev4-test2:us-central1:cloud-sql-instance"
+            - "ProjectId:us-central1:cloud-sql-instance"
           securityContext:
             runAsNonRoot: true
           volumeMounts:
