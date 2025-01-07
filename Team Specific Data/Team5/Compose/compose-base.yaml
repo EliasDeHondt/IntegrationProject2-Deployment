@@ -26,19 +26,18 @@ services:
         target: /docker-entrypoint-initdb.d/keycloak.sql
     volumes:
       - db_data:/var/lib/postgresql/data
-configs:
-  keycloak.sql:
-    content: |
-      CREATE ROLE keycloak WITH
-        LOGIN
-        NOSUPERUSER
-        NOCREATEDB
-        NOCREATEROLE
-        INHERIT
-        NOREPLICATION
-        NOBYPASSRLS
-        CONNECTION LIMIT -1
-        PASSWORD 'keycloak';
+    entrypoint: >
+      sh -c "
+      echo \"CREATE ROLE keycloak WITH
+      LOGIN
+      NOSUPERUSER
+      NOCREATEDB
+      NOCREATEROLE
+      INHERIT
+      NOREPLICATION
+      NOBYPASSRLS
+      CONNECTION LIMIT -1
+      PASSWORD 'keycloak';
 
       CREATE DATABASE keycloak
           WITH
@@ -46,6 +45,6 @@ configs:
           ENCODING = 'UTF8'
           LOCALE_PROVIDER = 'libc'
           CONNECTION LIMIT = -1
-          IS_TEMPLATE = False;
-volumes:
+          IS_TEMPLATE = False;\" > /docker-entrypoint-initdb.d/keycloak.sql && docker-entrypoint.sh postgres
+      "
   db_data:
