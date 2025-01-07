@@ -54,9 +54,9 @@ docker login registry.gitlab.com \
   --username "<gitlab-username>" \
   --password "<gitlab-api-key>"
 
-docker compose -f ./Compose/compose-base.yaml  up -d
-docker compose -f ./Compose/compose-app.yaml  up -d
-docker compose -f ./Compose/compose-elk.yaml up -d
+docker compose -f compose-base.yaml  up -d
+docker compose -f compose-app.yaml  up -d
+docker compose -f compose-elk.yaml up -d
 ```
 
 ### ⬇️Down
@@ -70,10 +70,10 @@ kubectl delete -f https://raw.githubusercontent.com/EliasDeHondt/IntegrationProj
 
 - Compose:
 ```bash
-docker compose -f ./Compose/compose-base  down
-docker compose -f ./Compose/compose-app  down
-docker compose -f ./Compose/compose-elk  down
-sudo docker volume rm team5_compose_db_data
+docker compose -f compose-base  down
+docker compose -f compose-app  down
+docker compose -f compose-elk  down
+docker volume prune -f
 ```
 
 ## 0️⃣6️⃣Team

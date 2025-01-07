@@ -27,11 +27,9 @@ services:
         image: docker.elastic.co/logstash/logstash:8.16.0
         environment:
           LICENSE: basic
-        configs:
-          - source: logstash.yml
-            target: /usr/share/logstash/config/logstash.yml
-          - source: logstash.conf
-            target: /usr/share/logstash/pipeline/logstash.conf
+        volumes:
+          - ./logstash.yml:/usr/share/logstash/config/logstash.yml
+          - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf
 
   rabbitmq:
 
